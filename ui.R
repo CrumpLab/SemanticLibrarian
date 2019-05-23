@@ -30,24 +30,16 @@ $(tabs[0]).click();
 
 "
 library(shinyjs)
+library(shinythemes)
 library(plotly)
 
-ui <- fluidPage(useShinyjs(),
-                extendShinyjs(text = jscode),
-                tags$head(
-                  tags$style(HTML("hr {border-top: 1px solid #000000;}")),
-                  tags$style(HTML(".fa { font-size: 20px; }"))
-                ),
-                fluidRow(
-                  column(8,
-                         h3("The Semantic Librarian")
-                  ),
-                  column(4,
-                         icon("fab fa-github", class = NULL, 
-                              lib = "font-awesome")),
-                  style = ""
-                ),
-  tabsetPanel(
+ui <- tagList(tags$head(tags$style(HTML("hr {border-top: 1px solid #000000;}")),
+                        tags$style(HTML(".fa { font-size: 20px; }"))
+                        ),
+  useShinyjs(),
+  extendShinyjs(text = jscode),
+  navbarPage("SemanticLibrarian",
+             theme = shinytheme("yeti"),
     tabPanel("SemanticSearch",
              sidebarLayout(
                sidebarPanel(textInput("search_terms", label="Search Terms"),
@@ -190,9 +182,15 @@ ui <- fluidPage(useShinyjs(),
              sidebarLayout(
                sidebarPanel(uiOutput("article_author")),
                mainPanel(DT::dataTableOutput("article_authordataset"))
-             )
-    )
-    
+                          )
+             ),
+             
+   tabPanel("About",
+            mainPanel(
+              div(includeMarkdown("about.md"),
+                  style = "margin-left:10%;margin-right:10%;")
+            )
+        )
   )
 )
   
