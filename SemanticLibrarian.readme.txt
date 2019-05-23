@@ -1,0 +1,18 @@
+Semantic Librarian Readme
+
+This repository contains a SHINY app of the Semantic Librarian that can be run locally on a users computer. An online version of this app is available at http://crumplab.shinyapps.io/athena/
+
+Steps to run locally.
+
+1. Install R and R-studio
+2. Download the SemanticLibrarian folder to your desktop
+3. Install the Shiny package
+
+4. Package dependencies. All of the R packages used for this Shiny app are in the Packrat folder. You may be able to run this app without first installing those packages. If not, use the list in the packrat folder to install all of the necessary packages.
+
+Running the app
+
+5. Open the .Rproj file to load this R project into R-studio. 
+6. The Shiny app files are contained in global.R, server.R, and ui.R. Opening any of those files in R studio should allow you to view a run app button in the text editor. Press the run app button to run the app.
+
+The folder SemanticLibrarianBeta contains a development version with some additional features. To run that version, make sure the .RData files in the allData folder (this version) are copied into the allData folder in the beta version.
