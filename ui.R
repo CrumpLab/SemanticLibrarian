@@ -35,7 +35,17 @@ library(plotly)
 ui <- fluidPage(useShinyjs(),
                 extendShinyjs(text = jscode),
                 tags$head(
-                  tags$style(HTML("hr {border-top: 1px solid #000000;}"))
+                  tags$style(HTML("hr {border-top: 1px solid #000000;}")),
+                  tags$style(HTML(".fa { font-size: 20px; }"))
+                ),
+                fluidRow(
+                  column(8,
+                         h3("The Semantic Librarian")
+                  ),
+                  column(4,
+                         icon("fab fa-github", class = NULL, 
+                              lib = "font-awesome")),
+                  style = ""
                 ),
   tabsetPanel(
     tabPanel("SemanticSearch",
