@@ -190,7 +190,12 @@ ui <- tagList(tags$head(tags$style(HTML("hr {border-top: 1px solid #000000;}")),
               div(includeMarkdown("about.md"),
                   style = "margin-left:10%;margin-right:10%;")
             )
-        )
+        ),
+   tabPanel("Github", icon = icon("fab fa-github"),
+            mainPanel(
+              div(includeMarkdown("git.md"),
+                  style = "margin-left:10%;margin-right:10%;")
+            ))
   )
 )
   

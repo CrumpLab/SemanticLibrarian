@@ -264,7 +264,10 @@ server <- function(input, output, session) {
                     text = ~row.names(fit),
                     symbol = ~cluster,
                     source = "article_SS_plot",
-                    hoverinfo = 'text') %>% layout(xaxis = ax, yaxis = ax)
+                    hoverinfo = 'text' ) %>% 
+                    hide_colorbar %>%
+                    layout(xaxis = ax, yaxis = ax,
+                           showlegend = FALSE) 
     p$elementId <- NULL
     p 
     
@@ -548,7 +551,10 @@ server <- function(input, output, session) {
                    text = ~row.names(fit),
                    source = "article_AS_plot",
                    symbol = ~cluster,
-                   hoverinfo = 'text') %>% layout(xaxis = ax, yaxis = ax)
+                   hoverinfo = 'text')%>% 
+                   hide_colorbar %>%
+                   layout(xaxis = ax, yaxis = ax,
+                         showlegend = FALSE) 
     p$elementId <- NULL
     p
     
