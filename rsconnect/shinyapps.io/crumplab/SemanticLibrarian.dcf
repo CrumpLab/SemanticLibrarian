@@ -1,0 +1,12 @@
+name: SemanticLibrarian
+title: SemanticLibrarian
+username:
+account: crumplab
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 946024
+bundleId: 2104632
+url: https://crumplab.shinyapps.io/SemanticLibrarian/
+when: 1558638297.52233
+asMultiple: FALSE
+asStatic: FALSE
