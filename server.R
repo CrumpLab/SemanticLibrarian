@@ -129,6 +129,27 @@ server <- function(input, output, session) {
   #   #updateSelectizeInput(session,'server_dictionary',selected=search_items)
   #   })
   
+  observeEvent(input$SShelp, {
+    showModal(modalDialog(
+      title = "Semantic Search Help",
+      includeMarkdown("markdown/SShelp.md"),
+      easyClose = TRUE
+    ))
+  })
+  
+  observeEvent(input$SShelp2, {
+    showModal(modalDialog(
+      title = "More information",
+      includeMarkdown("markdown/SShelp2.md"),
+      easyClose = TRUE
+    ))
+  })
+  
+  observe({
+    click("vectorize_search_terms")
+    #invalidateLater(3000)
+  })
+  
   get_search_terms_SS <-eventReactive(input$vectorize_search_terms,{
     get_search_terms <- breakdown(input$search_terms)
     search_items <- unlist(strsplit(get_search_terms,split=" "))
@@ -697,7 +718,10 @@ server <- function(input, output, session) {
                    color = ~cluster,
                    text = ~row.names(fit),
                    symbol = ~cluster,
-                   hoverinfo = 'text') %>% layout(xaxis = ax, yaxis = ax)
+                   hoverinfo = 'text') %>% 
+                  hide_colorbar %>%
+                  layout(xaxis = ax, yaxis = ax,
+                        showlegend = FALSE) 
     p$elementId <- NULL
     p
     

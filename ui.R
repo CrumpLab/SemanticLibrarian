@@ -42,8 +42,11 @@ ui <- tagList(tags$head(tags$style(HTML("hr {border-top: 1px solid #000000;}")),
              theme = shinytheme("yeti"),
     tabPanel("SemanticSearch",
              sidebarLayout(
-               sidebarPanel(textInput("search_terms", label="Search Terms"),
+               sidebarPanel(h3("Search for APA articles"),
+                            textInput("search_terms", label="Search Terms",
+                                      value="remembering"),
                             actionButton("vectorize_search_terms", label = "Search"),
+                            actionButton("SShelp", "Help"),
                             #uiOutput("dictionary"),
                             #selectizeInput("server_dictionary",label="dictionary",choices=NULL,multiple=TRUE),
                             br(),
@@ -59,9 +62,11 @@ ui <- tagList(tags$head(tags$style(HTML("hr {border-top: 1px solid #000000;}")),
                             hr(),
                             #h5("Selected Abstract"),
                             htmlOutput("article_plotly")),
-               mainPanel(textOutput("articleformatted_SS"),
+               mainPanel(h3("Find the most semantically similar articles"),
+                         textOutput("articleformatted_SS"),
                          h4("Article Space"),
                          plotlyOutput("sim_articles_plot_SS", height='100%'),
+                         actionButton("SShelp2", "More info"),
                          fluidRow(
                            column(4,
                             sliderInput("slider_num_articles", label = "number of articles", min = 10, 
@@ -73,7 +78,7 @@ ui <- tagList(tags$head(tags$style(HTML("hr {border-top: 1px solid #000000;}")),
                            ),
                            column(4,
                                   sliderInput("slider_num_year_SS", label = "years", min = 1890, 
-                                              max = 2015, value = c(1890,2015), step=1)
+                                              max = 2016, value = c(1890,2016), step=1)
                            )
                          ),
                          #h4("Search Term Space"),
@@ -104,6 +109,7 @@ ui <- tagList(tags$head(tags$style(HTML("hr {border-top: 1px solid #000000;}")),
     tabPanel("ArticleSimilarity",
              sidebarLayout(
                sidebarPanel(#uiOutput("article"),
+                            h3("Search for an APA artcle"),
                             selectizeInput("server_article",
                                            label="article",
                                            choices=NULL),
@@ -113,7 +119,8 @@ ui <- tagList(tags$head(tags$style(HTML("hr {border-top: 1px solid #000000;}")),
                             hr(),
                             #h5("Selected Abstract"),
                             htmlOutput("article_plotly2")),
-               mainPanel(h4("Article Space"),
+               mainPanel(h3("Find similar articles"),
+                         h4("Article Space"),
                          plotlyOutput("sim_articles_plot_AS", height='100%'),
                          fluidRow(
                            column(4,
@@ -137,6 +144,7 @@ ui <- tagList(tags$head(tags$style(HTML("hr {border-top: 1px solid #000000;}")),
     tabPanel("AuthorSimilarity",
              sidebarLayout(
                sidebarPanel(#uiOutput("author"),
+                            h3("Search an author"),
                             selectizeInput("server_author",
                                            label="author",
                                            choices=NULL)),
@@ -147,7 +155,8 @@ ui <- tagList(tags$head(tags$style(HTML("hr {border-top: 1px solid #000000;}")),
               #             max = 500, value = c(1,500)),
               # downloadButton("downloadAuthorData", "Download")
               # ),
-               mainPanel(h4("Author Space"),
+               mainPanel(h3("Find similar authors"),
+                         h4("Author Space"),
                          plotlyOutput("sim_articles_plot_AuS", height='100%'),
                          fluidRow(
                            column(4,
@@ -180,20 +189,25 @@ ui <- tagList(tags$head(tags$style(HTML("hr {border-top: 1px solid #000000;}")),
     
     tabPanel("ArticleAuthor",
              sidebarLayout(
-               sidebarPanel(uiOutput("article_author")),
-               mainPanel(DT::dataTableOutput("article_authordataset"))
+               sidebarPanel(
+                 h3("Search an APA article"),
+                 uiOutput("article_author")),
+               mainPanel(
+                 h3("Most similar authors to the article"),
+                 h4("Takes a couple seconds to load..."),
+                 DT::dataTableOutput("article_authordataset"))
                           )
              ),
              
    tabPanel("About",
             mainPanel(
-              div(includeMarkdown("about.md"),
+              div(includeMarkdown("markdown/about.md"),
                   style = "margin-left:10%;margin-right:10%;")
             )
         ),
    tabPanel("Github", icon = icon("fab fa-github"),
             mainPanel(
-              div(includeMarkdown("git.md"),
+              div(includeMarkdown("markdown/git.md"),
                   style = "margin-left:10%;margin-right:10%;")
             ))
   )
