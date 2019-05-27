@@ -35,6 +35,7 @@ library(plotly)
 
 ui <- tagList(tags$head(tags$style(HTML("hr {border-top: 1px solid #000000;}")),
                         tags$style(HTML(".fa { font-size: 20px; }"))
+                        #tags$style(HTML(".hovertext text { font-size: 12px !important;}"))
                         ),
   useShinyjs(),
   extendShinyjs(text = jscode),

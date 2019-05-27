@@ -255,7 +255,10 @@ server <- function(input, output, session) {
       cluster <- kmeans(fit$points,input$slider_num_k)
       get_cluster_indexes <- as.numeric(cluster$cluster)
       fit <- data.frame(fit$points)
-      fit <-cbind(fit,cluster=get_cluster_indexes,orig_ind=article_index)
+      fit <-cbind(fit,cluster=get_cluster_indexes,orig_ind=article_index,
+                  title = article_sims_SS$title,
+                  year = article_sims_SS$year)
+      #browser()
       return(fit)
     
   })
@@ -282,10 +285,14 @@ server <- function(input, output, session) {
                     type = "scatter", 
                     mode = "markers", 
                     color = ~cluster,
-                    text = ~row.names(fit),
+                    #text = ~row.names(fit),
+                    hoverinfo = 'text',
+                    hoverlabel = list(align = 'left',
+                                      font = list(size = 12)),
+                    text = ~paste('Title: ', title,
+                                  '<br> Year: ', year),
                     symbol = ~cluster,
-                    source = "article_SS_plot",
-                    hoverinfo = 'text' ) %>% 
+                    source = "article_SS_plot") %>% 
                     hide_colorbar %>%
                     layout(xaxis = ax, yaxis = ax,
                            showlegend = FALSE) 
