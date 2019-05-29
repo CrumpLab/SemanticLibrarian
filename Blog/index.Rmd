@@ -1,0 +1,97 @@
+---
+title: "Semantic Librarian Blog"
+author: "Matt Crump"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+twitter: "https://twitter.com/MattCrump_"
+github: "https://github.com/CrumpLab"
+website: "https://crumplab.gihub.io"
+output: 
+  html_document:
+    template: web/template.html
+    toc: true
+    toc_float: true
+    collapsed: false
+    code_folding: hide
+    number_sections: false
+    toc_depth: 4
+    theme: yeti
+    highlight: kate
+    css: web/crump_basic.css
+    includes:
+      in_header: web/header.html
+    md_extensions: -autolink_bare_uris
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+---
+
+The Semantic Librarian is an R Shiny App developed by [Matthew Crump](https://crumplab.github.io) (Brooklyn College of the City University of New York), [Randall Jamieson](https://umcognitivesciencelaboratory.weebly.com), Matt Cook (University of Manitoba), and [Harinder Aujla](http://ion.uwinnipeg.ca/~haujla/) (University of Winnipeg). We use a vector-space model of word-semantics to all a user to search a set of documents by their semantic similarity. A current version of the app can be found here [https://crumplab.shinyapps.io/SemanticLibrarian](https://crumplab.shinyapps.io/SemanticLibrarian). This version used select experimental journals from the APA (American Psychological Association) corpus, published between the 1890s and 2016.
+
+This blog will record some further examination and analyses of the APA database. 
+
+## The Database
+
+The list of journals is:
+
+```{r, results='asis'}
+load("../allData/allData.RData", envir=.GlobalEnv)
+the_journals<-levels(article_df$journal)
+for(i in 1:length(the_journals)){
+ cat("- ",the_journals[i], sep="")
+ cat("\n")
+}
+```
+
+There were a total of `r dim(article_df)[1]` abstracts, `r length(author_list)` authors, and the corpus consisted of `r length(dictionary_words)` words. We used BEAGLE (Jones and Mewhort, 2007) to create semantic vectors for each word. Then we created abstract vectors for each article by adding the word vectors together (that were in each article). We also created vectors for each author, as the sum of their abstract vectors. This way, all of the words, abstracts, and authors, can be projected into the same high-dimensional semantic space. As a result, it is possible to compute the semantic similarity between any word, abstract, or author. This blog explores some of these relationships.
+
+## Top 10 abstracts
+
+5/29/2019
+
+What are the top 10 abstracts published in these APA journals? Who knows. What would the measure be?
+
+How about a different question, which 10 abstracts are the most similar to all other abstracts? Let's find out. Below is a table of the top 10 abstracts that have the highest mean similarity to all of the other abstracts. To find this, I computed the cosine similarity between each abstract vector and every other abstract vector. That resulte in a 27560 x 27560 similarity matrix. Each column represents the similarities of an article to all the other articles. I computed the mean for each column, then below, I list the top 10 with the largest means.
+
+```{r}
+load("article_df.RData")
+library(dplyr)
+top_10_articles <- article_df %>%
+                    arrange(desc(mean_sim)) %>%
+                    slice(1:10) %>%
+                    mutate(mean_sim = round(mean_sim,digits=3)) %>%
+                    select(title,authorlist,journal,year, mean_sim)
+knitr::kable(top_10_articles)
+```
+
+Interesting. I've read a couple of these papers over the years. Estes (1976) is a classic. Whittlesea, Brooks, and Westcott (1994) is a fantastic paper, kind of surprised to see it pop up here. 
+
+In many ways I'm not sure what to make of this information. The similarities are all around .93. The abstracts span many years of publication, and multiple journals are represented. Did all of these articles have the same kind of impact on the field? The database currently does not have citation information, and that would be worth adding at some point. At the very least, it wasn't clear to me before doing this whether the top 10 most similar abstracts would be "good" papers, representing something centrally important about these domains, or whether they would be derivative papers, that are like many other papers, but perhaps not as noteworthy. 
+
+### Most similar papers by year
+
+How about one more table. Let's look at the most similar abstracts for each year. Within in each year, I found the paper that had the highest mean similarity to all other papers (across all years). The table below shows the top papers (highest similarity to the set) across the last 50 years.
+
+```{r}
+
+top_10_articles_year <- article_df %>%
+                        arrange(desc(year)) %>%
+                        group_by(year) %>%
+                        filter(mean_sim == max(mean_sim)) %>%
+                        ungroup() %>%
+                        slice(1:50) %>%
+                        select(title,authorlist,journal,year, mean_sim)
+
+knitr::kable(top_10_articles_year)
+```
+
+
+
+
+
+
+
+
+

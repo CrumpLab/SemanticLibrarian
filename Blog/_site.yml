@@ -1,0 +1,16 @@
+name: "SemanticLibrarianBlog"
+navbar:
+  title: "SemanticLibrarianBlog"
+  left:
+    - text: "Blog"
+      href: index.html
+    - text: "About"
+      href: about.html
+    - text: "Github"
+      href: git.html
+      
+output:
+  html_document:
+    theme: yeti
+    highlight: textmate
+output_dir: ../docs

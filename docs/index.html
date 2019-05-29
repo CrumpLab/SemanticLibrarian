@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+
+  <html xmlns="http://www.w3.org/1999/xhtml">
+
+    <head>
+
+    <meta charset="utf-8" />
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="generator" content="pandoc" />
+
+                    
+                        <meta name="author" content="Matt Crump" />
+              
+              
+                <title>Semantic Librarian Blog</title>
+
+                                <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+                <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+                <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+                <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+                <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+                <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+                <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+                <script src="site_libs/navigation-1.1/tabsets.js"></script>
+                <script src="site_libs/navigation-1.1/codefolding.js"></script>
+                                <style>
+                @import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
+                </style>
+                
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+                
+                
+                                            <style type="text/css">code{white-space: pre;}</style>
+                        <style type="text/css" data-origin="pandoc">
+                          a.sourceLine { display: inline-block; line-height: 1.25; }
+                          a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+                          a.sourceLine:empty { height: 1.2em; }
+                          .sourceCode { overflow: visible; }
+                          code.sourceCode { white-space: pre; position: relative; }
+                          div.sourceCode { margin: 1em 0; }
+                          pre.sourceCode { margin: 0; }
+                          @media screen {
+                          div.sourceCode { overflow: auto; }
+                          }
+                          @media print {
+                          code.sourceCode { white-space: pre-wrap; }
+                          a.sourceLine { text-indent: -1em; padding-left: 1em; }
+                          }
+                          pre.numberSource a.sourceLine
+                            { position: relative; left: -4em; }
+                          pre.numberSource a.sourceLine::before
+                            { content: attr(data-line-number);
+                              position: relative; left: -1em; text-align: right; vertical-align: baseline;
+                              border: none; pointer-events: all; display: inline-block;
+                              -webkit-touch-callout: none; -webkit-user-select: none;
+                              -khtml-user-select: none; -moz-user-select: none;
+                              -ms-user-select: none; user-select: none;
+                              padding: 0 4px; width: 4em;
+                              background-color: #ffffff;
+                              color: #a0a0a0;
+                            }
+                          pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+                          div.sourceCode
+                            { color: #1f1c1b; background-color: #ffffff; }
+                          @media screen {
+                          a.sourceLine::before { text-decoration: underline; }
+                          }
+                          code span. { color: #1f1c1b; } /* Normal */
+                          code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+                          code span.an { color: #ca60ca; } /* Annotation */
+                          code span.at { color: #0057ae; } /* Attribute */
+                          code span.bn { color: #b08000; } /* BaseN */
+                          code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+                          code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+                          code span.ch { color: #924c9d; } /* Char */
+                          code span.cn { color: #aa5500; } /* Constant */
+                          code span.co { color: #898887; } /* Comment */
+                          code span.cv { color: #0095ff; } /* CommentVar */
+                          code span.do { color: #607880; } /* Documentation */
+                          code span.dt { color: #0057ae; } /* DataType */
+                          code span.dv { color: #b08000; } /* DecVal */
+                          code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+                          code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+                          code span.fl { color: #b08000; } /* Float */
+                          code span.fu { color: #644a9b; } /* Function */
+                          code span.im { color: #ff5500; } /* Import */
+                          code span.in { color: #b08000; } /* Information */
+                          code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+                          code span.op { color: #1f1c1b; } /* Operator */
+                          code span.ot { color: #006e28; } /* Other */
+                          code span.pp { color: #006e28; } /* Preprocessor */
+                          code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+                          code span.sc { color: #3daee9; } /* SpecialChar */
+                          code span.ss { color: #ff5500; } /* SpecialString */
+                          code span.st { color: #bf0303; } /* String */
+                          code span.va { color: #0057ae; } /* Variable */
+                          code span.vs { color: #bf0303; } /* VerbatimString */
+                          code span.wa { color: #bf0303; } /* Warning */
+
+                                                    .sourceCode .row {
+                            width: 100%;
+                          }
+                        .sourceCode {
+                          overflow-x: auto;
+                        }
+                        .code-folding-btn {
+                          margin-right: -30px;
+                        }
+                                                  </style>
+                          <script>
+                          // apply pandoc div.sourceCode style to pre.sourceCode instead
+                        (function() {
+                          var sheets = document.styleSheets;
+                          for (var i = 0; i < sheets.length; i++) {
+                            if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+                            try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+                            for (var j = 0; j < rules.length; j++) {
+                              var rule = rules[j];
+                              // check if there is a div.sourceCode rule
+                              if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+                              var style = rule.style.cssText;
+                              // check if color or background-color is set
+                              if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+                              // replace div.sourceCode by a pre.sourceCode rule
+                              sheets[i].deleteRule(j);
+                              sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+                            }
+                          }
+                        })();
+                        </script>
+                                                    <style type="text/css">
+                          pre:not([class]) {
+                            background-color: white;
+                          }
+                        </style>
+                                                    
+                          
+                                                    <style type="text/css">
+                          h1 {
+                            font-size: 34px;
+                          }
+                        h1.title {
+                          font-size: 38px;
+                        }
+                        h2 {
+                          font-size: 30px;
+                        }
+                        h3 {
+                          font-size: 24px;
+                        }
+                        h4 {
+                          font-size: 18px;
+                        }
+                        h5 {
+                          font-size: 16px;
+                        }
+                        h6 {
+                          font-size: 12px;
+                        }
+                        .table th:not([align]) {
+                          text-align: left;
+                        }
+                          </style>
+  
+    <link rel="stylesheet" href="web/crump_basic.css" type="text/css" />
+    
+
+
+        <style type = "text/css">
+      .main-container {
+        max-width: 940px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    code {
+      color: inherit;
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+    img {
+      max-width:100%;
+      height: auto;
+    }
+    .tabbed-pane {
+      padding-top: 12px;
+    }
+    .html-widget {
+      margin-bottom: 20px;
+    }
+    button.code-folding-btn:focus {
+      outline: none;
+    }
+    summary {
+      display: list-item;
+    }
+    </style>
+
+      
+            <style type="text/css">
+      /* padding for bootstrap navbar */
+      body {
+        padding-top: 45px;
+        padding-bottom: 40px;
+      }
+    /* offset scroll position for anchor links (for fixed navbar)  */
+      .section h1 {
+        padding-top: 50px;
+        margin-top: -50px;
+      }
+    .section h2 {
+      padding-top: 50px;
+      margin-top: -50px;
+    }
+    .section h3 {
+      padding-top: 50px;
+      margin-top: -50px;
+    }
+    .section h4 {
+      padding-top: 50px;
+      margin-top: -50px;
+    }
+    .section h5 {
+      padding-top: 50px;
+      margin-top: -50px;
+    }
+    .section h6 {
+      padding-top: 50px;
+      margin-top: -50px;
+    }
+    .dropdown-submenu {
+      position: relative;
+    }
+    .dropdown-submenu>.dropdown-menu {
+      top: 0;
+      left: 100%;
+      margin-top: -6px;
+      margin-left: -1px;
+      border-radius: 0 6px 6px 6px;
+    }
+    .dropdown-submenu:hover>.dropdown-menu {
+      display: block;
+    }
+    .dropdown-submenu>a:after {
+      display: block;
+      content: " ";
+      float: right;
+      width: 0;
+      height: 0;
+      border-color: transparent;
+      border-style: solid;
+      border-width: 5px 0 5px 5px;
+      border-left-color: #cccccc;
+        margin-top: 5px;
+      margin-right: -10px;
+    }
+    .dropdown-submenu:hover>a:after {
+      border-left-color: #ffffff;
+    }
+    .dropdown-submenu.pull-left {
+      float: none;
+    }
+    .dropdown-submenu.pull-left>.dropdown-menu {
+      left: -100%;
+      margin-left: 10px;
+      border-radius: 6px 0 6px 6px;
+    }
+    </style>
+
+      <script>
+      // manage active state of menu based on current page
+    $(document).ready(function () {
+      // active menu anchor
+      href = window.location.pathname
+      href = href.substr(href.lastIndexOf('/') + 1)
+      if (href === "")
+        href = "index.html";
+      var menuAnchor = $('a[href="' + href + '"]');
+
+      // mark it active
+      menuAnchor.parent().addClass('active');
+
+      // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">SemanticLibrarianBlog</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Blog</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="git.html">Github</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Semantic Librarian Blog</h1>
+<div class="social_media">
+<a href=https://twitter.com/MattCrump_><i class="fa fa-twitter"></i></a>
+<a  href="https://github.com/CrumpLab"><i class="fa fa-github"></i></a>
+<a  href="https://crumplab.gihub.io"><i class="fa fa-university"></i></a>
+</div>
+<h4 class="author">Matt Crump</h4>
+<h4 class="date">29 May, 2019</h4>
+
+</div>
+
+
+<hr />
+<p>The Semantic Librarian is an R Shiny App developed by <a href="https://crumplab.github.io">Matthew Crump</a> (Brooklyn College of the City University of New York), <a href="https://umcognitivesciencelaboratory.weebly.com">Randall Jamieson</a>, Matt Cook (University of Manitoba), and <a href="http://ion.uwinnipeg.ca/~haujla/">Harinder Aujla</a> (University of Winnipeg). We use a vector-space model of word-semantics to all a user to search a set of documents by their semantic similarity. A current version of the app can be found here <a href="https://crumplab.shinyapps.io/SemanticLibrarian">https://crumplab.shinyapps.io/SemanticLibrarian</a>. This version used select experimental journals from the APA (American Psychological Association) corpus, published between the 1890s and 2016.</p>
+<p>This blog will record some further examination and analyses of the APA database.</p>
+<div id="the-database" class="section level2">
+<h2>The Database</h2>
+<p>The list of journals is:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">load</span>(<span class="st">&quot;../allData/allData.RData&quot;</span>, <span class="dt">envir=</span>.GlobalEnv)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">the_journals&lt;-<span class="kw">levels</span>(article_df<span class="op">$</span>journal)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(the_journals)){</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"> <span class="kw">cat</span>(<span class="st">&quot;- &quot;</span>,the_journals[i], <span class="dt">sep=</span><span class="st">&quot;&quot;</span>)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"> <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">}</a></code></pre></div>
+<ul>
+<li>Canadian Journal Of Experimental Psychology</li>
+<li>Journal Of Experimental Psychology: Animal Behavior Processes</li>
+<li>Journal Of Experimental Psychology: Animal Learning And Cognition</li>
+<li>Journal Of Experimental Psychology: Applied</li>
+<li>Journal Of Experimental Psychology: General</li>
+<li>Journal Of Experimental Psychology: Human Learning And Memory</li>
+<li>Journal Of Experimental Psychology: Human Perception And Performance</li>
+<li>Journal Of Experimental Psychology: Learning, Memory, And Cognition</li>
+<li>Psychological Review</li>
+</ul>
+<p>There were a total of 27560 abstracts, 24215 authors, and the corpus consisted of 40517 words. We used BEAGLE (Jones and Mewhort, 2007) to create semantic vectors for each word. Then we created abstract vectors for each article by adding the word vectors together (that were in each article). We also created vectors for each author, as the sum of their abstract vectors. This way, all of the words, abstracts, and authors, can be projected into the same high-dimensional semantic space. As a result, it is possible to compute the semantic similarity between any word, abstract, or author. This blog explores some of these relationships.</p>
+</div>
+<div id="top-10-abstracts" class="section level2">
+<h2>Top 10 abstracts</h2>
+<p>5/29/2019</p>
+<p>What are the top 10 abstracts published in these APA journals? Who knows. What would the measure be?</p>
+<p>How about a different question, which 10 abstracts are the most similar to all other abstracts? Let’s find out. Below is a table of the top 10 abstracts that have the highest mean similarity to all of the other abstracts. To find this, I computed the cosine similarity between each abstract vector and every other abstract vector. That resulte in a 27560 x 27560 similarity matrix. Each column represents the similarities of an article to all the other articles. I computed the mean for each column, then below, I list the top 10 with the largest means.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">load</span>(<span class="st">&quot;article_df.RData&quot;</span>)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">top_<span class="dv">10</span>_articles &lt;-<span class="st"> </span>article_df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="st">                    </span><span class="kw">arrange</span>(<span class="kw">desc</span>(mean_sim)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="st">                    </span><span class="kw">slice</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="st">                    </span><span class="kw">mutate</span>(<span class="dt">mean_sim =</span> <span class="kw">round</span>(mean_sim,<span class="dt">digits=</span><span class="dv">3</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="st">                    </span><span class="kw">select</span>(title,authorlist,journal,year, mean_sim)</a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">knitr<span class="op">::</span><span class="kw">kable</span>(top_<span class="dv">10</span>_articles)</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">title</th>
+<th align="left">authorlist</th>
+<th align="left">journal</th>
+<th align="right">year</th>
+<th align="right">mean_sim</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">The Cognitive Side Of Probability Learning.</td>
+<td align="left">Estes, W. K.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1976</td>
+<td align="right">0.928</td>
+</tr>
+<tr class="even">
+<td align="left">On The Experimental Investigation Of Memory.</td>
+<td align="left">Kennedy, Francis;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1898</td>
+<td align="right">0.927</td>
+</tr>
+<tr class="odd">
+<td align="left">The Development Of A General Associative Learning Account Of Skill Acquisition In A Relative Arrival-Time Judgment Task.</td>
+<td align="left">Loft, Shayne; Neal, Andrew; Humphreys, Michael S.;</td>
+<td align="left">Journal Of Experimental Psychology: Human Perception And Performance</td>
+<td align="right">2007</td>
+<td align="right">0.927</td>
+</tr>
+<tr class="even">
+<td align="left">The Feature-Positive Effect In Adult Human Subjects.</td>
+<td align="left">Newman, Joseph P.; Wolff, William T.; Hearst, Eliot;</td>
+<td align="left">Journal Of Experimental Psychology: Human Learning And Memory</td>
+<td align="right">1980</td>
+<td align="right">0.927</td>
+</tr>
+<tr class="odd">
+<td align="left">After The Learning Is Over: Factors Controlling The Selective Application Of General And Particular Knowledge.</td>
+<td align="left">Whittlesea, Bruce W. A.; Brooks, Lee R.; Westcott, Carol;</td>
+<td align="left">Journal Of Experimental Psychology: Learning, Memory, And Cognition</td>
+<td align="right">1994</td>
+<td align="right">0.926</td>
+</tr>
+<tr class="even">
+<td align="left">Unconscious Acquisition Of Complex Procedural Knowledge.</td>
+<td align="left">Lewicki, Pawel; Czyzewska, Maria; Hoffman, Hunter;</td>
+<td align="left">Journal Of Experimental Psychology: Learning, Memory, And Cognition</td>
+<td align="right">1987</td>
+<td align="right">0.926</td>
+</tr>
+<tr class="odd">
+<td align="left">Organization And Learning Of Visual-Motor Information During Different Orders Of Limb Movement: Step, Velocity, Acceleration.</td>
+<td align="left">Notterman, Joseph M.; Weitzman, Donald O.;</td>
+<td align="left">Journal Of Experimental Psychology: Human Perception And Performance</td>
+<td align="right">1981</td>
+<td align="right">0.926</td>
+</tr>
+<tr class="even">
+<td align="left">Matching Performance And The Similarity Structure Of The Stimulus Set.</td>
+<td align="left">Crist, William B.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1981</td>
+<td align="right">0.926</td>
+</tr>
+<tr class="odd">
+<td align="left">Categorization: A Mechanism For Rapid Information Processing.</td>
+<td align="left">Ingling, Nancy W.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1972</td>
+<td align="right">0.925</td>
+</tr>
+<tr class="even">
+<td align="left">Impact Of Mental Operation Instructions.</td>
+<td align="left">Dickinson, Joël; Szeligo, Frank</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">2008</td>
+<td align="right">0.925</td>
+</tr>
+</tbody>
+</table>
+<p>Interesting. I’ve read a couple of these papers over the years. Estes (1976) is a classic. Whittlesea, Brooks, and Westcott (1994) is a fantastic paper, kind of surprised to see it pop up here.</p>
+<p>In many ways I’m not sure what to make of this information. The similarities are all around .93. The abstracts span many years of publication, and multiple journals are represented. Did all of these articles have the same kind of impact on the field? The database currently does not have citation information, and that would be worth adding at some point. At the very least, it wasn’t clear to me before doing this whether the top 10 most similar abstracts would be “good” papers, representing something centrally important about these domains, or whether they would be derivative papers, that are like many other papers, but perhaps not as noteworthy.</p>
+<div id="most-similar-papers-by-year" class="section level3">
+<h3>Most similar papers by year</h3>
+<p>How about one more table. Let’s look at the most similar abstracts for each year. Within in each year, I found the paper that had the highest mean similarity to all other papers (across all years). The table below shows the top papers (highest similarity to the set) across the last 50 years.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">top_<span class="dv">10</span>_articles_year &lt;-<span class="st"> </span>article_df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="st">                        </span><span class="kw">arrange</span>(<span class="kw">desc</span>(year)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="st">                        </span><span class="kw">group_by</span>(year) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="st">                        </span><span class="kw">filter</span>(mean_sim <span class="op">==</span><span class="st"> </span><span class="kw">max</span>(mean_sim)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="st">                        </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="st">                        </span><span class="kw">slice</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">50</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="st">                        </span><span class="kw">select</span>(title,authorlist,journal,year, mean_sim)</a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">knitr<span class="op">::</span><span class="kw">kable</span>(top_<span class="dv">10</span>_articles_year)</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">title</th>
+<th align="left">authorlist</th>
+<th align="left">journal</th>
+<th align="right">year</th>
+<th align="right">mean_sim</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">The Response Dynamics Of Recognition Memory: Sensitivity And Bias.</td>
+<td align="left">Koop, Gregory J.; Criss, Amy H.;</td>
+<td align="left">Journal Of Experimental Psychology: Learning, Memory, And Cognition</td>
+<td align="right">2016</td>
+<td align="right">0.9225882</td>
+</tr>
+<tr class="even">
+<td align="left">Children With Autism Do Not Show Sequence Effects With Auditory Stimuli.</td>
+<td align="left">Molesworth, Catherine; Chevallier, Coralie; Happé, Francesca; Hampton, James A.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">2015</td>
+<td align="right">0.9241570</td>
+</tr>
+<tr class="odd">
+<td align="left">A Three-Component Model Of Relational Responding In The Transposition Paradigm.</td>
+<td align="left">Lazareva, Olga F.; Young, Michael E.; Wasserman, Edward A.;</td>
+<td align="left">Journal Of Experimental Psychology: Animal Learning And Cognition</td>
+<td align="right">2014</td>
+<td align="right">0.9245510</td>
+</tr>
+<tr class="even">
+<td align="left">Detecting Anomalous Features In Complex Stimuli: The Role Of Structured Comparison.</td>
+<td align="left">Kurtz, Kenneth J.; Gentner, Dedre;</td>
+<td align="left">Journal Of Experimental Psychology: Applied</td>
+<td align="right">2013</td>
+<td align="right">0.9244397</td>
+</tr>
+<tr class="odd">
+<td align="left">Time- And Space-Order Effects In Timed Discrimination Of Brightness And Size Of Paired Visual Stimuli.</td>
+<td align="left">Patching, Geoffrey R.; Englund, Mats P.; Hellström, Åke;</td>
+<td align="left">Journal Of Experimental Psychology: Human Perception And Performance</td>
+<td align="right">2012</td>
+<td align="right">0.9245156</td>
+</tr>
+<tr class="even">
+<td align="left">The Expertise Reversal Effect: Cognitive Load And Motivational Explanations.</td>
+<td align="left">Rey, Günter Daniel; Buchwald, Florian;</td>
+<td align="left">Journal Of Experimental Psychology: Applied</td>
+<td align="right">2011</td>
+<td align="right">0.9231737</td>
+</tr>
+<tr class="odd">
+<td align="left">Attention, Awareness Of Contingencies, And Control In Spatial Localization: A Qualitative Difference Approach.</td>
+<td align="left">Vaquero, Joaquín M. M.; Fiacconi, Chris; Milliken, Bruce;</td>
+<td align="left">Journal Of Experimental Psychology: Human Perception And Performance</td>
+<td align="right">2010</td>
+<td align="right">0.9219982</td>
+</tr>
+<tr class="even">
+<td align="left">Bindings Between Stimuli And Multiple Response Codes Dominate Long-Lag Repetition Priming In Speeded Classification Tasks.</td>
+<td align="left">Horner, Aidan J.; Henson, Richard N.;</td>
+<td align="left">Journal Of Experimental Psychology: Learning, Memory, And Cognition</td>
+<td align="right">2009</td>
+<td align="right">0.9220503</td>
+</tr>
+<tr class="odd">
+<td align="left">Impact Of Mental Operation Instructions.</td>
+<td align="left">Dickinson, Joël; Szeligo, Frank</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">2008</td>
+<td align="right">0.9250859</td>
+</tr>
+<tr class="even">
+<td align="left">The Development Of A General Associative Learning Account Of Skill Acquisition In A Relative Arrival-Time Judgment Task.</td>
+<td align="left">Loft, Shayne; Neal, Andrew; Humphreys, Michael S.;</td>
+<td align="left">Journal Of Experimental Psychology: Human Perception And Performance</td>
+<td align="right">2007</td>
+<td align="right">0.9266984</td>
+</tr>
+<tr class="odd">
+<td align="left">Remembering After A Perception Of Discrepancy: Out With The Old, In With The Two.</td>
+<td align="left">Kronlund, Antonia; Whittlesea, Bruce W. A.;</td>
+<td align="left">Journal Of Experimental Psychology: Learning, Memory, And Cognition</td>
+<td align="right">2006</td>
+<td align="right">0.9239148</td>
+</tr>
+<tr class="even">
+<td align="left">Selective And Nonselective Transfer: Positive And Negative Priming In A Multiple-Task Environment.</td>
+<td align="left">Leboe, Jason P.; Whittlesea, Bruce W. A.; Milliken, Bruce;</td>
+<td align="left">Journal Of Experimental Psychology: Learning, Memory, And Cognition</td>
+<td align="right">2005</td>
+<td align="right">0.9209965</td>
+</tr>
+<tr class="odd">
+<td align="left">Stimulus Processing Constraints In Audition.</td>
+<td align="left">Dyson, Benjamin J.; Quinlan, Philip T.;</td>
+<td align="left">Journal Of Experimental Psychology: Human Perception And Performance</td>
+<td align="right">2004</td>
+<td align="right">0.9243710</td>
+</tr>
+<tr class="even">
+<td align="left">The Dynamics Of Learning And Allocation Of Study Time To A Region Of Proximal Learning.</td>
+<td align="left">Metcalfe, Janet; Kornell, Nate</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">2003</td>
+<td align="right">0.9188484</td>
+</tr>
+<tr class="odd">
+<td align="left">Limited Attention And Cue Order Consistency Affect Predictive Learning: A Test Of Similarity Measures.</td>
+<td align="left">Young, Michael E.; Wasserman, Edward A.;</td>
+<td align="left">Journal Of Experimental Psychology: Learning, Memory, And Cognition</td>
+<td align="right">2002</td>
+<td align="right">0.9217152</td>
+</tr>
+<tr class="even">
+<td align="left">Effect Anticipation And Action Control.</td>
+<td align="left">Elsner, Birgit; Hommel, Bernhard;</td>
+<td align="left">Journal Of Experimental Psychology: Human Perception And Performance</td>
+<td align="right">2001</td>
+<td align="right">0.9224581</td>
+</tr>
+<tr class="odd">
+<td align="left">Why Do Categories Affect Stimulus Judgment?</td>
+<td align="left">Huttenlocher, Janellen; Hedges, Larry V.; Vevea, Jack L.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">2000</td>
+<td align="right">0.9227115</td>
+</tr>
+<tr class="even">
+<td align="left">Task Representations, Strategy Variability, And Base-Rate Neglect.</td>
+<td align="left">Lovett, Marsha C.; Schunn, Christian D.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1999</td>
+<td align="right">0.9196296</td>
+</tr>
+<tr class="odd">
+<td align="left">Categorical Perception Effects Induced By Category Learning.</td>
+<td align="left">Livingston, Kenneth R.; Andrews, Janet K.; Harnad, Stevan;</td>
+<td align="left">Journal Of Experimental Psychology: Learning, Memory, And Cognition</td>
+<td align="right">1998</td>
+<td align="right">0.9242344</td>
+</tr>
+<tr class="even">
+<td align="left">Effects Of Background Knowledge On Object Categorization And Part Detection.</td>
+<td align="left">Lin, Emilie L.; Murphy, Gregory L.;</td>
+<td align="left">Journal Of Experimental Psychology: Human Perception And Performance</td>
+<td align="right">1997</td>
+<td align="right">0.9227264</td>
+</tr>
+<tr class="odd">
+<td align="left">Orthographic Processing In Visual Word Recognition: A Multiple Read-Out Model.</td>
+<td align="left">Grainger, Jonathan; Jacobs, Arthur M.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1996</td>
+<td align="right">0.9233809</td>
+</tr>
+<tr class="even">
+<td align="left">Aesthetic Properties Of Pictorial Perception.</td>
+<td align="left">Takahashi, Shigeko;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1995</td>
+<td align="right">0.9233725</td>
+</tr>
+<tr class="odd">
+<td align="left">After The Learning Is Over: Factors Controlling The Selective Application Of General And Particular Knowledge.</td>
+<td align="left">Whittlesea, Bruce W. A.; Brooks, Lee R.; Westcott, Carol;</td>
+<td align="left">Journal Of Experimental Psychology: Learning, Memory, And Cognition</td>
+<td align="right">1994</td>
+<td align="right">0.9262141</td>
+</tr>
+<tr class="even">
+<td align="left">Speed Versus Accuracy Instructions, Study Time, And The Mirror Effect.</td>
+<td align="left">Kim, Kisok; Glanzer, Murray;</td>
+<td align="left">Journal Of Experimental Psychology: Learning, Memory, And Cognition</td>
+<td align="right">1993</td>
+<td align="right">0.9206683</td>
+</tr>
+<tr class="odd">
+<td align="left">The Consistency Model: A Reply To Parducci.</td>
+<td align="left">Haubensak, Gert;</td>
+<td align="left">Journal Of Experimental Psychology: Human Perception And Performance</td>
+<td align="right">1992</td>
+<td align="right">0.9208851</td>
+</tr>
+<tr class="even">
+<td align="left">Learning The Structure Of Event Sequences.</td>
+<td align="left">Cleeremans, Axel; Mcclelland, James L.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1991</td>
+<td align="right">0.9248790</td>
+</tr>
+<tr class="odd">
+<td align="left">Schedules Of Presentation And Temporal Distinctiveness In Human Memory.</td>
+<td align="left">Neath, Ian; Crowder, Robert G.;</td>
+<td align="left">Journal Of Experimental Psychology: Learning, Memory, And Cognition</td>
+<td align="right">1990</td>
+<td align="right">0.9219984</td>
+</tr>
+<tr class="even">
+<td align="left">Perceptual Learning Of Spatiotemporal Events: Evidence From An Unfamiliar Modality.</td>
+<td align="left">Epstein, William; Hughes, Barry; Schneider, Sandra L.; Bach-y-Rita, Paul;</td>
+<td align="left">Journal Of Experimental Psychology: Human Perception And Performance</td>
+<td align="right">1989</td>
+<td align="right">0.9237588</td>
+</tr>
+<tr class="odd">
+<td align="left">Comparison Requirements And Attention In Identical-Nonidentical Stimulus Discriminations.</td>
+<td align="left">Farell, Bart;</td>
+<td align="left">Journal Of Experimental Psychology: Human Perception And Performance</td>
+<td align="right">1988</td>
+<td align="right">0.9228553</td>
+</tr>
+<tr class="even">
+<td align="left">Unconscious Acquisition Of Complex Procedural Knowledge.</td>
+<td align="left">Lewicki, Pawel; Czyzewska, Maria; Hoffman, Hunter;</td>
+<td align="left">Journal Of Experimental Psychology: Learning, Memory, And Cognition</td>
+<td align="right">1987</td>
+<td align="right">0.9260726</td>
+</tr>
+<tr class="odd">
+<td align="left">Perceptual Organization Of Behavior: A Hierarchical Control Model Of Coordinated Action.</td>
+<td align="left">Marken, Richard S.;</td>
+<td align="left">Journal Of Experimental Psychology: Human Perception And Performance</td>
+<td align="right">1986</td>
+<td align="right">0.9218375</td>
+</tr>
+<tr class="even">
+<td align="left">Criterion Shift Rule And Perceptual Homeostasis.</td>
+<td align="left">Warren, Richard M.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1985</td>
+<td align="right">0.9207379</td>
+</tr>
+<tr class="odd">
+<td align="left">Identification Confusions Among Letters Of The Alphabet.</td>
+<td align="left">Gervais, Martin J.; Harvey, Lewis O.; Roberts, Jonathan O.;</td>
+<td align="left">Journal Of Experimental Psychology: Human Perception And Performance</td>
+<td align="right">1984</td>
+<td align="right">0.9210784</td>
+</tr>
+<tr class="even">
+<td align="left">The Locus Of Contextual Interference In Motor-Skill Acquisition.</td>
+<td align="left">Lee, Timothy D.; Magill, Richard A.;</td>
+<td align="left">Journal Of Experimental Psychology: Learning, Memory, And Cognition</td>
+<td align="right">1983</td>
+<td align="right">0.9246800</td>
+</tr>
+<tr class="odd">
+<td align="left">Human Reaction Time: Toward A General Theory.</td>
+<td align="left">Grice, G. Robert; Nullmeyer, Robert; Spiker, V. Alan</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1982</td>
+<td align="right">0.9213748</td>
+</tr>
+<tr class="even">
+<td align="left">Organization And Learning Of Visual-Motor Information During Different Orders Of Limb Movement: Step, Velocity, Acceleration.</td>
+<td align="left">Notterman, Joseph M.; Weitzman, Donald O.;</td>
+<td align="left">Journal Of Experimental Psychology: Human Perception And Performance</td>
+<td align="right">1981</td>
+<td align="right">0.9256822</td>
+</tr>
+<tr class="odd">
+<td align="left">The Feature-Positive Effect In Adult Human Subjects.</td>
+<td align="left">Newman, Joseph P.; Wolff, William T.; Hearst, Eliot;</td>
+<td align="left">Journal Of Experimental Psychology: Human Learning And Memory</td>
+<td align="right">1980</td>
+<td align="right">0.9265401</td>
+</tr>
+<tr class="even">
+<td align="left">Cognitive Influences On Perceptual Processing.</td>
+<td align="left">Miller, Jeff;</td>
+<td align="left">Journal Of Experimental Psychology: Human Perception And Performance</td>
+<td align="right">1979</td>
+<td align="right">0.9239728</td>
+</tr>
+<tr class="odd">
+<td align="left">Stimulus Classification Strategies In An Information Reduction Task.</td>
+<td align="left">Briggs, George E.; Thomason, Spencer C.; Hagman, Joseph D.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1978</td>
+<td align="right">0.9219339</td>
+</tr>
+<tr class="even">
+<td align="left">Dichotic Competition Of Speech Sounds: The Role Of Acoustic Stimulus Structure.</td>
+<td align="left">Repp, Bruno H.;</td>
+<td align="left">Journal Of Experimental Psychology: Human Perception And Performance</td>
+<td align="right">1977</td>
+<td align="right">0.9231545</td>
+</tr>
+<tr class="odd">
+<td align="left">The Cognitive Side Of Probability Learning.</td>
+<td align="left">Estes, W. K.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1976</td>
+<td align="right">0.9281893</td>
+</tr>
+<tr class="even">
+<td align="left">Two Types Of Information In Picture Memory.</td>
+<td align="left">Loftus, Geoffrey R.; Bell, Susan M.;</td>
+<td align="left">Journal Of Experimental Psychology: Human Learning And Memory</td>
+<td align="right">1975</td>
+<td align="right">0.9223782</td>
+</tr>
+<tr class="odd">
+<td align="left">Rule Learning In A Stimulus Integration Task.</td>
+<td align="left">Norman, Kent L.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1974</td>
+<td align="right">0.9228059</td>
+</tr>
+<tr class="even">
+<td align="left">Correlation And Letter Recognition.</td>
+<td align="left">Engel, G. R.; Dougherty, W. C.; Jones, G. Brian</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1973</td>
+<td align="right">0.9224943</td>
+</tr>
+<tr class="odd">
+<td align="left">Categorization: A Mechanism For Rapid Information Processing.</td>
+<td align="left">Ingling, Nancy W.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1972</td>
+<td align="right">0.9252270</td>
+</tr>
+<tr class="even">
+<td align="left">Effects Of Context On Lower Order Rule Learning In Sequential Prediction.</td>
+<td align="left">Jones, Mari R.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1971</td>
+<td align="right">0.9198585</td>
+</tr>
+<tr class="odd">
+<td align="left">Intuitive ‘Counting’ And ‘Tagging’ In Memory.</td>
+<td align="left">Howell, William C.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1970</td>
+<td align="right">0.9235640</td>
+</tr>
+<tr class="even">
+<td align="left">Comparison Of Training Methods In The Production Of Prism Adaptation.</td>
+<td align="left">Foley, Joan E.; Maynes, Florence J.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1969</td>
+<td align="right">0.9233300</td>
+</tr>
+<tr class="odd">
+<td align="left">Sensory Traces Versus The Psychological Moment In The Temporal Organization Of Form.</td>
+<td align="left">Eriksen, Charles W.; Collins, James F.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1968</td>
+<td align="right">0.9181388</td>
+</tr>
+<tr class="even">
+<td align="left">Stimulus Variation And Repetition In The Acquisition Of Naming Responses.</td>
+<td align="left">Dukes, William F.; Bevan, William</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1967</td>
+<td align="right">0.9212483</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+
+</body>
+</html>
