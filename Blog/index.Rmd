@@ -195,8 +195,34 @@ top_50_articles_year <- article_df %>%
 knitr::kable(top_50_articles_year)
 ```
 
+## Looking at the journals
 
+### Psychological Review
 
+I'm going to take a first stab at looking into specific journals. Let's start with Psychological Review, a well-respected journal. First, let's look at the top 50 papers in Psych review with the highest mean similarities to all other abstracts across all journals:
+
+```{r}
+psych_review_top_50 <- article_df %>%
+                        filter(journal == "Psychological Review") %>%
+                        arrange(desc(mean_sim)) %>%
+                        slice(1:50) %>%
+                        select(title,authorlist,journal,year, mean_sim)
+
+knitr::kable(psych_review_top_50)
+```
+
+Some good papers in there, but hey, it's Psych Review. Another aspect is to look entirely within Psych review papers. So, rather than finding which papers in Psych Review are most similar to all other papers, let's just find the papers that are most similar to the other papers in Psych Review.
+
+```{r}
+load("psyc_review_df.RData")
+psych_review_top_50_w <- psyc_review_df %>%
+                        arrange(desc(pr_sims)) %>%
+                        slice(1:50) %>%
+                        select(title,authorlist,journal,year, mean_sim)
+knitr::kable(psych_review_top_50_w)
+```
+
+Well, it's another different list, and more tea-leaf reading. Without other metrics to validate these measures against it's not clear what is being measured.
 
 ---
 

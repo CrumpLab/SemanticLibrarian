@@ -2430,6 +2430,754 @@ div.tocify {
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+<div id="looking-at-the-journals" class="section level2">
+<h2>Looking at the journals</h2>
+<div id="psychological-review" class="section level3">
+<h3>Psychological Review</h3>
+<p>I’m going to take a first stab at looking into specific journals. Let’s start with Psychological Review, a well-respected journal. First, let’s look at the top 50 papers in Psych review with the highest mean similarities to all other abstracts across all journals:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">psych_review_top_<span class="dv">50</span> &lt;-<span class="st"> </span>article_df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="st">                        </span><span class="kw">filter</span>(journal <span class="op">==</span><span class="st"> &quot;Psychological Review&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="st">                        </span><span class="kw">arrange</span>(<span class="kw">desc</span>(mean_sim)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="st">                        </span><span class="kw">slice</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">50</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="st">                        </span><span class="kw">select</span>(title,authorlist,journal,year, mean_sim)</a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb11-7" data-line-number="7">knitr<span class="op">::</span><span class="kw">kable</span>(psych_review_top_<span class="dv">50</span>)</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">title</th>
+<th align="left">authorlist</th>
+<th align="left">journal</th>
+<th align="right">year</th>
+<th align="right">mean_sim</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">The Cognitive Side Of Probability Learning.</td>
+<td align="left">Estes, W. K.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1976</td>
+<td align="right">0.9281893</td>
+</tr>
+<tr class="even">
+<td align="left">On The Experimental Investigation Of Memory.</td>
+<td align="left">Kennedy, Francis;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1898</td>
+<td align="right">0.9269831</td>
+</tr>
+<tr class="odd">
+<td align="left">Aspects Of Learning.</td>
+<td align="left">Peterson, J.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1935</td>
+<td align="right">0.9236792</td>
+</tr>
+<tr class="even">
+<td align="left">Orthographic Processing In Visual Word Recognition: A Multiple Read-Out Model.</td>
+<td align="left">Grainger, Jonathan; Jacobs, Arthur M.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1996</td>
+<td align="right">0.9233809</td>
+</tr>
+<tr class="odd">
+<td align="left">Aesthetic Properties Of Pictorial Perception.</td>
+<td align="left">Takahashi, Shigeko;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1995</td>
+<td align="right">0.9233725</td>
+</tr>
+<tr class="even">
+<td align="left">A Unified Theory For Matching-Task Phenomena.</td>
+<td align="left">Proctor, Robert W.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1981</td>
+<td align="right">0.9225086</td>
+</tr>
+<tr class="odd">
+<td align="left">The Problem Of Learning.</td>
+<td align="left">Frank, L. K.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1926</td>
+<td align="right">0.9223410</td>
+</tr>
+<tr class="even">
+<td align="left">Studies From The Psychological Laboratory Of The University Of California.</td>
+<td align="left">Stratton, George M.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1902</td>
+<td align="right">0.9222317</td>
+</tr>
+<tr class="odd">
+<td align="left">Stimulus Variability And Cognitive Change.</td>
+<td align="left">Munsinger, Harry; Kessen, William;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1966</td>
+<td align="right">0.9216810</td>
+</tr>
+<tr class="even">
+<td align="left">Sequential Effects In Response Time Reveal Learning Mechanisms And Event Representations.</td>
+<td align="left">Jones, Matt; Curran, Tim; Mozer, Michael C.; Wilder, Matthew H.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">2013</td>
+<td align="right">0.9215278</td>
+</tr>
+<tr class="odd">
+<td align="left">A Model Of Response Time Effects In Symbolic Comparison.</td>
+<td align="left">Leth-Steensen, Craig; Marley, A. A. J.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">2000</td>
+<td align="right">0.9211707</td>
+</tr>
+<tr class="even">
+<td align="left">Sensory And Cognitive Components Of Visual Information Acquisition.</td>
+<td align="left">Busey, Thomas A.; Loftus, Geoffrey R.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1994</td>
+<td align="right">0.9210793</td>
+</tr>
+<tr class="odd">
+<td align="left">Criterion Shift Rule And Perceptual Homeostasis.</td>
+<td align="left">Warren, Richard M.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1985</td>
+<td align="right">0.9207379</td>
+</tr>
+<tr class="even">
+<td align="left">Absolute Identification By Relative Judgment.</td>
+<td align="left">Stewart, Neil; Brown, Gordon D. A.; Chater, Nick;</td>
+<td align="left">Psychological Review</td>
+<td align="right">2005</td>
+<td align="right">0.9206993</td>
+</tr>
+<tr class="odd">
+<td align="left">Time, Rate, And Conditioning.</td>
+<td align="left">Gallistel, C. R.; Gibbon, John;</td>
+<td align="left">Psychological Review</td>
+<td align="right">2000</td>
+<td align="right">0.9206885</td>
+</tr>
+<tr class="even">
+<td align="left">The Dynamics Of Cognition And Action: Mental Processes Inferred From Speed-Accuracy Decomposition.</td>
+<td align="left">Meyer, David E.; Irwin, David E.; Osman, Allen M.; Kounois, John;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1988</td>
+<td align="right">0.9206606</td>
+</tr>
+<tr class="odd">
+<td align="left">The Selectivity Of Preparation.</td>
+<td align="left">Thomas, Ewart A.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1974</td>
+<td align="right">0.9203542</td>
+</tr>
+<tr class="even">
+<td align="left">A Neurocomputational Account Of Taxonomic Responding And Fast Mapping In Early Word Learning.</td>
+<td align="left">Mayor, Julien; Plunkett, Kim;</td>
+<td align="left">Psychological Review</td>
+<td align="right">2010</td>
+<td align="right">0.9203465</td>
+</tr>
+<tr class="odd">
+<td align="left">The Specific Processes Constituting The Learning Function.</td>
+<td align="left">Maier, N. R. F.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1939</td>
+<td align="right">0.9201476</td>
+</tr>
+<tr class="even">
+<td align="left">Simple Trial And Error Learning: A Study In Psychological Theory.</td>
+<td align="left">Hull, C. L.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1930</td>
+<td align="right">0.9201457</td>
+</tr>
+<tr class="odd">
+<td align="left">Community And Association Of Ideas: A Statistical Study.</td>
+<td align="left">Jastrow, Joseph;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1894</td>
+<td align="right">0.9201237</td>
+</tr>
+<tr class="even">
+<td align="left">Discrimination Of Clangs For Different Intervals Of Time.</td>
+<td align="left">Meyer, Max;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1901</td>
+<td align="right">0.9200218</td>
+</tr>
+<tr class="odd">
+<td align="left">The Influence Of Improvement In One Mental Function Upon The Efficiency Of Other Functions: Iii. Functions Involving Attention, Observation And Discrimination.</td>
+<td align="left">Thorndike, E. L.; Woodworth, R. S.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1901</td>
+<td align="right">0.9198466</td>
+</tr>
+<tr class="even">
+<td align="left">Perception: Identification And Instrumental Activity.</td>
+<td align="left">Kanfer, Frederick H.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1956</td>
+<td align="right">0.9198304</td>
+</tr>
+<tr class="odd">
+<td align="left">Long-Term Memory As A Function Of Retention Time And Other Conditions Of Training And Recall.</td>
+<td align="left">Bilodeau, Edward A.; Levy, C. Michael;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1964</td>
+<td align="right">0.9196645</td>
+</tr>
+<tr class="even">
+<td align="left">An Analysis Of Meaning.</td>
+<td align="left">Noble, Clyde E.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1952</td>
+<td align="right">0.9196130</td>
+</tr>
+<tr class="odd">
+<td align="left">Error-Driven Learning In Visual Categorization And Object Recognition: A Common-Elements Model.</td>
+<td align="left">Soto, Fabian A.; Wasserman, Edward A.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">2010</td>
+<td align="right">0.9195168</td>
+</tr>
+<tr class="even">
+<td align="left">Separating The Contributions Of Primary And Unwanted Cues In Psychophysical Studies.</td>
+<td align="left">Dai, Huanping; Micheyl, Christophe;</td>
+<td align="left">Psychological Review</td>
+<td align="right">2012</td>
+<td align="right">0.9194824</td>
+</tr>
+<tr class="odd">
+<td align="left">Perception Under Stress.</td>
+<td align="left">Postman, Leo; Bruner, Jerome S.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1948</td>
+<td align="right">0.9192025</td>
+</tr>
+<tr class="even">
+<td align="left">The Dynamics Of Scaling: A Memory-Based Anchor Model Of Category Rating And Absolute Identification.</td>
+<td align="left">Petrov, Alexander A.; Anderson, John R.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">2005</td>
+<td align="right">0.9191104</td>
+</tr>
+<tr class="odd">
+<td align="left">Modeling Memory For Absolute Location.</td>
+<td align="left">Lansdale, Mark W.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1998</td>
+<td align="right">0.9190722</td>
+</tr>
+<tr class="even">
+<td align="left">Review Of Motor, Visual And Applied Rhythms.</td>
+<td align="left">No authorship indicated;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1903</td>
+<td align="right">0.9190490</td>
+</tr>
+<tr class="odd">
+<td align="left">Comment On The Formation Of Discrimination Habits.</td>
+<td align="left">McCulloch, T. L.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1939</td>
+<td align="right">0.9190179</td>
+</tr>
+<tr class="even">
+<td align="left">Parallel Functions Of Serial Learning And Tachistoscopic Pattern Perception.</td>
+<td align="left">HARCUM, E. RAE;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1967</td>
+<td align="right">0.9189645</td>
+</tr>
+<tr class="odd">
+<td align="left">A Theory Of The Identification Of Complex Stimuli With An Application To Word Recognition.</td>
+<td align="left">Treisman, Michel;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1978</td>
+<td align="right">0.9189134</td>
+</tr>
+<tr class="even">
+<td align="left">An Integrated Utility-Based Model Of Conflict Evaluation And Resolution In The Stroop Task.</td>
+<td align="left">Chuderski, Adam; Smolen, Tomasz;</td>
+<td align="left">Psychological Review</td>
+<td align="right">2016</td>
+<td align="right">0.9187575</td>
+</tr>
+<tr class="odd">
+<td align="left">The Distribution Of Attention - Ii.</td>
+<td align="left">Hylan, J. P.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1903</td>
+<td align="right">0.9187142</td>
+</tr>
+<tr class="even">
+<td align="left">Visual Perception Of Dynamic Properties: Cue Heuristics Versus Direct-Perceptual Competence.</td>
+<td align="left">Runeson, Sverker; Juslin, Peter; Olsson, Henrik;</td>
+<td align="left">Psychological Review</td>
+<td align="right">2000</td>
+<td align="right">0.9186682</td>
+</tr>
+<tr class="odd">
+<td align="left">Perception: Toward The Recovery Of A Definition.</td>
+<td align="left">Hochberg, Julian;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1956</td>
+<td align="right">0.9185546</td>
+</tr>
+<tr class="even">
+<td align="left">Note On The Doctrine Of Memory-Traces.</td>
+<td align="left">Lewis, F. H.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1933</td>
+<td align="right">0.9185094</td>
+</tr>
+<tr class="odd">
+<td align="left">Types Of Reaction.</td>
+<td align="left">Baldwin, J. Mark;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1895</td>
+<td align="right">0.9184790</td>
+</tr>
+<tr class="even">
+<td align="left">The Process Need.</td>
+<td align="left">Maltzman, Irving;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1952</td>
+<td align="right">0.9183624</td>
+</tr>
+<tr class="odd">
+<td align="left">Personality And Perception In The Recognition Threshold Paradigm.</td>
+<td align="left">Kempler, Bernhard; Wiener, Morton;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1963</td>
+<td align="right">0.9183041</td>
+</tr>
+<tr class="even">
+<td align="left">A Systematic Application Of The Concepts Of Generalization And Differentiation To Verbal Learning.</td>
+<td align="left">Gibson, E. J.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1940</td>
+<td align="right">0.9182872</td>
+</tr>
+<tr class="odd">
+<td align="left">Discrimination And Learning Without Awareness: A Methodological Survey And Evaluation.</td>
+<td align="left">Eriksen, Charles W.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1960</td>
+<td align="right">0.9182489</td>
+</tr>
+<tr class="even">
+<td align="left">Studies From The Psychological Laboratory Of The University Of Michigan.</td>
+<td align="left">Hylan, J. P.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1901</td>
+<td align="right">0.9181839</td>
+</tr>
+<tr class="odd">
+<td align="left">Limiting Factors In The Effect Of The Reward Upon The Distribution Of Errors In Mazes.</td>
+<td align="left">Buel, J.; Ballachey, E. L.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1935</td>
+<td align="right">0.9179126</td>
+</tr>
+<tr class="even">
+<td align="left">An Examination Of One Aspect Of The Thesis That Perceiving Is Learned.</td>
+<td align="left">Pastore, Nicholas;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1956</td>
+<td align="right">0.9179023</td>
+</tr>
+<tr class="odd">
+<td align="left">Doing Without Schema Hierarchies: A Recurrent Connectionist Approach To Normal And Impaired Routine Sequential Action.</td>
+<td align="left">Botvinick, Matthew; Plaut, David C.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">2004</td>
+<td align="right">0.9177930</td>
+</tr>
+<tr class="even">
+<td align="left">Critical Periods, Stimulus Input, And Emotional Reactivity: A Theory Of Infantile Stimulation.</td>
+<td align="left">Denenberg, Victor H.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1964</td>
+<td align="right">0.9177454</td>
+</tr>
+</tbody>
+</table>
+<p>Some good papers in there, but hey, it’s Psych Review. Another aspect is to look entirely within Psych review papers. So, rather than finding which papers in Psych Review are most similar to all other papers, let’s just find the papers that are most similar to the other papers in Psych Review.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">load</span>(<span class="st">&quot;psyc_review_df.RData&quot;</span>)</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">psych_review_top_<span class="dv">50</span>_w &lt;-<span class="st"> </span>psyc_review_df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="st">                        </span><span class="kw">arrange</span>(<span class="kw">desc</span>(pr_sims)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="st">                        </span><span class="kw">slice</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">50</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="st">                        </span><span class="kw">select</span>(title,authorlist,journal,year, mean_sim)</a>
+<a class="sourceLine" id="cb12-6" data-line-number="6">knitr<span class="op">::</span><span class="kw">kable</span>(psych_review_top_<span class="dv">50</span>_w)</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">title</th>
+<th align="left">authorlist</th>
+<th align="left">journal</th>
+<th align="right">year</th>
+<th align="right">mean_sim</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Reliability, Ambiguity And Content Analysis.</td>
+<td align="left">Schutz, William C.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1952</td>
+<td align="right">0.9150610</td>
+</tr>
+<tr class="even">
+<td align="left">Human Abilities.</td>
+<td align="left">Guilford, J. P.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1940</td>
+<td align="right">0.9165346</td>
+</tr>
+<tr class="odd">
+<td align="left">Basic Neural Mechanisms In Behavior.</td>
+<td align="left">Lashley, K. S.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1930</td>
+<td align="right">0.9092463</td>
+</tr>
+<tr class="even">
+<td align="left">Erratum To Jones.</td>
+<td align="left">Jones, Mari Riess;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1976</td>
+<td align="right">0.9103917</td>
+</tr>
+<tr class="odd">
+<td align="left">Toward A Dynamic Psychology Of Cognition.</td>
+<td align="left">Heidbreder, E.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1945</td>
+<td align="right">0.9156507</td>
+</tr>
+<tr class="even">
+<td align="left">Simple Trial And Error Learning: A Study In Psychological Theory.</td>
+<td align="left">Hull, C. L.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1930</td>
+<td align="right">0.9201457</td>
+</tr>
+<tr class="odd">
+<td align="left">Review Of The Correlation Of Mental And Physical Tests.</td>
+<td align="left">No authorship indicated;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1901</td>
+<td align="right">0.9173770</td>
+</tr>
+<tr class="even">
+<td align="left">The Common Sense Of Introspection.</td>
+<td align="left">Desilva, H. R.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1930</td>
+<td align="right">0.9087858</td>
+</tr>
+<tr class="odd">
+<td align="left">Cognitive Psychology’S Ambiguities: Some Suggested Remedies.</td>
+<td align="left">Guilford, J. P.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1982</td>
+<td align="right">0.8971998</td>
+</tr>
+<tr class="even">
+<td align="left">The Sequential Method For The Study Of Maturing Behavior Patterns.</td>
+<td align="left">Shirley, M.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1931</td>
+<td align="right">0.9075517</td>
+</tr>
+<tr class="odd">
+<td align="left">Sensory Integration And Cognitive Theory.</td>
+<td align="left">Birch, H. G.; Bitterman, M. E.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1951</td>
+<td align="right">0.9102922</td>
+</tr>
+<tr class="even">
+<td align="left">Atheory Of Psychological Components—An Alternative To ‘Mathematical Factors.’</td>
+<td align="left">Tryon, R. C.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1935</td>
+<td align="right">0.9072325</td>
+</tr>
+<tr class="odd">
+<td align="left">A Response Interpretation Of Consciousness.</td>
+<td align="left">Langfeld, H. S.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1931</td>
+<td align="right">0.9045565</td>
+</tr>
+<tr class="even">
+<td align="left">Psychophysiological Systems And Isomorphic Relations.</td>
+<td align="left">Boring, E. G.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1936</td>
+<td align="right">0.9034142</td>
+</tr>
+<tr class="odd">
+<td align="left">The Operational Definition Of Psychological Concepts.</td>
+<td align="left">Stevens, S. S.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1935</td>
+<td align="right">0.9117218</td>
+</tr>
+<tr class="even">
+<td align="left">Perception: Identification And Instrumental Activity.</td>
+<td align="left">Kanfer, Frederick H.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1956</td>
+<td align="right">0.9198304</td>
+</tr>
+<tr class="odd">
+<td align="left">Unfolding The Baby’S Mind: The Infant’S Selection Of Visual Stimuli.</td>
+<td align="left">Thomas, Hoben;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1973</td>
+<td align="right">0.9146192</td>
+</tr>
+<tr class="even">
+<td align="left">Association As A Fundamental Process Of Objective Psychology.</td>
+<td align="left">Kantor, J. R.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1921</td>
+<td align="right">0.8937865</td>
+</tr>
+<tr class="odd">
+<td align="left">The Contribution Of Physiological Psychology.</td>
+<td align="left">Loucks, R. B.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1941</td>
+<td align="right">0.8975316</td>
+</tr>
+<tr class="even">
+<td align="left">Aspects Of Learning.</td>
+<td align="left">Peterson, J.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1935</td>
+<td align="right">0.9236792</td>
+</tr>
+<tr class="odd">
+<td align="left">The Definition Of Judgment.</td>
+<td align="left">Hollingworth, H. L.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1925</td>
+<td align="right">0.9034923</td>
+</tr>
+<tr class="even">
+<td align="left">The Conceptual Categories Of Psychology; A Suggestion For Revision.</td>
+<td align="left">Duffy, E.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1941</td>
+<td align="right">0.9089114</td>
+</tr>
+<tr class="odd">
+<td align="left">The Psychology Of The Will.</td>
+<td align="left">Münsterberg, Hugo;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1898</td>
+<td align="right">0.8982968</td>
+</tr>
+<tr class="even">
+<td align="left">Error-Driven Learning In Visual Categorization And Object Recognition: A Common-Elements Model.</td>
+<td align="left">Soto, Fabian A.; Wasserman, Edward A.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">2010</td>
+<td align="right">0.9195168</td>
+</tr>
+<tr class="odd">
+<td align="left">Level Of Aspiration As A Method Of Studying Personality. I. A Critical Review Of Methodology.</td>
+<td align="left">Rotter, J. B.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1942</td>
+<td align="right">0.9091779</td>
+</tr>
+<tr class="even">
+<td align="left">Sensation And Perception In An Objective Psychology.</td>
+<td align="left">Graham, C. H.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1958</td>
+<td align="right">0.9101275</td>
+</tr>
+<tr class="odd">
+<td align="left">Diffusion Of The Motor Impulse.</td>
+<td align="left">Wissler, Clark; Richardson, WM. W.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1900</td>
+<td align="right">0.9072184</td>
+</tr>
+<tr class="even">
+<td align="left">Integrating Reinforcement Learning, Equilibrium Points, And Minimum Variance To Understand The Development Of Reaching: A Computational Model.</td>
+<td align="left">Caligiore, Daniele; Parisi, Domenico; Baldassarre, Gianluca;</td>
+<td align="left">Psychological Review</td>
+<td align="right">2014</td>
+<td align="right">0.9117457</td>
+</tr>
+<tr class="odd">
+<td align="left">Knowing In The Context Of Acting: The Task Dynamics Of The A-Not-B Error.</td>
+<td align="left">Smith, Linda B.; Thelen, Esther; Titzer, Robert; McLin, Dewey;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1999</td>
+<td align="right">0.9089021</td>
+</tr>
+<tr class="even">
+<td align="left">Types Of Reaction.</td>
+<td align="left">Baldwin, J. Mark;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1895</td>
+<td align="right">0.9184790</td>
+</tr>
+<tr class="odd">
+<td align="left">Knowledge And Imagination.</td>
+<td align="left">Baldwin, J. Mark;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1908</td>
+<td align="right">0.9147441</td>
+</tr>
+<tr class="even">
+<td align="left">Erratum To Gottlieb.</td>
+<td align="left">Gottlieb, Gilbert;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1976</td>
+<td align="right">0.9014093</td>
+</tr>
+<tr class="odd">
+<td align="left">The Specific Processes Constituting The Learning Function.</td>
+<td align="left">Maier, N. R. F.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1939</td>
+<td align="right">0.9201476</td>
+</tr>
+<tr class="even">
+<td align="left">The Psychology Of Number - A Genetic View.</td>
+<td align="left">O’Shea, M. V.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1901</td>
+<td align="right">0.9048809</td>
+</tr>
+<tr class="odd">
+<td align="left">The Trend In Theories Of Attention.</td>
+<td align="left">Paschal, F. C.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1941</td>
+<td align="right">0.9047243</td>
+</tr>
+<tr class="even">
+<td align="left">Discovering Functionally Independent Mental Processes: The Principle Of Reversed Association.</td>
+<td align="left">Dunn, John C.; Kirsner, Kim;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1988</td>
+<td align="right">0.9071730</td>
+</tr>
+<tr class="odd">
+<td align="left">An Examination Of One Aspect Of The Thesis That Perceiving Is Learned.</td>
+<td align="left">Pastore, Nicholas;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1956</td>
+<td align="right">0.9179023</td>
+</tr>
+<tr class="even">
+<td align="left">The Judgmental Theory Of Pleasantness And Unpleasantness.</td>
+<td align="left">Peters, H. N.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1935</td>
+<td align="right">0.9067828</td>
+</tr>
+<tr class="odd">
+<td align="left">Review Of A Study In Apperception.</td>
+<td align="left">Lough, J. E.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1897</td>
+<td align="right">0.9166840</td>
+</tr>
+<tr class="even">
+<td align="left">Principles Of Selection In Animal Learning.</td>
+<td align="left">Carr, Harvey;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1914</td>
+<td align="right">0.9119233</td>
+</tr>
+<tr class="odd">
+<td align="left">Time, Rate, And Conditioning.</td>
+<td align="left">Gallistel, C. R.; Gibbon, John;</td>
+<td align="left">Psychological Review</td>
+<td align="right">2000</td>
+<td align="right">0.9206885</td>
+</tr>
+<tr class="even">
+<td align="left">Changing Behavior By Memory Aids: A Social Psychological Model Of Prospective Memory And Habit Development Tested With Dynamic Field Data.</td>
+<td align="left">Tobias, Robert;</td>
+<td align="left">Psychological Review</td>
+<td align="right">2009</td>
+<td align="right">0.9107004</td>
+</tr>
+<tr class="odd">
+<td align="left">Rorschach’S Affect-Color Hypothesis And Adaptation-Level Theory.</td>
+<td align="left">George, Clay E.; Bonney, Warren C.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1956</td>
+<td align="right">0.8975712</td>
+</tr>
+<tr class="even">
+<td align="left">The Concepts Of Learning And Memory.</td>
+<td align="left">Cason, H.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1937</td>
+<td align="right">0.9176157</td>
+</tr>
+<tr class="odd">
+<td align="left">Mediated Generalization And The Interpretation Of Verbal Behavior: I. Prolegomena.</td>
+<td align="left">Cofer, C. N.; Foley, J. P. Jr.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1942</td>
+<td align="right">0.9077916</td>
+</tr>
+<tr class="even">
+<td align="left">On The Nature Of Psychological Explanations.</td>
+<td align="left">Guthrie, E. R.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1933</td>
+<td align="right">0.9063475</td>
+</tr>
+<tr class="odd">
+<td align="left">Cognitive Versus Stimulus-Response Theories Of Learning.</td>
+<td align="left">Spence, Kenneth W.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1950</td>
+<td align="right">0.9132353</td>
+</tr>
+<tr class="even">
+<td align="left">The Nature And Explanation Of Behavior.</td>
+<td align="left">Walker, K. F.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1942</td>
+<td align="right">0.8969825</td>
+</tr>
+<tr class="odd">
+<td align="left">Effects Of The Gestalt Revolution: The Cornell Symposium On Perception.</td>
+<td align="left">Hochberg, Julian E.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1957</td>
+<td align="right">0.9046918</td>
+</tr>
+<tr class="even">
+<td align="left">Association And The Law Of Effect.</td>
+<td align="left">Guthrie, E. R.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1940</td>
+<td align="right">0.9118296</td>
+</tr>
+</tbody>
+</table>
+<p>Well, it’s another different list, and more tea-leaf reading. Without other metrics to validate these measures against it’s not clear what is being measured.</p>
 <hr />
 </div>
 </div>
