@@ -83,8 +83,9 @@ server <- function(input, output, session) {
       output$articledataset_SS <- DT::renderDT({
         
         return(article_mds_SS %>%
-                 select(formatted_column,Similarity) %>%
-                 rename(Abstracts = formatted_column) %>%
+                 select(formatted_column,year,Similarity) %>%
+                 rename(Abstracts = formatted_column,
+                        Year = year) %>%
                  mutate(Similarity = round(Similarity,digits=2))
                )
   
@@ -178,8 +179,9 @@ server <- function(input, output, session) {
       
       output$articledataset <- DT::renderDT({
         return(article_article_mds_SS %>%
-                 select(formatted_column,Similarity) %>%
-                 rename(Abstracts = formatted_column) %>%
+                 select(formatted_column,year,Similarity) %>%
+                 rename(Abstracts = formatted_column,
+                        Year = year) %>%
                  mutate(Similarity = round(Similarity,digits=2)))
       }, options = list(pageLength=10,
                         columnDefs = list(list(visible=FALSE, targets=c(0)))),
