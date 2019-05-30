@@ -52,3 +52,9 @@ pre.sourceCode {
   background-color: rgb(240,240,240);
   border: none;
 }
+
+
+div.references p{
+  padding-left: 10% ;
+  text-indent: -10%;
+}

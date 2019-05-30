@@ -5,6 +5,8 @@ date: "`r format(Sys.time(), '%d %B, %Y')`"
 twitter: "https://twitter.com/MattCrump_"
 github: "https://github.com/CrumpLab"
 website: "https://crumplab.gihub.io"
+bibliography: refs.bib
+csl: apa.csl
 output: 
   html_document:
     template: web/template.html
@@ -45,7 +47,7 @@ for(i in 1:length(the_journals)){
 }
 ```
 
-There were a total of `r dim(article_df)[1]` abstracts, `r length(author_list)` authors, and the corpus consisted of `r length(dictionary_words)` words. We used BEAGLE (Jones and Mewhort, 2007) to create semantic vectors for each word. Then we created abstract vectors for each article by adding the word vectors together (that were in each article). We also created vectors for each author, as the sum of their abstract vectors. This way, all of the words, abstracts, and authors, can be projected into the same high-dimensional semantic space. As a result, it is possible to compute the semantic similarity between any word, abstract, or author. This blog explores some of these relationships.
+There were a total of `r dim(article_df)[1]` abstracts, `r length(author_list)` authors, and the corpus consisted of `r length(dictionary_words)` words. We used BEAGLE [@jones2007representing] to create semantic vectors for each word. Then we created abstract vectors for each article by adding the word vectors together (that were in each article). We also created vectors for each author, as the sum of their abstract vectors. This way, all of the words, abstracts, and authors, can be projected into the same high-dimensional semantic space. As a result, it is possible to compute the semantic similarity between any word, abstract, or author. This blog explores some of these relationships.
 
 ## Top 10 abstracts
 
@@ -91,7 +93,7 @@ knitr::kable(top_10_articles_year)
 
 
 
-
+## References
 
 
 
