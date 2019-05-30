@@ -1,7 +1,7 @@
 ---
 title: "Semantic Librarian Blog"
 author: "Matt Crump"
-date: "`r format(Sys.time(), '%d %B, %Y')`"
+date: "Last update: `r format(Sys.time(), '%d %B, %Y')`"
 twitter: "https://twitter.com/MattCrump_"
 github: "https://github.com/CrumpLab"
 website: "https://crumplab.gihub.io"
@@ -89,9 +89,116 @@ top_10_articles_year <- article_df %>%
 knitr::kable(top_10_articles_year)
 ```
 
+Again, not really sure what to make of this list. Some of these papers are familiar to me, some are not. At the very least, this is a data-driven measure of something about these abstracts, but there were also many assumptions built into the construction of the semantic vectors, and it remains unclear how those assumptions would change the outcome here. Nevertheless, it is interesting to speculate that this kind of approach yields information about the quality of articles, in a similar way to the citation analysis used by @cho2012citation, to create a list of top papers in cognitive psychology. 
+
+## Semantically distinct abstracts
+
+5/30/2019
+
+What are the most semantically distinct abstracts? These might the abstracts with the lowest mean similarity to all other abstracts. In that sense, these abstracts are the ones that are furthest away from the others in semantic space; so they are distinct in terms of their differentness to the entire set. Let's look at the top 25 and see what we get.
+
+```{r}
+top_25_distinct <- article_df %>%
+                    arrange(mean_sim) %>%
+                    slice(1:25) %>%
+                    mutate(mean_sim = round(mean_sim,digits=3)) %>%
+                    select(title,authorlist,journal,year, mean_sim)
+knitr::kable(top_25_distinct)
+```
+
+Ok, not really what I was looking for, but sensible. The database contains many entries that are not normal abstracts for empirical papers. They could be editorials by incoming editors, obituaries, and apparently, abstracts not written in English. So, it makes sense that the abstracts above are the kind of abstracts that are most dissimilar to the entire set, which is mostly composed of abstracts for empirical papers.
+
+To look at the abstracts for regular articles, I suppose the database could be tagged, but there are too many entries for me to do that right now. Let's take a look at the distribution of mean similarity values first, and then perhaps decide to exclude the really rare and weird abstracts based on some exclusion criterion.
+
+```{r}
+library(ggplot2)
+ggplot(article_df, aes(x=mean_sim)) +
+  geom_histogram(bins=100, size=1, color="white") +
+  xlab("Mean Similarity")+
+  ggtitle("Histogram of mean similarity between each article and every other article")
+```
+
+It's too small to see, but there are some abstracts that span the range into the lower values. Let's take a look at the 25 articles with the lowest mean similarity, starting with a cutoff of .7.
+
+```{r}
+top_25_distinct <- article_df %>%
+                    arrange(mean_sim) %>%
+                    filter(mean_sim > .7) %>%
+                    slice(1:25) %>%
+                    mutate(mean_sim = round(mean_sim,digits=3)) %>%
+                    select(title,authorlist,journal,year, mean_sim)
+knitr::kable(top_25_distinct[1:5,])
+```
+
+
+I'll spare the reader, and only show the top 5--still abstracts not related to regular papers. Let's start at .8 instead.
+
+```{r}
+top_25_distinct <- article_df %>%
+                    arrange(mean_sim) %>%
+                    filter(mean_sim > .8) %>%
+                    slice(1:25) %>%
+                    mutate(mean_sim = round(mean_sim,digits=3)) %>%
+                    select(title,authorlist,journal,year, mean_sim)
+knitr::kable(top_25_distinct)
+```
+
+Ok, now we are starting to look at more regular articles. And, what do we see? It seems like mainly older articles. Perhaps not surprising. There are fewer of those in the set, and their abstract lengths are typically shorter than newer articles. 
+
+## Central articles and different metrics
+
+I previously used mean similarity to look at "central" articles. Let's use a few more descriptive statistics to get at similar issues. There's a whole bunch of things to try here. I'm going to start with two things. For example, what if we divide mean similarity, by the standard deviation? There's some good reasons to do that. But before that, let's look first at the standard deviation.
+
+### Articles with highest standard deviation
+
+Using the cosine similarity matrix, I computed the standard deviation of similiarity scores in each column. This gives a measure of dispersion for each article. What do the top 25 articles with the lowest standard deviation look like? Whatever these articles are, they are surrounded the most tightly by the other articles. 
+
+```{r}
+top_25_sd <- article_df %>%
+                    arrange(sd_sim) %>%
+                    slice(1:25) %>%
+                    mutate(sd_sim = round(sd_sim,digits=3)) %>%
+                    select(title,authorlist,journal,year, sd_sim)
+knitr::kable(top_25_sd)
+
+```
+
+Well, I don't think I'll be going and reading these articles. The top 25, with the lowest standard deviation appear to be mostly older papers.
+
+Now, what I really wanted to do was to divide the mean similarities, by the standard deviations; then looks at the papers with the highest values. Papers with the highest values will be the ones with larger mean similarity, and small standard deviation. These are the kinds of papers that are perhaps the most central inside the set. They are the closest to all other papers, and they surrounded more closely by the other papers.
+
+```{r}
+top_50_mean_sd <- article_df %>%
+                    mutate(mean_sd = mean_sim / sd_sim) %>%
+                    arrange(desc(mean_sd)) %>%
+                    slice(1:50) %>%
+                    mutate(mean_sd = round(mean_sd,digits=3)) %>%
+                    select(title,authorlist,journal,year, mean_sd)
+knitr::kable(top_50_mean_sd)
+
+```
+
+
+Huh. Wasn't expecting this kind of list. Lots of older papers, and a very different list from the earlier section looking at highest mean similarity. Still, curious to look at this same thing by year. So, the next table find the articles withe highest value (mean similarity divided by standard deviation) in each year. I'll show the last 50 years:
+
+```{r}
+
+top_50_articles_year <- article_df %>%
+                        mutate(mean_sd = mean_sim / sd_sim) %>%
+                        arrange(desc(year)) %>%
+                        group_by(year) %>%
+                        filter(mean_sd == max(mean_sd)) %>%
+                        ungroup() %>%
+                        slice(1:50) %>%
+                        select(title,authorlist,journal,year, mean_sd)
+
+knitr::kable(top_50_articles_year)
+```
 
 
 
+
+---
 
 ## References
 

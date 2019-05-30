@@ -1,5 +1,6 @@
 load("~/bigFiles/APA_sims.RData")
 
+# mean similarity to all other articles
 mean_sim <- colMeans(sims)
 article_df <- cbind(article_df,mean_sim)
 

@@ -518,7 +518,7 @@ div.tocify {
 <a  href="https://crumplab.gihub.io"><i class="fa fa-university"></i></a>
 </div>
 <h4 class="author">Matt Crump</h4>
-<h4 class="date">29 May, 2019</h4>
+<h4 class="date">Last update: 30 May, 2019</h4>
 
 </div>
 
@@ -1021,11 +1021,1424 @@ div.tocify {
 </tr>
 </tbody>
 </table>
+<p>Again, not really sure what to make of this list. Some of these papers are familiar to me, some are not. At the very least, this is a data-driven measure of something about these abstracts, but there were also many assumptions built into the construction of the semantic vectors, and it remains unclear how those assumptions would change the outcome here. Nevertheless, it is interesting to speculate that this kind of approach yields information about the quality of articles, in a similar way to the citation analysis used by <span class="citation">Cho, Tse, &amp; Neely (2012)</span>, to create a list of top papers in cognitive psychology.</p>
+</div>
+</div>
+<div id="semantically-distinct-abstracts" class="section level2">
+<h2>Semantically distinct abstracts</h2>
+<p>5/30/2019</p>
+<p>What are the most semantically distinct abstracts? These might the abstracts with the lowest mean similarity to all other abstracts. In that sense, these abstracts are the ones that are furthest away from the others in semantic space; so they are distinct in terms of their differentness to the entire set. Let’s look at the top 25 and see what we get.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">top_<span class="dv">25</span>_distinct &lt;-<span class="st"> </span>article_df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="st">                    </span><span class="kw">arrange</span>(mean_sim) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="st">                    </span><span class="kw">slice</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">25</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="st">                    </span><span class="kw">mutate</span>(<span class="dt">mean_sim =</span> <span class="kw">round</span>(mean_sim,<span class="dt">digits=</span><span class="dv">3</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="st">                    </span><span class="kw">select</span>(title,authorlist,journal,year, mean_sim)</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">knitr<span class="op">::</span><span class="kw">kable</span>(top_<span class="dv">25</span>_distinct)</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">title</th>
+<th align="left">authorlist</th>
+<th align="left">journal</th>
+<th align="right">year</th>
+<th align="right">mean_sim</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Pierre Janet: 1859-1947.</td>
+<td align="left">Guthrie, E. R.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1948</td>
+<td align="right">0.306</td>
+</tr>
+<tr class="even">
+<td align="left">Roswell Parker Angier.</td>
+<td align="left">Ross, Robert T.; Devening, Jean McQueen;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1947</td>
+<td align="right">0.309</td>
+</tr>
+<tr class="odd">
+<td align="left">George Sidney Brett, 1879-1944.</td>
+<td align="left">Irving, J. A.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1947</td>
+<td align="right">0.334</td>
+</tr>
+<tr class="even">
+<td align="left">Review Of Ueber Den Einfluss Von Lichtstärke Und Adaptation Auf Das Sehen Des Dichromaten (Grünblinderi).</td>
+<td align="left">No authorship indicated;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1896</td>
+<td align="right">0.334</td>
+</tr>
+<tr class="odd">
+<td align="left">Ueber Die Wirkung Kurzdauernder Lichtreize Auf Das Sehorgan.</td>
+<td align="left">Franklin, C. Ladd;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1896</td>
+<td align="right">0.353</td>
+</tr>
+<tr class="even">
+<td align="left">Kenneth W. Spence (1907-1967): Obituary.</td>
+<td align="left">KENDLER, HOWARD H.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1967</td>
+<td align="right">0.355</td>
+</tr>
+<tr class="odd">
+<td align="left">Report Of The Versammlung Deutscher Naturforscher Und Aerzte In Wien Vom 24-30 September, 1894; Section Fur Psychiatrie Und Neurologie.</td>
+<td align="left">No authorship indicated;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1895</td>
+<td align="right">0.363</td>
+</tr>
+<tr class="even">
+<td align="left">Grace Maxwell Fernald: 1879-1950.</td>
+<td align="left">Sullivan, Ellen B.; Dorcus, Roy M.; Allen, Bennet M.; Koontz, Louis K.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1950</td>
+<td align="right">0.373</td>
+</tr>
+<tr class="odd">
+<td align="left">Kurt Lewin: 1890-1947.</td>
+<td align="left">Tolman, Edward C.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1948</td>
+<td align="right">0.400</td>
+</tr>
+<tr class="even">
+<td align="left">Charles Hubbard Judd, 1873-1946.</td>
+<td align="left">Freeman, Frank N.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1947</td>
+<td align="right">0.417</td>
+</tr>
+<tr class="odd">
+<td align="left">Lillien Jane Martin, 1851-1943.</td>
+<td align="left">Fenton, N.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1943</td>
+<td align="right">0.419</td>
+</tr>
+<tr class="even">
+<td align="left">Comment On Zur Lehre Von Den Gemütfisbewegungen.</td>
+<td align="left">Titchener, E.B.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1895</td>
+<td align="right">0.420</td>
+</tr>
+<tr class="odd">
+<td align="left">Iv Congrès International De Psychologie, Paris, 1900; Compte Rendu Des Séances Et Texte Des Memoires.</td>
+<td align="left">Seashore, C.E.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1901</td>
+<td align="right">0.431</td>
+</tr>
+<tr class="even">
+<td align="left">Moshe Brill: 1910-1943.</td>
+<td align="left">Simon, E.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1944</td>
+<td align="right">0.432</td>
+</tr>
+<tr class="odd">
+<td align="left">Raymond Royce Willoughby: 1896-1944.</td>
+<td align="left">Hunt, J. Mcv.; Hunter, W. S.; Schlosberg, H.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1945</td>
+<td align="right">0.432</td>
+</tr>
+<tr class="even">
+<td align="left">Canadian Theses In Psychology, 1951.</td>
+<td align="left">Nolast, Nofirst</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1952</td>
+<td align="right">0.444</td>
+</tr>
+<tr class="odd">
+<td align="left">Éditorial. = Editorial.</td>
+<td align="left">Dowell, Peter C.; Donald, Merlin W.; Pinard, Adrien</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1978</td>
+<td align="right">0.453</td>
+</tr>
+<tr class="even">
+<td align="left">Review Of Sur Une Forme Spéciale D’Hémianopsie Fonctionnelle Dans La Neurasthénie Et La Névrose Traumatique.</td>
+<td align="left">Meyer, A.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1895</td>
+<td align="right">0.455</td>
+</tr>
+<tr class="odd">
+<td align="left">Review Of Zur Psychologie Der Gebundenen Und Der Freien Wortstellung.</td>
+<td align="left">No authorship indicated;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1903</td>
+<td align="right">0.458</td>
+</tr>
+<tr class="even">
+<td align="left">Charles Samuel Myers, 1873-1946.</td>
+<td align="left">Viteles, Morris S.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1947</td>
+<td align="right">0.468</td>
+</tr>
+<tr class="odd">
+<td align="left">Editorial.</td>
+<td align="left">Dodwell, Peter C.; Donald, Merlin W.; Pinard, Adrien</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1978</td>
+<td align="right">0.473</td>
+</tr>
+<tr class="even">
+<td align="left">An Improved System Of Kymographic Recording.</td>
+<td align="left">Krueger, R. G.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1931</td>
+<td align="right">0.476</td>
+</tr>
+<tr class="odd">
+<td align="left">Analytical.</td>
+<td align="left">Singer, Edgar A. Jr.; Calkins, Mary Whiton;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1900</td>
+<td align="right">0.483</td>
+</tr>
+<tr class="even">
+<td align="left">Abstracts Of The 2009 Csbbcs Annual Meeting.</td>
+<td align="left">Nolast, Nofirst</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">2009</td>
+<td align="right">0.492</td>
+</tr>
+<tr class="odd">
+<td align="left">Ueber Den Einfluss Der Geschwindigkeit Des Pulses Auf Die Zeitdauer Der Reactionszeit Bei Schalleindrücken And Ueber Den Einfluss Der Geschwindigkeit Des Pulses Auf Die Zeitdauer Der Reactionszeit Bei Licht Und Tasteindrucken.</td>
+<td align="left">Witmer, Lightner;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1895</td>
+<td align="right">0.509</td>
+</tr>
+</tbody>
+</table>
+<p>Ok, not really what I was looking for, but sensible. The database contains many entries that are not normal abstracts for empirical papers. They could be editorials by incoming editors, obituaries, and apparently, abstracts not written in English. So, it makes sense that the abstracts above are the kind of abstracts that are most dissimilar to the entire set, which is mostly composed of abstracts for empirical papers.</p>
+<p>To look at the abstracts for regular articles, I suppose the database could be tagged, but there are too many entries for me to do that right now. Let’s take a look at the distribution of mean similarity values first, and then perhaps decide to exclude the really rare and weird abstracts based on some exclusion criterion.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">ggplot</span>(article_df, <span class="kw">aes</span>(<span class="dt">x=</span>mean_sim)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins=</span><span class="dv">100</span>, <span class="dt">size=</span><span class="dv">1</span>, <span class="dt">color=</span><span class="st">&quot;white&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Mean Similarity&quot;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Histogram of mean similarity between each article and every other article&quot;</span>)</a></code></pre></div>
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>It’s too small to see, but there are some abstracts that span the range into the lower values. Let’s take a look at the 25 articles with the lowest mean similarity, starting with a cutoff of .7.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">top_<span class="dv">25</span>_distinct &lt;-<span class="st"> </span>article_df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="st">                    </span><span class="kw">arrange</span>(mean_sim) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="st">                    </span><span class="kw">filter</span>(mean_sim <span class="op">&gt;</span><span class="st"> </span><span class="fl">.7</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="st">                    </span><span class="kw">slice</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">25</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="st">                    </span><span class="kw">mutate</span>(<span class="dt">mean_sim =</span> <span class="kw">round</span>(mean_sim,<span class="dt">digits=</span><span class="dv">3</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="st">                    </span><span class="kw">select</span>(title,authorlist,journal,year, mean_sim)</a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">knitr<span class="op">::</span><span class="kw">kable</span>(top_<span class="dv">25</span>_distinct[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,])</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">title</th>
+<th align="left">authorlist</th>
+<th align="left">journal</th>
+<th align="right">year</th>
+<th align="right">mean_sim</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Editorial.</td>
+<td align="left">Pexman, Penny</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">2014</td>
+<td align="right">0.702</td>
+</tr>
+<tr class="even">
+<td align="left">Notes.</td>
+<td align="left">No authorship indicated;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1898</td>
+<td align="right">0.702</td>
+</tr>
+<tr class="odd">
+<td align="left">Did Fechner Measure Sensation?</td>
+<td align="left">Boring, E. G.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1928</td>
+<td align="right">0.705</td>
+</tr>
+<tr class="even">
+<td align="left">Editorial Announcement: Resignation Of Dr. John A. Long.</td>
+<td align="left">Williams, D. C.</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1953</td>
+<td align="right">0.705</td>
+</tr>
+<tr class="odd">
+<td align="left">The Parrish Laboratories Of Psychology At Randolph-Macon Woman’S College.</td>
+<td align="left">Peak, H.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1939</td>
+<td align="right">0.705</td>
+</tr>
+</tbody>
+</table>
+<p>I’ll spare the reader, and only show the top 5–still abstracts not related to regular papers. Let’s start at .8 instead.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">top_<span class="dv">25</span>_distinct &lt;-<span class="st"> </span>article_df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="st">                    </span><span class="kw">arrange</span>(mean_sim) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="st">                    </span><span class="kw">filter</span>(mean_sim <span class="op">&gt;</span><span class="st"> </span><span class="fl">.8</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="st">                    </span><span class="kw">slice</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">25</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="st">                    </span><span class="kw">mutate</span>(<span class="dt">mean_sim =</span> <span class="kw">round</span>(mean_sim,<span class="dt">digits=</span><span class="dv">3</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="st">                    </span><span class="kw">select</span>(title,authorlist,journal,year, mean_sim)</a>
+<a class="sourceLine" id="cb7-7" data-line-number="7">knitr<span class="op">::</span><span class="kw">kable</span>(top_<span class="dv">25</span>_distinct)</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">title</th>
+<th align="left">authorlist</th>
+<th align="left">journal</th>
+<th align="right">year</th>
+<th align="right">mean_sim</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Zur Frage Über Die Freiheit Des Willens.</td>
+<td align="left">No authorship indicated;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1895</td>
+<td align="right">0.800</td>
+</tr>
+<tr class="even">
+<td align="left">Taste Preconditioning Augments Odor-Aversion Learning.</td>
+<td align="left">Batsell, W. Robert Jr.; Paschall, Gayla Y.; Gleason, Dorothy I.; Batson, John D.;</td>
+<td align="left">Journal Of Experimental Psychology: Animal Behavior Processes</td>
+<td align="right">2001</td>
+<td align="right">0.800</td>
+</tr>
+<tr class="odd">
+<td align="left">Postscript.</td>
+<td align="left">Juslin, Peter; Olsson, Henrik;</td>
+<td align="left">Psychological Review</td>
+<td align="right">2005</td>
+<td align="right">0.800</td>
+</tr>
+<tr class="even">
+<td align="left">Review Of The Child In Hospital.</td>
+<td align="left">Grant, Marion E.</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1960</td>
+<td align="right">0.800</td>
+</tr>
+<tr class="odd">
+<td align="left">Extinction As A Function Of Partial Reinforcement And Distribution Of Practice.</td>
+<td align="left">Sheffield, Virginia F.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1949</td>
+<td align="right">0.800</td>
+</tr>
+<tr class="even">
+<td align="left">Studies On The Psychophysiology Of Boredom: Part I. The Effect Of 15 Mgs. Of Benzedrine Sulfate And 60 Mgs. Of Ephedrine Hydrochloride On Blood Pressure, Report Of Boredom And Other Factors.</td>
+<td align="left">Barmack, J. E.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1939</td>
+<td align="right">0.800</td>
+</tr>
+<tr class="odd">
+<td align="left">Memory For The Content Of Caches By Scrub Jays (Aphelocoma Coerulescens).</td>
+<td align="left">Clayton, Nicola S.; Dickinson, Anthony;</td>
+<td align="left">Journal Of Experimental Psychology: Animal Behavior Processes</td>
+<td align="right">1999</td>
+<td align="right">0.800</td>
+</tr>
+<tr class="even">
+<td align="left">A Quadrant Tachistoscope For Studying The Legibility Of Chinese Characters.</td>
+<td align="left">Chou, S. K.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1929</td>
+<td align="right">0.800</td>
+</tr>
+<tr class="odd">
+<td align="left">Glass-Capillary Ink-Writing Markers For Use In Kymograph Recording.</td>
+<td align="left">Smith, K. U.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1938</td>
+<td align="right">0.800</td>
+</tr>
+<tr class="even">
+<td align="left">Psychological Literature: Educational.</td>
+<td align="left">Butler, Nicholas Murray;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1894</td>
+<td align="right">0.800</td>
+</tr>
+<tr class="odd">
+<td align="left">Errors In The Critiques Of Gestalt Psychology. Iv. Inconsistencies In Woodworth, Spearman And Mcdougall.</td>
+<td align="left">Wheeler, Raymond H.; Perkins, F. Theodore; Bartley, S. Howard;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1933</td>
+<td align="right">0.801</td>
+</tr>
+<tr class="even">
+<td align="left">The Effects Of Drugs On A Conditioned Avoidance Response.</td>
+<td align="left">Mcmurray, Gordon A.; Jaques, L. B.</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1959</td>
+<td align="right">0.801</td>
+</tr>
+<tr class="odd">
+<td align="left">Improved Forms Of Steadiness Tester And Tapping Plate.</td>
+<td align="left">Dunlap, K.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1921</td>
+<td align="right">0.801</td>
+</tr>
+<tr class="even">
+<td align="left">The Use Of The Illumination Scale For The Detection Of Small Errors In Refraction And In Their Correction.</td>
+<td align="left">Ferree, C. E.; Rand, Gertrude</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1920</td>
+<td align="right">0.801</td>
+</tr>
+<tr class="odd">
+<td align="left">Giving Flesh To A ‘Straw Man’: A Reply To Feeney, Pittman, And Wagner.</td>
+<td align="left">Walley, Roc E.; Weiden, Theodore D.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1974</td>
+<td align="right">0.801</td>
+</tr>
+<tr class="even">
+<td align="left">Review Of Studies In The Field Of Sociometry.</td>
+<td align="left">Neal, Leola E.</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1947</td>
+<td align="right">0.801</td>
+</tr>
+<tr class="odd">
+<td align="left">Language, Psychology And Linguistics.</td>
+<td align="left">Olmsted, David L.; Moore, Omar Khayyam;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1952</td>
+<td align="right">0.801</td>
+</tr>
+<tr class="even">
+<td align="left">Review Of Ueber Die Beziehungen Zwischen Ermudung, Raumsinn Der Haut, Und Muskelleistung.</td>
+<td align="left">Lovell, G. B.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1903</td>
+<td align="right">0.801</td>
+</tr>
+<tr class="odd">
+<td align="left">Supplementary Report: Partial Reinforcement And Amount Of Reinforcement As Determinants Of Instrumental Licking Rates.</td>
+<td align="left">Hulse, Stewart H.; Bacon, W. Edward</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1962</td>
+<td align="right">0.801</td>
+</tr>
+<tr class="even">
+<td align="left">Anagram Solution Times: A Function Of Individual Differences In Stored Digram Frequencies.</td>
+<td align="left">Tresselt, M. E.; Mayzner, M. S.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1965</td>
+<td align="right">0.801</td>
+</tr>
+<tr class="odd">
+<td align="left">The Relative Sweetness Of Sugars: Sucrose And Dextrose.</td>
+<td align="left">Lichtenstein, P. E.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1948</td>
+<td align="right">0.801</td>
+</tr>
+<tr class="even">
+<td align="left">National Research Council Associate Committee On Applied Psychology.</td>
+<td align="left">Ault, O. E.</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1948</td>
+<td align="right">0.801</td>
+</tr>
+<tr class="odd">
+<td align="left">Suggestions Towards The Reorganization Of Courses In Psychology.</td>
+<td align="left">Dashiell, J. F.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1924</td>
+<td align="right">0.801</td>
+</tr>
+<tr class="even">
+<td align="left">Review Of Learning Theory, Personality Theory And Clinical Research: The Kentucky Symposium.</td>
+<td align="left">Ketchum, J. D.</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1955</td>
+<td align="right">0.801</td>
+</tr>
+<tr class="odd">
+<td align="left">Review Of The Foundations Of Belief.</td>
+<td align="left">Duncan, Geo. M.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1895</td>
+<td align="right">0.802</td>
+</tr>
+</tbody>
+</table>
+<p>Ok, now we are starting to look at more regular articles. And, what do we see? It seems like mainly older articles. Perhaps not surprising. There are fewer of those in the set, and their abstract lengths are typically shorter than newer articles.</p>
+</div>
+<div id="central-articles-and-different-metrics" class="section level2">
+<h2>Central articles and different metrics</h2>
+<p>I previously used mean similarity to look at “central” articles. Let’s use a few more descriptive statistics to get at similar issues. There’s a whole bunch of things to try here. I’m going to start with two things. For example, what if we divide mean similarity, by the standard deviation? There’s some good reasons to do that. But before that, let’s look first at the standard deviation.</p>
+<div id="articles-with-highest-standard-deviation" class="section level3">
+<h3>Articles with highest standard deviation</h3>
+<p>Using the cosine similarity matrix, I computed the standard deviation of similiarity scores in each column. This gives a measure of dispersion for each article. What do the top 25 articles with the lowest standard deviation look like? Whatever these articles are, they are surrounded the most tightly by the other articles.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">top_<span class="dv">25</span>_sd &lt;-<span class="st"> </span>article_df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="st">                    </span><span class="kw">arrange</span>(sd_sim) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="st">                    </span><span class="kw">slice</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">25</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="st">                    </span><span class="kw">mutate</span>(<span class="dt">sd_sim =</span> <span class="kw">round</span>(sd_sim,<span class="dt">digits=</span><span class="dv">3</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="st">                    </span><span class="kw">select</span>(title,authorlist,journal,year, sd_sim)</a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">knitr<span class="op">::</span><span class="kw">kable</span>(top_<span class="dv">25</span>_sd)</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">title</th>
+<th align="left">authorlist</th>
+<th align="left">journal</th>
+<th align="right">year</th>
+<th align="right">sd_sim</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Roswell Parker Angier.</td>
+<td align="left">Ross, Robert T.; Devening, Jean McQueen;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1947</td>
+<td align="right">0.024</td>
+</tr>
+<tr class="even">
+<td align="left">An Improved System Of Kymographic Recording.</td>
+<td align="left">Krueger, R. G.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1931</td>
+<td align="right">0.024</td>
+</tr>
+<tr class="odd">
+<td align="left">Charles Samuel Myers, 1873-1946.</td>
+<td align="left">Viteles, Morris S.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1947</td>
+<td align="right">0.024</td>
+</tr>
+<tr class="even">
+<td align="left">‘The Effects Of Rocking On The State And Respiration Of Normal And Excessive Cryers’: Erratum.</td>
+<td align="left">Elliott, M. Ruth; Fisher, Kimberly; Ames, Elinor W.</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1988</td>
+<td align="right">0.025</td>
+</tr>
+<tr class="odd">
+<td align="left">Review Of Sur Une Forme Spéciale D’Hémianopsie Fonctionnelle Dans La Neurasthénie Et La Névrose Traumatique.</td>
+<td align="left">Meyer, A.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1895</td>
+<td align="right">0.025</td>
+</tr>
+<tr class="even">
+<td align="left">Pathological.</td>
+<td align="left">Delabarre, E. B.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1894</td>
+<td align="right">0.026</td>
+</tr>
+<tr class="odd">
+<td align="left">A Simple Cutter Of Cardboard Discs With Or Without Center Holes.</td>
+<td align="left">Givler, R. C.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1942</td>
+<td align="right">0.026</td>
+</tr>
+<tr class="even">
+<td align="left">Review Of Ueber Die Wirkung Des Eucain B Auf Die Geschmacksorgane.</td>
+<td align="left">Gamble, E. A. McC.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1903</td>
+<td align="right">0.026</td>
+</tr>
+<tr class="odd">
+<td align="left">An Inexpensive Voice Relay For Use With The Electronic Chronoscope.</td>
+<td align="left">Hamburger, F. Jr.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1939</td>
+<td align="right">0.026</td>
+</tr>
+<tr class="even">
+<td align="left">The Effects Of Rocking On The State And Respiration Of Normal And Excessive Cryers.</td>
+<td align="left">Elliott, M. Ruth; Fisher, Kimberly; Ames, Elinor W.</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1988</td>
+<td align="right">0.026</td>
+</tr>
+<tr class="odd">
+<td align="left">Carl Emil Seashore: 1866-1949.</td>
+<td align="left">Tiffin, Joseph;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1950</td>
+<td align="right">0.027</td>
+</tr>
+<tr class="even">
+<td align="left">The Bentonite Electrode.</td>
+<td align="left">Leshan, L.; Farber, A.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1946</td>
+<td align="right">0.027</td>
+</tr>
+<tr class="odd">
+<td align="left">Ein Einfacher Apparat Zur Bestimmung Der Empfindlichkeit Von Temperaturpunkten.</td>
+<td align="left">Franz, Shepherd Ivory;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1899</td>
+<td align="right">0.027</td>
+</tr>
+<tr class="even">
+<td align="left">Obituary To Frederico Kiesow, 1858-1941.</td>
+<td align="left">Ponzo, M.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1941</td>
+<td align="right">0.027</td>
+</tr>
+<tr class="odd">
+<td align="left">A Study Of The Sense Epithets Of Shelley And Keats.</td>
+<td align="left">Bliss, Charles B.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1899</td>
+<td align="right">0.027</td>
+</tr>
+<tr class="even">
+<td align="left">Neue Versuche Über Intermittende Gesichtsreize.</td>
+<td align="left">Tawney, G. A.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1897</td>
+<td align="right">0.027</td>
+</tr>
+<tr class="odd">
+<td align="left">Charles Hubbard Judd, 1873-1946.</td>
+<td align="left">Freeman, Frank N.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1947</td>
+<td align="right">0.027</td>
+</tr>
+<tr class="even">
+<td align="left">A Poet’S Portrayal Of Emotion.</td>
+<td align="left">Russell, F. T.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1921</td>
+<td align="right">0.027</td>
+</tr>
+<tr class="odd">
+<td align="left">[Review Of Zur Kenntniss Des Einflusses Einiger Psychischer Zustände Auf Die Athmung And Ueber Den Einfluss Einiger Psychischer Zustande Auf Kniephänomen Und Muskeltonus].</td>
+<td align="left">Woodworth, R. S.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1901</td>
+<td align="right">0.028</td>
+</tr>
+<tr class="even">
+<td align="left">Experimentelle Untersuchungen Über Die Gefühlsbetonung Der Farben, Helligkeiten, Und Ihrer Combinationen.</td>
+<td align="left">Delabarre, E. B.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1895</td>
+<td align="right">0.028</td>
+</tr>
+<tr class="odd">
+<td align="left">Civilian To Soldier: Three Sociological Studies Of Infantry Recruit Training.</td>
+<td align="left">Solomon, David D.</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1954</td>
+<td align="right">0.028</td>
+</tr>
+<tr class="even">
+<td align="left">Ueber Den Einfluss Der Geschwindigkeit Des Pulses Auf Die Zeitdauer Der Reactionszeit Bei Schalleindrücken And Ueber Den Einfluss Der Geschwindigkeit Des Pulses Auf Die Zeitdauer Der Reactionszeit Bei Licht Und Tasteindrucken.</td>
+<td align="left">Witmer, Lightner;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1895</td>
+<td align="right">0.028</td>
+</tr>
+<tr class="odd">
+<td align="left">Review Of Ueber Die Motorische Einstellung.</td>
+<td align="left">Delabarre, E. B.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1901</td>
+<td align="right">0.028</td>
+</tr>
+<tr class="even">
+<td align="left">Review Of Sur Le Mode De So Comporter Des Différentes Sensibilités Sous L’Action De Divers Agents.</td>
+<td align="left">Dearborn, George V. N.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1900</td>
+<td align="right">0.028</td>
+</tr>
+<tr class="odd">
+<td align="left">Review Of Telepathic Dreams Experimentally Induced.</td>
+<td align="left">No authorship indicated;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1896</td>
+<td align="right">0.028</td>
+</tr>
+</tbody>
+</table>
+<p>Well, I don’t think I’ll be going and reading these articles. The top 25, with the lowest standard deviation appear to be mostly older papers.</p>
+<p>Now, what I really wanted to do was to divide the mean similarities, by the standard deviations; then looks at the papers with the highest values. Papers with the highest values will be the ones with larger mean similarity, and small standard deviation. These are the kinds of papers that are perhaps the most central inside the set. They are the closest to all other papers, and they surrounded more closely by the other papers.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">top_<span class="dv">50</span>_mean_sd &lt;-<span class="st"> </span>article_df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="st">                    </span><span class="kw">mutate</span>(<span class="dt">mean_sd =</span> mean_sim <span class="op">/</span><span class="st"> </span>sd_sim) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="st">                    </span><span class="kw">arrange</span>(<span class="kw">desc</span>(mean_sd)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="st">                    </span><span class="kw">slice</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">50</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="st">                    </span><span class="kw">mutate</span>(<span class="dt">mean_sd =</span> <span class="kw">round</span>(mean_sd,<span class="dt">digits=</span><span class="dv">3</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="st">                    </span><span class="kw">select</span>(title,authorlist,journal,year, mean_sd)</a>
+<a class="sourceLine" id="cb9-7" data-line-number="7">knitr<span class="op">::</span><span class="kw">kable</span>(top_<span class="dv">50</span>_mean_sd)</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">title</th>
+<th align="left">authorlist</th>
+<th align="left">journal</th>
+<th align="right">year</th>
+<th align="right">mean_sd</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">‘The Effects Of Rocking On The State And Respiration Of Normal And Excessive Cryers’: Erratum.</td>
+<td align="left">Elliott, M. Ruth; Fisher, Kimberly; Ames, Elinor W.</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1988</td>
+<td align="right">30.815</td>
+</tr>
+<tr class="even">
+<td align="left">Pathological.</td>
+<td align="left">Delabarre, E. B.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1894</td>
+<td align="right">30.262</td>
+</tr>
+<tr class="odd">
+<td align="left">Untersuchungen Über Temperaturempfindungen.</td>
+<td align="left">Tawney, Guy;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1896</td>
+<td align="right">29.742</td>
+</tr>
+<tr class="even">
+<td align="left">Review Of Ueber Die Motorische Einstellung.</td>
+<td align="left">Delabarre, E. B.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1901</td>
+<td align="right">29.652</td>
+</tr>
+<tr class="odd">
+<td align="left">The Popular Aesthetics Of Color.</td>
+<td align="left">Quantz, J. O.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1897</td>
+<td align="right">29.607</td>
+</tr>
+<tr class="even">
+<td align="left">Ueber Die Becinflussung Einfacher Psychischer Vorgänge Durch Korperliche Und Geistige Arbeit.</td>
+<td align="left">Warren, H. C.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1895</td>
+<td align="right">29.445</td>
+</tr>
+<tr class="odd">
+<td align="left">Review Of Zur Qualitativen Untersuchung Der Association And Experimentelle Untersuchungen Über Associationen.</td>
+<td align="left">Calkins, Mary Whiton;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1901</td>
+<td align="right">29.437</td>
+</tr>
+<tr class="even">
+<td align="left">Experimentelle Studien Über Associationen. I. Theil. Die Associationen Im Normalen Zustande.</td>
+<td align="left">Calkins, Mary Whiton;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1897</td>
+<td align="right">29.421</td>
+</tr>
+<tr class="odd">
+<td align="left">Edwin Burket Twitmyer: 1873-1943.</td>
+<td align="left">Fernberger, S. W.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1943</td>
+<td align="right">29.417</td>
+</tr>
+<tr class="even">
+<td align="left">Éditorial. = Editorial.</td>
+<td align="left">Winocur, Gordon</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1991</td>
+<td align="right">29.390</td>
+</tr>
+<tr class="odd">
+<td align="left">Der Stundenplan.</td>
+<td align="left">Jones, Guernsey;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1897</td>
+<td align="right">29.367</td>
+</tr>
+<tr class="even">
+<td align="left">Six Reviews Of Articles On Mental Fatigue And Performance.</td>
+<td align="left">Franz, Shepherd Ivory;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1897</td>
+<td align="right">29.357</td>
+</tr>
+<tr class="odd">
+<td align="left">The Effects Of Rocking On The State And Respiration Of Normal And Excessive Cryers.</td>
+<td align="left">Elliott, M. Ruth; Fisher, Kimberly; Ames, Elinor W.</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1988</td>
+<td align="right">29.345</td>
+</tr>
+<tr class="even">
+<td align="left">Editorial.</td>
+<td align="left">Winocur, Gordon</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1991</td>
+<td align="right">29.339</td>
+</tr>
+<tr class="odd">
+<td align="left">Review Of Quelques Observations Expérimentales Sur L’Influence De L’Insomnie Absolute.</td>
+<td align="left">No authorship indicated;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1895</td>
+<td align="right">29.331</td>
+</tr>
+<tr class="even">
+<td align="left">Carl Emil Seashore: 1866-1949.</td>
+<td align="left">Tiffin, Joseph;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1950</td>
+<td align="right">29.206</td>
+</tr>
+<tr class="odd">
+<td align="left">La Consommation Du Pain Pendant Une Année Scholaire.</td>
+<td align="left">No authorship indicated;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1898</td>
+<td align="right">29.189</td>
+</tr>
+<tr class="even">
+<td align="left">Psychological Parerga: Iii. Association Type And Personality.</td>
+<td align="left">Wells, F. L.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1919</td>
+<td align="right">29.145</td>
+</tr>
+<tr class="odd">
+<td align="left">Clarence Stone Yoakum: 1879-1945.</td>
+<td align="left">Pillsbury, W. B.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1946</td>
+<td align="right">29.138</td>
+</tr>
+<tr class="even">
+<td align="left">Fatigue.</td>
+<td align="left">MacDougall, R.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1899</td>
+<td align="right">29.104</td>
+</tr>
+<tr class="odd">
+<td align="left">Neue Versuche Über Intermittende Gesichtsreize.</td>
+<td align="left">Tawney, G. A.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1897</td>
+<td align="right">29.092</td>
+</tr>
+<tr class="even">
+<td align="left">Civilian To Soldier: Three Sociological Studies Of Infantry Recruit Training.</td>
+<td align="left">Solomon, David D.</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1954</td>
+<td align="right">29.049</td>
+</tr>
+<tr class="odd">
+<td align="left">Review Of Ein Neuer Fallapparat Zur Kontrolle Des Chronoscops.</td>
+<td align="left">Steele, W. M.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1903</td>
+<td align="right">29.039</td>
+</tr>
+<tr class="even">
+<td align="left">Note On The Rapidity Of Dreams.</td>
+<td align="left">Woodworth, R. S.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1897</td>
+<td align="right">29.024</td>
+</tr>
+<tr class="odd">
+<td align="left">Two Cases Of Synæsthesia.</td>
+<td align="left">Lay, Wilfrid;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1900</td>
+<td align="right">28.990</td>
+</tr>
+<tr class="even">
+<td align="left">Review Of Untersuchungen Über Die Sinnesfunctionen Der Menschlichen Haut. Erste Abhandlung; Druckempfindung Und Schmerz.</td>
+<td align="left">Griffing, Harold;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1897</td>
+<td align="right">28.973</td>
+</tr>
+<tr class="odd">
+<td align="left">The Home And Family Background Of Ottawa Public School Children In Relation To Their Iq’S.</td>
+<td align="left">Robbins, John E.</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1948</td>
+<td align="right">28.967</td>
+</tr>
+<tr class="even">
+<td align="left">Ueber Unwillkürliches Flüstern, Eine Kritische Und Experimentelle Untersuchung Der Sogenannten Gedankenübertragung.</td>
+<td align="left">No authorship indicated;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1896</td>
+<td align="right">28.804</td>
+</tr>
+<tr class="odd">
+<td align="left">Review Of Sur Le Mode De So Comporter Des Différentes Sensibilités Sous L’Action De Divers Agents.</td>
+<td align="left">Dearborn, George V. N.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1900</td>
+<td align="right">28.793</td>
+</tr>
+<tr class="even">
+<td align="left">‘On Central And Autonomic Nervous System Mechanisms In Conditioning, Learning, And Performance’: Erratum.</td>
+<td align="left">Malmo, R. B.</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1964</td>
+<td align="right">28.722</td>
+</tr>
+<tr class="odd">
+<td align="left">The Use Of Psychological Tests In Psychosomatic Research.</td>
+<td align="left">Poser, E. G.</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1953</td>
+<td align="right">28.669</td>
+</tr>
+<tr class="even">
+<td align="left">Review Of Experimentelle Unterstuhungen Über Die Helligkeit Der Farben, Unterstuhungen Über Den Lichtsinn, Zur Lehre Von Den Gesichtsempfindungen Welche Aus Successiven Reizen Resultiren, The Use Of The Rotating Sectored Disk In Photometry, And Ueber Den Kieinsten Gesichtswinkel.</td>
+<td align="left">Franklin, C. L.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1894</td>
+<td align="right">28.665</td>
+</tr>
+<tr class="odd">
+<td align="left">Pattern Preference As A Function Of Pattern Uncertainty.</td>
+<td align="left">Dorfman, Donald D.; Mckenna, Helen</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1966</td>
+<td align="right">28.581</td>
+</tr>
+<tr class="even">
+<td align="left">Psychological Literature: Lesions Of The Cortical Nerve Cell In Alcoholism.</td>
+<td align="left">Farrand, Livingston;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1896</td>
+<td align="right">28.555</td>
+</tr>
+<tr class="odd">
+<td align="left">Review Of Ueber Die Percipirende Schicht Der Netzhaut Beim Menschen.</td>
+<td align="left">No authorship indicated;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1895</td>
+<td align="right">28.542</td>
+</tr>
+<tr class="even">
+<td align="left">Review Of Adolescent Aggression.</td>
+<td align="left">Callagan, John E.</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1960</td>
+<td align="right">28.542</td>
+</tr>
+<tr class="odd">
+<td align="left">Review Of Beiträge Zur Lehre Von Der Klangwahrnehmung, Phonophotographische Mittheilungen, And A Study Of The Sense Of Equilibrium In Fishes.</td>
+<td align="left">Angell, F.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1895</td>
+<td align="right">28.538</td>
+</tr>
+<tr class="even">
+<td align="left">Review Of Effect On The Persistence Of Vision Of Exposing The Eye To Light Of Various Wave-Lengths.</td>
+<td align="left">Franklin, C. L.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1901</td>
+<td align="right">28.536</td>
+</tr>
+<tr class="odd">
+<td align="left">Review Of Rorschach Introductory Manual.</td>
+<td align="left">Warner, Doris C.</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1952</td>
+<td align="right">28.472</td>
+</tr>
+<tr class="even">
+<td align="left">Ueber Eine Neue Methode Zur Prüfung Geistiger Fähigkeiten Und Ihre Anwendung Bei Schulkindern.</td>
+<td align="left">No authorship indicated;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1897</td>
+<td align="right">28.471</td>
+</tr>
+<tr class="odd">
+<td align="left">Concerning Art Standards.</td>
+<td align="left">Farnsworth, P. R.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1926</td>
+<td align="right">28.467</td>
+</tr>
+<tr class="even">
+<td align="left">Review Of Experimentelle Untersuchnngen Zur Associationslehre.</td>
+<td align="left">Bawden, H. Heath;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1902</td>
+<td align="right">28.453</td>
+</tr>
+<tr class="odd">
+<td align="left">Pendulum Chronoscopes And Accessories For Psychological Experimentation.</td>
+<td align="left">Bergstrom, John A.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1910</td>
+<td align="right">28.444</td>
+</tr>
+<tr class="even">
+<td align="left">Review Of A Note On The Phenomena Of Mescal Intoxication.</td>
+<td align="left">Franklin, C. Ladd;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1897</td>
+<td align="right">28.414</td>
+</tr>
+<tr class="odd">
+<td align="left">Review Of The Daily Life Of A Protozoan: A Study In Comparative Psycho-Physiology.</td>
+<td align="left">No authorship indicated;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1895</td>
+<td align="right">28.351</td>
+</tr>
+<tr class="even">
+<td align="left">Device For Low-Potential Current In The Psychological Laboratory.</td>
+<td align="left">Macfarlane, D. A.; Rooney, J. S.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1923</td>
+<td align="right">28.351</td>
+</tr>
+<tr class="odd">
+<td align="left">On The Professional Training Of Psychologists.</td>
+<td align="left">Hunter, W. S.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1941</td>
+<td align="right">28.340</td>
+</tr>
+<tr class="even">
+<td align="left">Community Of Ideas Of Men And Women.</td>
+<td align="left">Calkins, Mary Whiton;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1896</td>
+<td align="right">28.327</td>
+</tr>
+<tr class="odd">
+<td align="left">The Second Year At The Yale Laboratory.</td>
+<td align="left">Scripture, E. W.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1895</td>
+<td align="right">28.315</td>
+</tr>
+<tr class="even">
+<td align="left">Clarification To Mingle Et Al. (2014).</td>
+<td align="left">No authorship indicated;</td>
+<td align="left">Journal Of Experimental Psychology: Animal Learning And Cognition</td>
+<td align="right">2014</td>
+<td align="right">28.312</td>
+</tr>
+</tbody>
+</table>
+<p>Huh. Wasn’t expecting this kind of list. Lots of older papers, and a very different list from the earlier section looking at highest mean similarity. Still, curious to look at this same thing by year. So, the next table find the articles withe highest value (mean similarity divided by standard deviation) in each year. I’ll show the last 50 years:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">top_<span class="dv">50</span>_articles_year &lt;-<span class="st"> </span>article_df <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="st">                        </span><span class="kw">mutate</span>(<span class="dt">mean_sd =</span> mean_sim <span class="op">/</span><span class="st"> </span>sd_sim) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="st">                        </span><span class="kw">arrange</span>(<span class="kw">desc</span>(year)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="st">                        </span><span class="kw">group_by</span>(year) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="st">                        </span><span class="kw">filter</span>(mean_sd <span class="op">==</span><span class="st"> </span><span class="kw">max</span>(mean_sd)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="st">                        </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="st">                        </span><span class="kw">slice</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">50</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="st">                        </span><span class="kw">select</span>(title,authorlist,journal,year, mean_sd)</a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10">knitr<span class="op">::</span><span class="kw">kable</span>(top_<span class="dv">50</span>_articles_year)</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">title</th>
+<th align="left">authorlist</th>
+<th align="left">journal</th>
+<th align="right">year</th>
+<th align="right">mean_sd</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Media Coverage Of ‘Wise’ Interventions Can Reduce Concern For The Disadvantaged.</td>
+<td align="left">Ikizer, Elif G.; Blanton, Hart;</td>
+<td align="left">Journal Of Experimental Psychology: Applied</td>
+<td align="right">2016</td>
+<td align="right">25.34518</td>
+</tr>
+<tr class="even">
+<td align="left">Prosocial Behavior Leads To Happiness In A Small-Scale Rural Society.</td>
+<td align="left">Aknin, Lara B.; Broesch, Tanya; Hamlin, J. Kiley; Van De Vondervoort, Julia W.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">2015</td>
+<td align="right">26.15896</td>
+</tr>
+<tr class="odd">
+<td align="left">Clarification To Mingle Et Al. (2014).</td>
+<td align="left">No authorship indicated;</td>
+<td align="left">Journal Of Experimental Psychology: Animal Learning And Cognition</td>
+<td align="right">2014</td>
+<td align="right">28.31157</td>
+</tr>
+<tr class="even">
+<td align="left">Corrections To Raaijmakers (2003).</td>
+<td align="left">Raaijmakers, Jeroen G. W.</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">2013</td>
+<td align="right">26.38156</td>
+</tr>
+<tr class="odd">
+<td align="left">The End Justifies The Means, But Only In The Middle.</td>
+<td align="left">Touré-Tillery, Maferima; Fishbach, Ayelet</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">2012</td>
+<td align="right">26.34872</td>
+</tr>
+<tr class="even">
+<td align="left">Partitioning Default Effects: Why People Choose Not To Choose.</td>
+<td align="left">Dinner, Isaac; Johnson, Eric J.; Goldstein, Daniel G.; Liu, Kaiya;</td>
+<td align="left">Journal Of Experimental Psychology: Applied</td>
+<td align="right">2011</td>
+<td align="right">25.59164</td>
+</tr>
+<tr class="odd">
+<td align="left">Red, Rank, And Romance In Women Viewing Men.</td>
+<td align="left">Elliot, Andrew J.; Niesta Kayser, Daniela; Greitemeyer, Tobias; Lichtenfeld, Stephanie; Gramzow, Richard H.; Maier, Markus A.; Liu, Huijun</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">2010</td>
+<td align="right">26.08277</td>
+</tr>
+<tr class="even">
+<td align="left">‘Effect Sizes For Experimenting Psychologists’: Correction To Rosnow And Rosenthal (2003).</td>
+<td align="left">Rosnow, Ralph L.; Rosenthal, Robert</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">2009</td>
+<td align="right">26.06462</td>
+</tr>
+<tr class="odd">
+<td align="left">Correction To Condry And Spelke (2008).</td>
+<td align="left">Condry, Kirsten F.; Spelke, Elizabeth S.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">2008</td>
+<td align="right">26.48781</td>
+</tr>
+<tr class="even">
+<td align="left">Review Of Arthur R. Jensen (2006)–Clocking The Mind: Mental Chronometry And Individual Differences.</td>
+<td align="left">Glicksohn, Joseph</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">2007</td>
+<td align="right">26.49517</td>
+</tr>
+<tr class="odd">
+<td align="left">Groups As Epistemic Providers: Need For Closure And The Unfolding Of Group-Centrism.</td>
+<td align="left">Kruglanski, Arie W.; Pierro, Antonio; Mannetti, Lucia; De Grada, Eraldo;</td>
+<td align="left">Psychological Review</td>
+<td align="right">2006</td>
+<td align="right">25.44523</td>
+</tr>
+<tr class="even">
+<td align="left">The Case For Coherence In Scientific Explanations: Quantitative Details Can Hurt Qualitative Understanding.</td>
+<td align="left">Mayer, Richard E.; Jackson, Joshua;</td>
+<td align="left">Journal Of Experimental Psychology: Applied</td>
+<td align="right">2005</td>
+<td align="right">25.48169</td>
+</tr>
+<tr class="odd">
+<td align="left">‘Scared Stiff’: Catatonia As An Evolutionary-Based Fear Response.</td>
+<td align="left">Moskowitz, Andrew K.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">2004</td>
+<td align="right">25.82188</td>
+</tr>
+<tr class="even">
+<td align="left">A Further Look At The ‘Language-As-Fixed-Effect Fallacy’.</td>
+<td align="left">Raaijmakers, Jeroen G. W.</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">2003</td>
+<td align="right">26.53903</td>
+</tr>
+<tr class="odd">
+<td align="left">Sex Differences In Behavioral And Hormonal Response To Social Threat: Commentary On Taylor Et Al. (2000).</td>
+<td align="left">Geary, David C.; Flinn, Mark V.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">2002</td>
+<td align="right">25.87026</td>
+</tr>
+<tr class="even">
+<td align="left">Do Infant Rats Cry?</td>
+<td align="left">Blumberg, Mark S.; Sokoloff, Greta;</td>
+<td align="left">Psychological Review</td>
+<td align="right">2001</td>
+<td align="right">25.65323</td>
+</tr>
+<tr class="odd">
+<td align="left">Recherche Sur L’Acquisition De Capacités Scolaires: Introduction Au Numéro Spécial Sur L’Apprentissage Précoce De La Lecture Et Du Calcul. = Research On The Acquisition Of Capacities Of School: Introduction To The Special Number On The Training Of Reading And Calculation.</td>
+<td align="left">Lefevre, Jo-Anne</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">2000</td>
+<td align="right">26.09942</td>
+</tr>
+<tr class="even">
+<td align="left">Synaptic Plasticity And The Organization Of Behaviour After Early And Late Brain Injury.</td>
+<td align="left">Kolb, Bryan</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1999</td>
+<td align="right">24.64781</td>
+</tr>
+<tr class="odd">
+<td align="left">Effects Of Apa Reference Format On Search Performance And Preference.</td>
+<td align="left">Scialfa, Charles T.; Caird, Jeff K.; Connolly, Kevin; Cosmescu, Cassian;</td>
+<td align="left">Journal Of Experimental Psychology: Applied</td>
+<td align="right">1998</td>
+<td align="right">26.92859</td>
+</tr>
+<tr class="even">
+<td align="left">An Exploratory Study Of Musical Emotions And Psychophysiology.</td>
+<td align="left">Krumhansl, Carol L.</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1997</td>
+<td align="right">26.72484</td>
+</tr>
+<tr class="odd">
+<td align="left">The Gender Difference In Orienting Liquid Surfaces And Plumb-Lines: Its Robustness, Its Correlates, And The Associated Knowledge Of Simple Physics.</td>
+<td align="left">Robert, Michèle; Harel, François</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1996</td>
+<td align="right">26.05456</td>
+</tr>
+<tr class="even">
+<td align="left">Patterns Of Handedness In Modern Japanese: A Cohort Effect Shown By Re-Administration Of The H. N. Handedness Inventory After 20 Years.</td>
+<td align="left">Hatta, Takeshi; Kawakami, Ayako</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1995</td>
+<td align="right">26.17390</td>
+</tr>
+<tr class="odd">
+<td align="left">No More Than Skin Deep: Ethnic And Racial Similarity In Developmental Process.</td>
+<td align="left">Rowe, David C.; Vazsonyi, Alexander T.; Flannery, Daniel J.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1994</td>
+<td align="right">25.44464</td>
+</tr>
+<tr class="even">
+<td align="left">‘Use Of Analogy In Learning Scientific Concepts’: Correction To Donnelly And Mcdaniel.</td>
+<td align="left">Donnelly, Carol M.; McDaniel, Mark A.;</td>
+<td align="left">Journal Of Experimental Psychology: Learning, Memory, And Cognition</td>
+<td align="right">1993</td>
+<td align="right">26.89664</td>
+</tr>
+<tr class="odd">
+<td align="left">Tolman’S Cognitive Analyses: Predecessors Of Current Approaches In Psychology.</td>
+<td align="left">Olton, David S.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1992</td>
+<td align="right">26.50303</td>
+</tr>
+<tr class="even">
+<td align="left">Éditorial. = Editorial.</td>
+<td align="left">Winocur, Gordon</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1991</td>
+<td align="right">29.39007</td>
+</tr>
+<tr class="odd">
+<td align="left">A Historical Perspective On Recent Studies Of Social Learning About Foods By Norway Rats.</td>
+<td align="left">Galef, Bennett G.</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1990</td>
+<td align="right">27.87457</td>
+</tr>
+<tr class="even">
+<td align="left">‘Interdomain Transfer Between Isomorphic Topics In Algebra And Physics’: Correction To Bassok And Holyoak (1989).</td>
+<td align="left">Bassok, Miriam; Holyoak, Keith J.;</td>
+<td align="left">Journal Of Experimental Psychology: Learning, Memory, And Cognition</td>
+<td align="right">1989</td>
+<td align="right">26.57618</td>
+</tr>
+<tr class="odd">
+<td align="left">‘The Effects Of Rocking On The State And Respiration Of Normal And Excessive Cryers’: Erratum.</td>
+<td align="left">Elliott, M. Ruth; Fisher, Kimberly; Ames, Elinor W.</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1988</td>
+<td align="right">30.81471</td>
+</tr>
+<tr class="even">
+<td align="left">Communication, Symbolic Communication, And Language: Comment On Savage-Rumbaugh, Mcdonald, Sevcik, Hopkins, And Rupert (1986).</td>
+<td align="left">Seidenberg, Mark S.; Petitto, Laura A.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1987</td>
+<td align="right">27.14255</td>
+</tr>
+<tr class="odd">
+<td align="left">La Conservation Apprise Par Observation: Variations Sur Quelques Paramètres De La Démonstration Du Modèle. = Conservation Learned Through Observation: Variations On Some Parameters Of The Model’S Demonstration.</td>
+<td align="left">Naud, Jacques; Robert, Michèle; Vitaro, Frank</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1986</td>
+<td align="right">26.17198</td>
+</tr>
+<tr class="even">
+<td align="left">Spontaneous Mirror-Writing In Children.</td>
+<td align="left">Cornell, James M.</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1985</td>
+<td align="right">25.98083</td>
+</tr>
+<tr class="odd">
+<td align="left">Physiology Of Drinking Elicited By Eating.</td>
+<td align="left">Kraly, F. Scott;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1984</td>
+<td align="right">26.86166</td>
+</tr>
+<tr class="even">
+<td align="left">Safety Catch In Behavior Therapy: Comments On ‘Safety Training: The Elimination Of Avoidance-Motivated Aggression In Dogs’ By Daniel F. Tortora.</td>
+<td align="left">Denny, M. Ray</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1983</td>
+<td align="right">26.40609</td>
+</tr>
+<tr class="odd">
+<td align="left">‘Some Effects Of Laboratory Training On Identification And Discrimination Of Voicing Contrasts In Stop Consonants’: Correction To Pisoni Et Al.</td>
+<td align="left">Pisoni, David B.; Aslin, Richard N.; Perey, Alan J.; Hennessy, Beth L.;</td>
+<td align="left">Journal Of Experimental Psychology: Human Perception And Performance</td>
+<td align="right">1982</td>
+<td align="right">26.20325</td>
+</tr>
+<tr class="even">
+<td align="left">A Rapprochement Of The Operant-Conditioning And Awareness Views Of Biofeedback Training: The Role Of Discrimination In Voluntary Control.</td>
+<td align="left">Plotkin, William B.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1981</td>
+<td align="right">26.48431</td>
+</tr>
+<tr class="odd">
+<td align="left">A Comparative Study Of The Relative Effectiveness Of Two Different Second Language Training Programs.</td>
+<td align="left">Mcinnis, Charles E.; Donoghue, Eileen E.</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1980</td>
+<td align="right">27.26692</td>
+</tr>
+<tr class="even">
+<td align="left">Infant Perceptual, Cognitive, And Motor Behaviours As Predictors Of Subsequent Cognitive And Language Development.</td>
+<td align="left">Siegel, Linda S.</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1979</td>
+<td align="right">25.84994</td>
+</tr>
+<tr class="odd">
+<td align="left">Brain-Stimulation Reward After Twenty-Five Years.</td>
+<td align="left">Mogenson, Gordon J.; Phillips, Anthony G.</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1978</td>
+<td align="right">27.52676</td>
+</tr>
+<tr class="even">
+<td align="left">Erratum To Siegel.</td>
+<td align="left">Siegel, Shepard;</td>
+<td align="left">Journal Of Experimental Psychology: Animal Behavior Processes</td>
+<td align="right">1977</td>
+<td align="right">26.33583</td>
+</tr>
+<tr class="odd">
+<td align="left">Learned Helplessness: A Reply And An Alternative S-R Interpretation.</td>
+<td align="left">Levis, Donald J.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1976</td>
+<td align="right">26.49426</td>
+</tr>
+<tr class="even">
+<td align="left">Evidence For Sentence Constitutents In The Early Utterances Of Child And Chimpanzee.</td>
+<td align="left">Gardner, Beatrice T.; Gardner, R. Allen</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1975</td>
+<td align="right">26.26725</td>
+</tr>
+<tr class="odd">
+<td align="left">A Canonical Correlation Analysis Of Cortical Evoked Response And Intelligence Test Data.</td>
+<td align="left">Crawford, Charles B.</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1974</td>
+<td align="right">26.39191</td>
+</tr>
+<tr class="even">
+<td align="left">Detection Theory And Expectations For Social Reinforcers: An Application To Aggression.</td>
+<td align="left">Ulehla, Z. Joseph; Adams, Darrell K.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1973</td>
+<td align="right">25.97912</td>
+</tr>
+<tr class="odd">
+<td align="left">Ends And Means Of Experimental Aesthetics.</td>
+<td align="left">Berlyne, D. E.</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1972</td>
+<td align="right">25.68650</td>
+</tr>
+<tr class="even">
+<td align="left">Is Curiosity A Unitary Construct?</td>
+<td align="left">Langevin, R.</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1971</td>
+<td align="right">26.21714</td>
+</tr>
+<tr class="odd">
+<td align="left">Self-Other Orientations Of French- And English-Canadian Adolescents.</td>
+<td align="left">Henderson, Edmund H.; Long, Barbara H.; Gantcheff, Helene</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1970</td>
+<td align="right">27.36991</td>
+</tr>
+<tr class="even">
+<td align="left">‘Vicarious Reinforcement And Imitation In A Verbal Learning Situation’: Erratum.</td>
+<td align="left">Phillips, Robert E.</td>
+<td align="left">Journal Of Experimental Psychology: General</td>
+<td align="right">1969</td>
+<td align="right">26.32543</td>
+</tr>
+<tr class="odd">
+<td align="left">Ethnic Stereotypes: Their Effects On Person Perception.</td>
+<td align="left">Gardner, Robert C.; Taylor, Donald M.</td>
+<td align="left">Canadian Journal Of Experimental Psychology</td>
+<td align="right">1968</td>
+<td align="right">26.64679</td>
+</tr>
+<tr class="even">
+<td align="left">On The Proper Meaning Of The Term ‘Stimulus.’</td>
+<td align="left">Gibson, James J.;</td>
+<td align="left">Psychological Review</td>
+<td align="right">1967</td>
+<td align="right">27.17334</td>
+</tr>
+</tbody>
+</table>
+<hr />
 </div>
 </div>
 <div id="references" class="section level2 unnumbered">
 <h2>References</h2>
 <div id="refs" class="references">
+<div id="ref-cho2012citation">
+<p>Cho, K. W., Tse, C.-S., &amp; Neely, J. H. (2012). Citation rates for experimental psychology articles published between 1950 and 2004: Top-cited articles in behavioral cognitive psychology. <em>Memory &amp; Cognition</em>, <em>40</em>(7), 1132–1161.</p>
+</div>
 <div id="ref-jones2007representing">
 <p>Jones, M. N., &amp; Mewhort, D. J. (2007). Representing word meaning and order information in a composite holographic lexicon. <em>Psychological Review</em>, <em>114</em>(1), 1.</p>
 </div>
