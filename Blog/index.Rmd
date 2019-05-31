@@ -55,7 +55,7 @@ There were a total of `r dim(article_df)[1]` abstracts, `r length(author_list)` 
 
 What are the top 10 abstracts published in these APA journals? Who knows. What would the measure be?
 
-How about a different question, which 10 abstracts are the most similar to all other abstracts? Let's find out. Below is a table of the top 10 abstracts that have the highest mean similarity to all of the other abstracts. To find this, I computed the cosine similarity between each abstract vector and every other abstract vector. That resulte in a 27560 x 27560 similarity matrix. Each column represents the similarities of an article to all the other articles. I computed the mean for each column, then below, I list the top 10 with the largest means.
+How about a different question, which 10 abstracts are the most similar to all other abstracts? Let's find out. Below is a table of the top 10 abstracts that have the highest mean similarity to all of the other abstracts. To find this, I computed the cosine similarity between each abstract vector and every other abstract vector. That results in a 27560 x 27560 similarity matrix. Each column represents the similarities of an article to all the other articles. I computed the mean for each column, then below, I list the top 10 with the largest means.
 
 ```{r}
 load("article_df.RData")
