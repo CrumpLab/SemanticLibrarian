@@ -364,19 +364,71 @@ server <- function(input, output, session) {
      
    })
    
-  output$all_abstracts <- renderDT({
-    restrict_article_df <- article_df %>%
-      filter(str_detect(as.character(authorlist),input$server_author2),
-             str_detect(as.character(journals),input$journals)) %>%
-      rename(Abstracts = formatted_column) %>%
-      select(Abstracts,year) %>%
-      slice(1:100)
-    return(restrict_article_df)
-  }, options = list(pageLength=10), rownames=FALSE,
-  escape=FALSE)
-
-  # # allow tabs to run when in background  
-  # sapply(names(outputOptions(output)),function(x) outputOptions(output, x, suspendWhenHidden = TRUE))
+   #..main ####
+   
+   observe({
+     
+     
+   #  if(input$server_author2 != ""){
+       restrict_article_df <- article_df %>%
+         filter(str_detect(as.character(authorlist),input$server_author2),
+                str_detect(as.character(journals),input$journals),
+                year >= input$slider_num_year_AllS[1],
+                year <= input$slider_num_year_AllS[2]) %>%
+         rename(Abstracts = formatted_column) %>%
+         slice(1:input$slider_num_articles_AllS)
+    
+       if(is.null(restrict_article_df) == FALSE){   
+     mds_selected <- get_articles_mds_from_selection(restrict_article_df,
+                                                     num_clusters = input$slider_num_k_AllS,
+                                                     article_vectors)
+       }
+   #  }
+     
+     #.. table ####
+     output$all_abstracts <- renderDT({
+       return(restrict_article_df %>%
+              select(Abstracts,year))
+     }, options = list(pageLength=10), rownames=FALSE,
+     escape=FALSE)
+     
+     #.. plot ####
+     output$sim_articles_plot_AllS <- renderPlotly({
+       
+       ggp <- ggplot(mds_selected, aes(x= X, y= Y,
+                                                 color=as.factor(cluster),
+                                                 text=wrap_title))+
+         geom_hline(yintercept=0, color="grey")+
+         geom_vline(xintercept=0, color="grey")+
+         geom_point(alpha=.75)+
+         theme_void()+
+         theme(legend.position = "none")
+       
+       ax <- list(
+         title = "",
+         zeroline = TRUE,
+         showline = FALSE,
+         showticklabels = FALSE,
+         showgrid = FALSE
+       )
+       
+       p <- ggplotly(ggp, tooltip="text",
+                     source = "article_AllS_plot",
+                     hoverinfo="text") %>%
+         layout(xaxis = ax, yaxis = ax,showlegend = FALSE) %>%
+         #style(hoverinfo = 'title') %>%
+         config(displayModeBar = F) %>%
+         layout(xaxis=list(fixedrange=TRUE)) %>%
+         layout(yaxis=list(fixedrange=TRUE)) %>%
+         event_register('plotly_click')
+       
+     })
+     
+   })
+   
+   # # allow tabs to run when in background  
+   # sapply(names(outputOptions(output)),function(x) outputOptions(output, x, suspendWhenHidden = TRUE))
+   
   
 }
 

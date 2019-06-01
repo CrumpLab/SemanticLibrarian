@@ -184,6 +184,22 @@ get_article_author_similarities <- function(a_title,
   return(author_sims)
 }
 
+## get article similarities from selection of articles
+
+get_articles_mds_from_selection <- function(a_df,
+                                            num_clusters,
+                                            a_vectors = article_vectors){
+  a_ids <- a_df$index
+  mdistance <- cosine(t(article_vectors[a_ids,]))
+  fit <- cmdscale(1-mdistance,eig=TRUE, k=2)
+  colnames(fit$points) <- c("X","Y")
+  cluster <- kmeans(fit$points,num_clusters)
+  a_df <- cbind(a_df, fit$points, 
+                    cluster=cluster$cluster)
+  return(a_df)
+  
+}
+
     
 #     #article_sims_SS<-article_sims_SS()
 #     article_sims_SS$Similarity <- round(get_cos,digits=4)
