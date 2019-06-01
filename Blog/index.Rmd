@@ -327,7 +327,7 @@ These graphs raise all sorts of questions. It's stilll not clear to me what is b
 
 **Number of abstracts:** The more abstracts you write, the more words you use, the more opportunity you have to use the same kinds of words that are used in other abstracts. In other words, authors with more abstracts should tend to have author vectors that have higher mean similarity than authors with fewer abstracts. So are these authors just the ones who have published the most? (note to self to find out).
 
-
+**Influence vs. Influenced:** It would be interesting if mean similarity reflected something about the influence that authors have on the direction of the field. For example, do authros with high men similarity have more influence on other authors, or have they been more influenced by other authors? For example, perhaps centroid authors were the so-called influencers, they go off in a direction in semantic space and other authors then join in; thereby, surrounding the original author, which causes them to becomd a centroid. On the other hand, something like the opposite seems possible. A centroid author could be your "average" author who is producing derivative works similar to everything else in the field. In other words, you could become a centroid if you were copying a lot of different authors work. This second option seems less likely to explain the data. To my eye, the authors in the above two graphs are all fairly well known and respected authors. So, if the measure is picking up on influence, then what do we have? Still lots of questions, put interesting to think of how this approach might yield an alternative measure to the H-index.
 
 
 ---
