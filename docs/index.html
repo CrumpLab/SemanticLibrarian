@@ -30,6 +30,15 @@
                 </style>
                 
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+                                <!-- Global site tag (gtag.js) - Google Analytics -->
+                  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-79429674-6"></script>
+                    <script>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    
+                    gtag('config', 'UA-79429674-6');
+                    </script>
                 
                 
                                             <style type="text/css">code{white-space: pre;}</style>
@@ -518,7 +527,7 @@ div.tocify {
 <a  href="https://crumplab.gihub.io"><i class="fa fa-university"></i></a>
 </div>
 <h4 class="author">Matt Crump</h4>
-<h4 class="date">Last update: 31 May, 2019</h4>
+<h4 class="date">Last update: 01 June, 2019</h4>
 
 </div>
 
@@ -3255,6 +3264,12 @@ div.tocify {
 <a class="sourceLine" id="cb17-12" data-line-number="12"><span class="st">        </span><span class="kw">theme</span>(<span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">30</span>, <span class="dt">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="dt">hjust =</span> <span class="fl">.5</span>))</a></code></pre></div>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="st">&quot;imgs/Top101200Authors.png&quot;</span>)</a></code></pre></div>
 <p><img src="imgs/Top101200Authors.png" /><!-- --></p>
+</div>
+<div id="what-does-it-mean" class="section level3">
+<h3>What does it mean?</h3>
+<p>These graphs raise all sorts of questions. It’s stilll not clear to me what is being measured here. Here are a few possibilities. First, we might think of these authors (the top 200 across both graph) as centroids in the space. This is by definition, because the values are mean similarities to all other authors. So, what does it mean to be a centroid?</p>
+<p><strong>Number of abstracts:</strong> The more abstracts you write, the more words you use, the more opportunity you have to use the same kinds of words that are used in other abstracts. In other words, authors with more abstracts should tend to have author vectors that have higher mean similarity than authors with fewer abstracts. Mean similarity is likely influenced in part by number of abstratcs written (note to self to find out by how much).</p>
+<p>Interesting. At least to my eye, the authors displayed in both of the above graphs are well known in the field. Perhaps this metric of mean similarity to other authors is pulling out something</p>
 <hr />
 </div>
 </div>

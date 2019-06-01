@@ -20,7 +20,7 @@ output:
     highlight: kate
     css: web/crump_basic.css
     includes:
-      in_header: web/header.html
+      in_header: [web/header.html,web/ga_script.js]
     md_extensions: -autolink_bare_uris
 ---
 
@@ -318,6 +318,16 @@ ggplot(fit_df, aes(x=X1, y=X2, color = cluster,
 ```{r}
 knitr::include_graphics("imgs/Top101200Authors.png")
 ```
+
+### What does it mean?
+
+These graphs raise all sorts of questions. It's stilll not clear to me what is being measured here. Here are a few possibilities. First, we might think of these authors (the top 200 across both graph) as centroids in the space. This is by definition, because the values are mean similarities to all other authors. So, what does it mean to be a centroid?
+
+**Number of abstracts:** The more abstracts you write, the more words you use, the more opportunity you have to use the same kinds of words that are used in other abstracts. In other words, authors with more abstracts should tend to have author vectors that have higher mean similarity than authors with fewer abstracts. Mean similarity is likely influenced in part by number of abstratcs written (note to self to find out by how much).
+
+
+Interesting. At least to my eye, the authors displayed in both of the above graphs are well known in the field. Perhaps this metric of mean similarity to other authors is pulling out something 
+
 
 ---
 
