@@ -27,3 +27,18 @@ psyc_review_df <- article_df %>%
                            pr_mean_sds = pr_sims/pr_sds)
 
 save(psyc_review_df,file="psyc_review_df.RData")
+
+## authors
+
+dim(AuthorVectors)
+library(RsemanticLibrarian)
+
+author_sims <- matrix(0,ncol=dim(AuthorVectors)[1],nrow=dim(AuthorVectors)[1])
+for(i in 1:dim(AuthorVectors)[1]){
+  if(i%%100 == 0){ 
+    print(i)
+  }
+ author_sims[i,]<-cosine_x_to_m(AuthorVectors[i,],AuthorVectors)
+}
+
+save(author_sims,file="author_sims")

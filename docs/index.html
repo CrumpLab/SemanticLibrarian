@@ -3178,8 +3178,47 @@ div.tocify {
 </tbody>
 </table>
 <p>Well, it’s another different list, and more tea-leaf reading. Without other metrics to validate these measures against it’s not clear what is being measured.</p>
-<hr />
 </div>
+</div>
+<div id="top-100-most-similar-authors" class="section level2">
+<h2>Top 100 most similar authors</h2>
+<p>Let’s a look at the most “central” authors in the database. To do this, I computed the similarity between each author and every other author. Every author has a semantic vecctor, which is the sum of their abstract vectors. I created the author similarity matrix, and the found the column means. Then I found the top 100 authors with the highest mean similarity. Below is a 2-d plot using multi-dimensional scaling, showing the top 100 authors.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">load</span>(<span class="st">&quot;author_mean_sims.RData&quot;</span>)</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="kw">names</span>(author_mean_sims) &lt;-<span class="st"> </span>author_list</a>
+<a class="sourceLine" id="cb13-4" data-line-number="4">author_mean_sims &lt;-<span class="st"> </span><span class="kw">sort</span>(author_mean_sims, <span class="dt">decreasing=</span>T)</a>
+<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#author_mean_sims[1:100]</span></a>
+<a class="sourceLine" id="cb13-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="kw">library</span>(RsemanticLibrarian)</a>
+<a class="sourceLine" id="cb13-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb13-9" data-line-number="9">top_author_names &lt;-<span class="st"> </span><span class="kw">names</span>(author_mean_sims)[<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>]</a>
+<a class="sourceLine" id="cb13-10" data-line-number="10">author_ids &lt;-<span class="st"> </span><span class="kw">which</span>(author_list <span class="op">%in%</span><span class="st"> </span>top_author_names <span class="op">==</span><span class="st"> </span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb13-11" data-line-number="11">restricted_author_vecs &lt;-<span class="st"> </span>AuthorVectors[author_ids,]</a>
+<a class="sourceLine" id="cb13-12" data-line-number="12"><span class="kw">row.names</span>(restricted_author_vecs)&lt;-<span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb13-13" data-line-number="13"><span class="kw">library</span>(lsa)</a>
+<a class="sourceLine" id="cb13-14" data-line-number="14">top_author_sims &lt;-<span class="st"> </span><span class="kw">cosine</span>(<span class="kw">t</span>(restricted_author_vecs))</a>
+<a class="sourceLine" id="cb13-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb13-16" data-line-number="16">fits &lt;-<span class="st"> </span><span class="kw">cmdscale</span>(<span class="dv">1</span><span class="op">-</span>top_author_sims,<span class="dt">eig=</span><span class="ot">TRUE</span>, <span class="dt">k=</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb13-17" data-line-number="17">cluster &lt;-<span class="st"> </span><span class="kw">kmeans</span>(fits<span class="op">$</span>points,<span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb13-18" data-line-number="18">fit_df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(fits<span class="op">$</span>points,<span class="dt">authors =</span> <span class="kw">names</span>(author_mean_sims[<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>]),</a>
+<a class="sourceLine" id="cb13-19" data-line-number="19">                     <span class="dt">Similarity =</span> author_mean_sims[<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>],</a>
+<a class="sourceLine" id="cb13-20" data-line-number="20">                     <span class="dt">cluster =</span> <span class="kw">as.factor</span>(cluster<span class="op">$</span>cluster))</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">library</span>(ggrepel)</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw">ggplot</span>(fit_df, <span class="kw">aes</span>(<span class="dt">x=</span>X1, <span class="dt">y=</span>X2, <span class="dt">color =</span> cluster,</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3">                                <span class="dt">label=</span>authors))<span class="op">+</span></a>
+<a class="sourceLine" id="cb14-4" data-line-number="4"><span class="st">        </span><span class="kw">geom_hline</span>(<span class="dt">yintercept=</span><span class="dv">0</span>, <span class="dt">color=</span><span class="st">&quot;grey&quot;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="st">        </span><span class="kw">geom_vline</span>(<span class="dt">xintercept=</span><span class="dv">0</span>, <span class="dt">color=</span><span class="st">&quot;grey&quot;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb14-6" data-line-number="6"><span class="st">        </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">size=</span>Similarity), <span class="dt">alpha=</span>.<span class="dv">75</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="st">        </span><span class="kw">geom_text_repel</span>(<span class="kw">aes</span>(<span class="dt">size=</span>Similarity),<span class="dt">color=</span><span class="st">&quot;black&quot;</span>, <span class="dt">force=</span><span class="fl">1.5</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="st">        </span><span class="kw">scale_size</span>(<span class="dt">range =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">8</span>))<span class="op">+</span></a>
+<a class="sourceLine" id="cb14-9" data-line-number="9"><span class="st">        </span><span class="kw">theme_void</span>()<span class="op">+</span></a>
+<a class="sourceLine" id="cb14-10" data-line-number="10"><span class="st">        </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb14-11" data-line-number="11"><span class="st">        </span><span class="kw">ggtitle</span>(<span class="st">&quot;APA authors (1890s-2016, Experimental Journals) with highest semantic similarity to other authors&quot;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb14-12" data-line-number="12"><span class="st">        </span><span class="kw">theme</span>(<span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">30</span>, <span class="dt">face =</span> <span class="st">&quot;bold&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="st">&quot;imgs/Top100APAauthors.png&quot;</span>)</a></code></pre></div>
+<p><img src="imgs/Top100APAauthors.png" /><!-- --></p>
+<p>Well, there they are. Lots of recognizable authors. Daniel Kahneman had the highest mean similarity. He is not in the center, as you might expect. This is partly due to the multi-dimensional scaling solution. The mean similarities for each author are captured by the size of the dot.</p>
+<hr />
 </div>
 <div id="references" class="section level2 unnumbered">
 <h2>References</h2>
