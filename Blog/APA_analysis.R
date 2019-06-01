@@ -41,4 +41,10 @@ for(i in 1:dim(AuthorVectors)[1]){
  author_sims[i,]<-cosine_x_to_m(AuthorVectors[i,],AuthorVectors)
 }
 
+author_sims[is.na(author_sims)]<-0
 save(author_sims,file="author_sims")
+
+author_mean_sims <- colMeans(author_sims)
+
+save(author_mean_sims,author_list,file="author_mean_sims.RData")
+
