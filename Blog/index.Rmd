@@ -273,6 +273,52 @@ knitr::include_graphics("imgs/Top100APAauthors.png")
 
 Well, there they are. Lots of recognizable authors. Daniel Kahneman had the highest mean similarity. He is not in the center, as you might expect. This is partly due to the multi-dimensional scaling solution. The mean similarities for each author are captured by the size of the dot. 
 
+### top 200
+
+And for fun, here are the next 100 (101- 200) authors with the highest mean similarity.
+
+```{r, eval =FALSE}
+load("author_mean_sims.RData")
+
+names(author_mean_sims) <- author_list
+author_mean_sims <- sort(author_mean_sims, decreasing=T)
+#author_mean_sims[1:100]
+
+library(RsemanticLibrarian)
+
+top_author_names <- names(author_mean_sims)[101:200]
+author_ids <- which(author_list %in% top_author_names == TRUE)
+restricted_author_vecs <- AuthorVectors[author_ids,]
+row.names(restricted_author_vecs)<-NULL
+library(lsa)
+top_author_sims <- cosine(t(restricted_author_vecs))
+
+fits <- cmdscale(1-top_author_sims,eig=TRUE, k=2)
+cluster <- kmeans(fits$points,10)
+fit_df <- data.frame(fits$points,authors = names(author_mean_sims[101:200]),
+                     Similarity = author_mean_sims[101:200],
+                     cluster = as.factor(cluster$cluster))
+```
+
+```{r, fig.width=10, fig.height=5, eval=FALSE}
+library(ggrepel)
+ggplot(fit_df, aes(x=X1, y=X2, color = cluster,
+                                label=authors))+
+        geom_hline(yintercept=0, color="grey")+
+        geom_vline(xintercept=0, color="grey")+
+        geom_point(aes(size=Similarity), alpha=.75)+
+        geom_text_repel(aes(size=Similarity),color="black", force=1.5)+
+        scale_size(range = c(4, 8))+
+        theme_void()+
+        theme(legend.position = "none")+
+        ggtitle("Top 101 - 200 APA authors (1890s-2016, Experimental Journals) \n with highest semantic similarity to other authors")+
+        theme(plot.title = element_text(size = 30, face = "bold", hjust = .5))
+```
+
+```{r}
+knitr::include_graphics("imgs/Top101200Authors.png")
+```
+
 ---
 
 ## References
