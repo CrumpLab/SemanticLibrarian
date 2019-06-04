@@ -224,6 +224,17 @@ knitr::kable(psych_review_top_50_w)
 
 Well, it's another different list, and more tea-leaf reading. Without other metrics to validate these measures against it's not clear what is being measured.
 
+## Journals over Time
+
+I'll come back here to say more about this when I have the tools to say more. The question is about how the semantic structure of the database changes over time. I have to think more about ways to answer this question.
+
+For now, here is an animation of publications in the different journals over time. The color of the dots represents different journals. More to follow when I get the chance.
+
+```{r}
+knitr::include_graphics("imgs/APA_years.gif")
+```
+
+
 ## Top 100 most similar authors
 
 Let's a look at the most "central" authors in the database. To do this, I computed the similarity between each author and every other author. Every author has a semantic vecctor, which is the sum of their abstract vectors. I created the author similarity matrix, and the found the column means. Then I found the top 100 authors with the highest mean similarity. Below is a 2-d plot using multi-dimensional scaling, showing the top 100 authors.
@@ -334,6 +345,8 @@ These graphs raise all sorts of questions. It's stilll not clear to me what is b
 **Jack of all trades? Semantic diversity:** Author vectors are the sum of their abstracts. If an author publishes widely across the discipline, that is across semantically diverse areas of the discipline; then, their author vector will be closer to more abstracts in different areas. This would presumably raise their mean similarity to all other authors. Authors who publish only in one area, perhaps one that that is relatively siloed compared to others, should have lower mean similarity to all other authors. So, perhaps this list of top 200 authors partly reflects the semantic diversity of their abstract record [^2].
 
 [^2]: Footnote to self to check this out. It would be easy to deconsruct the author vector into component abstract vectors, and then look at dispersion among the abstract vectors as a measure of semantic diversity. And, I need to update the Shiny app to enable search from an author to their articles. 
+
+
 
 
 ---

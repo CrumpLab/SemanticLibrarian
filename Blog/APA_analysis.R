@@ -48,3 +48,48 @@ author_mean_sims <- colMeans(author_sims)
 
 save(author_mean_sims,author_list,file="author_mean_sims.RData")
 
+
+# fast svd
+
+library(irlba)
+ids <- which(mean_sim > .85)
+a<- irlba(1-sims[ids,ids],nv=2, center=mean_sim[ids])
+a<-svdr(1-sims[ids,],k=2)
+
+
+a<- irlba(article_vectors[ids,],nv=2, center = colMeans(article_vectors[ids,]))
+b<-data.frame(X=a$u[,1],Y=a$u[,2])
+clusters <- kmeans(a$u , centers=10)
+
+restrict_articles <- article_df[ids,]
+restrict_articles <- cbind(restrict_articles,b,
+                           cluster =as.factor(clusters$cluster))
+restrict_articles$year <- as.factor(restrict_articles$year)
+levels(restrict_articles$journal)<-c("CJEP","JEP:ABP","JEP:ALC","JEP:A","JEP:G","JEP:HLM","JEP:HPP","JEP:LMC","PsycRev")
+
+
+library(ggplot2)
+p<-ggplot(restrict_articles, aes(x=X,y=Y,
+                              color=cluster,
+                              label=journal,
+                              group=year))+
+  geom_text()+
+  coord_cartesian(ylim=c(-.015,.015),
+                  xlim=c(-.015,.015))+
+  theme(legend.position ="none")+
+  ggtitle("APA abstract space {closest_state}")+
+  theme_classic()
+
+library(gganimate)
+anim <- p +
+    transition_states(year, transition_length = 1,
+                      state_length=4) +
+                      enter_fade()+
+                      exit_shrink()
+  
+animate(anim, nframes = 123*4)
+
+save(restrict_articles, file="year_sim.RData")
+
+
+
