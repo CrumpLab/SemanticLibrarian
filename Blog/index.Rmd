@@ -432,7 +432,7 @@ the_df$cluster <- as.factor(the_df$cluster)
 ```
 
 
-Now, to compute the vectors for the centers of each cluster, get the keywords, and add them into a plotly plot.
+Now, to compute the vectors for the centers of each cluster, get the keywords, and add them into a plotly plot. **Hover over the circles to see the abstract title, hover over the triangles to see the keywords for the cluster**
 
 ```{r pltly}
 ids <- the_df %>%
