@@ -346,7 +346,156 @@ These graphs raise all sorts of questions. It's stilll not clear to me what is b
 
 [^2]: Footnote to self to check this out. It would be easy to deconsruct the author vector into component abstract vectors, and then look at dispersion among the abstract vectors as a measure of semantic diversity. And, I need to update the Shiny app to enable search from an author to their articles. 
 
+## Clusters, keywords, and automatic semantic summaries
 
+The semantic librarian uses multi-dimensional scaling and k-means clustering to show a set of abstracts or authors in a 2-d space. Based off of looking at the search results, and my own intuitions, the clusters generally seem to make sense. That is, if you hover over articles in the same cluster they might be about similar kinds of topics. 
+
+It would be nice to get a better sense of these clusters. Almost all of them are ad-hoc, in the sense that they get generated on-demand, based off of the the target search item. Perhaps a set of keywords that are representative of the cluster semantics would be useful. How to do that? TBH, I've already done this a couple different ways, for example to enable cluster topic viewing like this (triangles are cluster centers):
+
+```{r}
+knitr::include_graphics("imgs/cluster.gif")
+```
+
+
+I know there are already ways to do this like topic modelling, which is admittedly something I need to learn more about. However, before learning more about that, I'd rather try to solve the problem myself, so that when I look at the other solutions, I'll hopefully have a better understanding of the problem they are solving.
+
+For now, a contained solution would be nice. The semantic librarian already represents everything (words, abstracts, authors, etc.) in the same semantic space. So a contained solution would use the space to let it say what it is all about. For example, find a cluster of articles, get the semantic vector for that cluster, then see what words are most similar to the cluster. Let the cluster speak for itself. 
+
+Unfortunately, the clusters do not speak very well for themselves. Or, maybe it's that they speak too well, and they don't say what I want them to say. For example, before solving the problem of keywords for clusters, how about the problem of keywords for a single abstract. Let's take the vector for a single abstract and ask what are the top 20 words, most similar to that abstract.
+
+```{r}
+word_sims <- cosine_x_to_m(article_vectors[10000,],WordVectors)
+word_df <- data.frame(words = dictionary_words,
+                      Similarity = word_sims) %>%
+  arrange(desc(Similarity)) %>%
+  slice(1:20)
+print(as.character(article_df[10000,]$title))
+knitr::kable(word_df)
+
+```
+
+Alright, the keywords aren't having a terrible, horrible, no-good, very bad day. But, they're not really great keywords, and they aren't that specific to the article. For example, language didn't even make the list. Actually, I'll admit that I'm a bit surprised that the keywords were very specific at all. Based on some other attempts, I thought they would be mostly stop words (e.g., the, if, of, at, etc.)
+
+Ok, let's keep going and try some clustering. I'll do a search for memory papers, and a separate search for perception papers. I'll get the cluster centers for each search, and then look at the top most similar words.
+
+```{r}
+memory_articles <- get_search_article_similarities("memory",
+                                                   query_type = 1) %>%
+  arrange(desc(Similarity)) %>%
+  slice(1:25)
+
+perception_articles <- get_search_article_similarities("perception",
+                                                      query_type =1) %>%
+  arrange(desc(Similarity)) %>%
+  slice(1:25)
+
+memory_cluster <- colSums(article_vectors[memory_articles$index,])
+perception_cluster <- colSums(article_vectors[perception_articles$index,])
+
+
+memory_sims <- cosine_x_to_m(memory_cluster,WordVectors)
+perception_sims <- cosine_x_to_m(perception_cluster,WordVectors)
+
+memory_df <- data.frame(Memory = dictionary_words,
+                      Similarity = memory_sims) %>%
+  arrange(desc(Similarity)) %>%
+  slice(1:20)
+
+perception_df <- data.frame(Perception = dictionary_words,
+                      Similarity = perception_sims) %>%
+  arrange(desc(Similarity)) %>%
+  slice(1:20)
+
+knitr::kable(cbind(memory_df,perception_df))
+
+```
+
+Hmmm, I was thinking this was going to be worse that it is. The key words for memory in general seem very fitting to me. Some of the keywords for perception are more useless (e.g., effect, effects, use, type, role). Still, not a bad place to start from.
+
+### Getting keywords for clusters on a graph
+
+I guess I'll jump ahead to part of the problem: graphically displaying cluster informatin using keywords as part of the plot that Semantic librarian uses to display abstract similarities. Let's see if I can find some of the code I already wrote for this:
+
+I'll search for memory, perception, and attention, using OR search, and ask for 3 clusters. OR search will return effectively independent searchs for each of the terms, which should create 3 obviously different clusters.
+
+```{r}
+n_cluster <- 3
+
+a_sims <- get_search_article_similarities(c("memory","perception","attention"),
+                                            query_type=3)
+the_df <- get_mds_article_fits(num_articles = 150 ,
+                               num_clusters = n_cluster, 
+                               c(1940,2016),
+                               a_sims)
+
+the_df$cluster <- as.factor(the_df$cluster)
+```
+
+
+Now, to compute the vectors for the centers of each cluster, get the keywords, and add them into a plotly plot.
+
+```{r pltly}
+ids <- the_df %>%
+  group_by(cluster) %>%
+  summarise(ids = list(index),
+            meanX= mean(X),
+            meanY = mean(Y))
+
+
+cluster_key <- data.frame()
+for(i in 1:n_cluster){
+  a_num <- ids$ids[[i]]
+  
+  key_words_A <- cosine_x_to_m(colSums(article_vectors[a_num,]),
+                               WordVectors)
+  
+  kw <- data.frame(key_words = dictionary_words,
+                   Similarity = key_words_A) %>%
+                  arrange(desc(Similarity)) %>%
+                  slice(1:10)
+
+  c_df <- data.frame(key_words = paste(as.character(kw$key_words),"\n", collapse = ""),
+                     cluster = i,
+                     X = ids[ids$cluster==i,]$meanX,
+                     Y = ids[ids$cluster == i,]$meanY,
+                     wrap_title = paste(as.character(kw$key_words),"<br>", collapse = ""))
+  cluster_key <- rbind(cluster_key,c_df)
+
+}
+
+# make the plot
+library(plotly)
+library(ggrepel)
+ggp <- ggplot(the_df, aes(x= X, y= Y,
+                                          color=as.factor(cluster),
+                                          text=wrap_title))+
+  geom_hline(yintercept=0, color="grey")+
+  geom_vline(xintercept=0, color="grey")+
+  geom_point(aes(size=Similarity), alpha=.75)+
+  geom_point(data=cluster_key, aes(x=X, y=Y), size=5, shape=2)+
+  theme_void()+
+  theme(legend.position = "none")
+
+ax <- list(
+  title = "",
+  zeroline = TRUE,
+  showline = FALSE,
+  showticklabels = FALSE,
+  showgrid = FALSE
+)
+
+p <- ggplotly(ggp, tooltip="text",
+              hoverinfo="text") %>%
+  layout(xaxis = ax, yaxis = ax,showlegend = FALSE) %>%
+  #style(hoverinfo = 'title') %>%
+  config(displayModeBar = F) %>%
+  layout(xaxis=list(fixedrange=TRUE)) %>%
+  layout(yaxis=list(fixedrange=TRUE))
+p
+
+```
+
+Hot diggity. Something is happening, and it doesn't completely suck. Still, there are some issues, for example keywords like "processing" and "performance" show up in multiple clusters, which isn't ideal for discriminating between clusters.
 
 
 ---
