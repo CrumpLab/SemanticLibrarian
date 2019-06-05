@@ -619,6 +619,91 @@ p
 
 ```
 
+Ok, this seems to working fairly well, with presumably lots of room for improvement. I'd like to start testing this in the main app, so do to that I need to make some functions and test them out. Let's get started on that here:
+
+**get_cluster_keywords()**
+
+```{r}
+# function to get keywords from a cluster
+get_cluster_keywords <- function(a_df,
+                                 num_kw = 10,
+                                 resonance = 3,
+                                 a_vectors = article_vectors,
+                                 w_vectors = WordVectors,
+                                 word_list = dictionary_words){
+  ids <- a_df %>%
+    group_by(cluster) %>%
+    summarise(ids = list(index),
+              meanX= mean(X),
+              meanY = mean(Y))
+  
+  ## Compute average article vector ##
+  avg_article <- colSums(article_vectors[a_df$index,])
+  avg_sim <- cosine_x_to_m(avg_article,WordVectors)
+  
+  cluster_key <- data.frame()
+  for(i in 1:dim(ids)[1] ){
+    
+    a_num <- ids$ids[[i]]
+    
+    cluster_sim <- cosine_x_to_m(colSums(article_vectors[a_num, ]),
+                                 WordVectors)
+    
+    ## subtract cluster similarities from average similarities
+    subtraction_ids <- (cluster_sim[,1]^resonance)-(avg_sim[,1]^resonance)
+    
+    kw <- data.frame(key_words = word_list,
+                     Similarity = subtraction_ids,
+                     cluster_sim,
+                     avg_sim,
+                     cluster = i)  %>%
+      arrange(desc(Similarity)) %>%
+      slice(1:num_kw)
+    
+    c_df <- data.frame(key_words = paste(as.character(kw$key_words),"\n", collapse = ""),
+                       cluster = i,
+                       X = ids[ids$cluster==i,]$meanX,
+                       Y = ids[ids$cluster == i,]$meanY,
+                       wrap_title = paste(as.character(kw$key_words),"<br>", collapse = ""))
+    cluster_key <- rbind(cluster_key,c_df)
+    
+  }
+  
+  return(cluster_key)
+  
+}
+```
+
+**Test the function** 
+
+```{r}
+# set clusters
+n_cluster <- 3
+
+# get articles from search terms
+a_sims <- get_search_article_similarities(c("memory",
+                                            "perception",
+                                            "attention"),
+                                            query_type = 3)
+# get mds solution
+the_df <- get_mds_article_fits(num_articles = 100 ,
+                               num_clusters = n_cluster, 
+                               c(1940,2016),
+                               a_sims)
+
+the_df$cluster <- as.factor(the_df$cluster)
+
+# get keywords using function
+cluster_key <- get_cluster_keywords(the_df)
+library(tidyr)
+knitr::kable(cluster_key %>%
+  select(wrap_title,cluster) %>%
+  spread(cluster,wrap_title))
+        
+
+```
+
+Function seems to be working. Now to test it out in the dev version of the main app. Fingers crossed.
 
 ---
 

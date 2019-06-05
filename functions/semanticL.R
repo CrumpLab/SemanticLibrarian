@@ -200,6 +200,54 @@ get_articles_mds_from_selection <- function(a_df,
   
 }
 
+get_cluster_keywords <- function(a_df,
+                                 num_kw = 10,
+                                 resonance = 3,
+                                 a_vectors = article_vectors,
+                                 w_vectors = WordVectors,
+                                 word_list = dictionary_words){
+  ids <- a_df %>%
+    group_by(cluster) %>%
+    summarise(ids = list(index),
+              meanX= mean(X),
+              meanY = mean(Y))
+  
+  ## Compute average article vector ##
+  avg_article <- colSums(article_vectors[a_df$index,])
+  avg_sim <- cosine_x_to_m(avg_article,WordVectors)
+  
+  cluster_key <- data.frame()
+  for(i in 1:dim(ids)[1] ){
+    
+    a_num <- ids$ids[[i]]
+    
+    cluster_sim <- cosine_x_to_m(colSums(article_vectors[a_num, ]),
+                                 WordVectors)
+    
+    ## subtract cluster similarities from average similarities
+    subtraction_ids <- (cluster_sim[,1]^resonance)-(avg_sim[,1]^resonance)
+    
+    kw <- data.frame(key_words = word_list,
+                     Similarity = subtraction_ids,
+                     cluster_sim,
+                     avg_sim,
+                     cluster = i)  %>%
+      arrange(desc(Similarity)) %>%
+      slice(1:num_kw)
+    
+    c_df <- data.frame(key_words = paste(as.character(kw$key_words),"\n", collapse = ""),
+                       cluster = i,
+                       X = ids[ids$cluster==i,]$meanX,
+                       Y = ids[ids$cluster == i,]$meanY,
+                       wrap_title = paste(as.character(kw$key_words),"<br>", collapse = ""))
+    cluster_key <- rbind(cluster_key,c_df)
+    
+  }
+  
+  return(cluster_key)
+  
+}
+
     
 #     #article_sims_SS<-article_sims_SS()
 #     article_sims_SS$Similarity <- round(get_cos,digits=4)
