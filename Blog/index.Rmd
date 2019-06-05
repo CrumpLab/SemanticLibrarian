@@ -40,7 +40,7 @@ The list of journals is:
 
 ```{r, results='asis'}
 load("../allData/allData.RData", envir=.GlobalEnv)
-the_journals<-levels(article_df$journal)
+the_journals <- levels(article_df$journal)
 for(i in 1:length(the_journals)){
  cat("- ",the_journals[i], sep="")
  cat("\n")
@@ -239,7 +239,7 @@ knitr::include_graphics("imgs/APA_years.gif")
 
 Let's a look at the most "central" authors in the database. To do this, I computed the similarity between each author and every other author. Every author has a semantic vecctor, which is the sum of their abstract vectors. I created the author similarity matrix, and the found the column means. Then I found the top 100 authors with the highest mean similarity. Below is a 2-d plot using multi-dimensional scaling, showing the top 100 authors.
 
-```{r}
+```{r, eval = FALSE}
 load("author_mean_sims.RData")
 
 names(author_mean_sims) <- author_list
@@ -364,6 +364,7 @@ For now, a contained solution would be nice. The semantic librarian already repr
 Unfortunately, the clusters do not speak very well for themselves. Or, maybe it's that they speak too well, and they don't say what I want them to say. For example, before solving the problem of keywords for clusters, how about the problem of keywords for a single abstract. Let's take the vector for a single abstract and ask what are the top 20 words, most similar to that abstract.
 
 ```{r}
+library(RsemanticLibrarian)
 word_sims <- cosine_x_to_m(article_vectors[10000,],WordVectors)
 word_df <- data.frame(words = dictionary_words,
                       Similarity = word_sims) %>%
@@ -419,11 +420,14 @@ I guess I'll jump ahead to part of the problem: graphically displaying cluster i
 I'll search for memory, perception, and attention, using OR search, and ask for 3 clusters. OR search will return effectively independent searchs for each of the terms, which should create 3 obviously different clusters.
 
 ```{r}
+rm(list = ls())
+load("../allData/allData.RData", envir=.GlobalEnv)
+
 n_cluster <- 3
 
 a_sims <- get_search_article_similarities(c("memory","perception","attention"),
                                             query_type=3)
-the_df <- get_mds_article_fits(num_articles = 150 ,
+the_df <- get_mds_article_fits(num_articles = 100 ,
                                num_clusters = n_cluster, 
                                c(1940,2016),
                                a_sims)
@@ -496,6 +500,124 @@ p
 ```
 
 Hot diggity. Something is happening, and it doesn't completely suck. Still, there are some issues, for example keywords like "processing" and "performance" show up in multiple clusters, which isn't ideal for discriminating between clusters.
+
+### Better keywords?
+
+What are the best keywords for an abstract? what are the best keywords for a cluster of abstracts? According to whom? 
+
+The process of summarizing text seems a whole lot like reading tarot cards. Sure, there are ways to do it. The problem is the extraordinary number of ways to do it, and no clear method for evaluating the solutions. C'est la vie. So, if I want to make keyword extraction better, what am I doing, and how do I know if it is working? 
+
+For now, I'm going to be the tarot card reader. I'll look at the keywords and see if I like them. Perhaps later I'll have other people look at the them and see if they like them. And, maybe much later do some key-word generating model-comparison...
+
+
+### Improving keyword suggestion: subtraction from the average article
+
+First some general issues. Semantic vectors in the Semantic Librarian are created by superposition, a fancy word for adding vectors on top of each other. An abstract vector is the sum of the word vectors in the abstract, and author vector is the sum of the abstract vectors the author wrote. Vectors become more similar to each other as the number of words increases. So, in general, all of the author vectors are more similar to each other compared to the articke vectors, which are on average less similar to each other.
+
+The fact that document vectors become more similar as they contain more words is problematic for keyword suggestion, at least using the present method returning the words with the highest similarity to the document vector. The problem is that as documents grow in length, their vectors become more similar, so they will tend to return the same top keywords. We saw this a little bit already in the above example where words like processing and performance were found as keywords for multiple clusters. So, how to avoid this problem?
+
+Here's one way:
+
+1. get some article vectors
+2. do k-means clustering to get the clusters
+3. compute the average abstract vector, by adding all abstract vectors together, ignoring cluster
+  - compute the similarities between the average abstract vector and all of the words in the corpus
+4. compute the cluster vectors for each cluster, by adding all the abstract vectors together within clusters
+  - compute the similarities between each cluster vector and all words in the corpus (note: the most similar words here would be the same as retrieved from the previous method)
+5. implement subtraction
+  - for each cluster, take the vector of word similarites for the cluster and subtract the vector of word similarities for the average vector from all abstracts
+  - sort the words from largest to smallest, take the top words with the most positive difference scores
+  
+This implements a kind of competitive keyword suggestion. Cluster vectors should be slightly more similar to words that are more relevant to the cluster, compared to the average abstract vector. Those words, which are presumably more representative of the cluster, will rise to the top.
+
+Another wrinkle on this is to raise the similarities (between word vectors and cluster and average abstract vectors) by some exponent. This is the same trick implemented by MINERVA 2 [@hintzman1984minerva], which is termed resonance in that model. Raising by a power is a squashing function...or maybe better thought of as a spreading function. It exaggerates the difference between large and small similarity values. Larger values remain relatively large, and smaller values get increasinly smaller. This has the effect of modulating the composition of top keywords in terms of more specific or more general words. In the example code below, I raised the similarities to a power of 3. 
+
+
+```{r}
+
+n_cluster <- 3
+
+a_sims <- get_search_article_similarities(c("memory",
+                                            "perception",
+                                            "attention"),
+                                            query_type = 3)
+the_df <- get_mds_article_fits(num_articles = 100 ,
+                               num_clusters = n_cluster, 
+                               c(1940,2016),
+                               a_sims)
+
+the_df$cluster <- as.factor(the_df$cluster)
+
+ids <- the_df %>%
+  group_by(cluster) %>%
+  summarise(ids = list(index),
+            meanX= mean(X),
+            meanY = mean(Y))
+
+## Compute average article vector ##
+avg_article <- colSums(article_vectors[the_df$index,])
+avg_sim <- cosine_x_to_m(avg_article,WordVectors)
+##############
+
+cluster_key <- data.frame()
+for(i in 1:n_cluster){
+  a_num <- ids$ids[[i]]
+  
+  cluster_sim <- cosine_x_to_m(colSums(article_vectors[a_num, ]),
+                                WordVectors)
+  
+  ## subtract cluster similarities from average similarities
+  subtraction_ids <- (cluster_sim[,1]^3)-(avg_sim[,1]^3)
+  ##########
+  
+  kw <- data.frame(key_words = dictionary_words,
+                   Similarity = subtraction_ids,
+                              cluster_sim,
+                              avg_sim,
+                              cluster = i)  %>%
+                   arrange(desc(Similarity)) %>%
+                   slice(1:10)
+
+  c_df <- data.frame(key_words = paste(as.character(kw$key_words),"\n", collapse = ""),
+                     cluster = i,
+                     X = ids[ids$cluster==i,]$meanX,
+                     Y = ids[ids$cluster == i,]$meanY,
+                     wrap_title = paste(as.character(kw$key_words),"<br>", collapse = ""))
+  cluster_key <- rbind(cluster_key,c_df)
+
+}
+
+# make the plot
+library(plotly)
+library(ggrepel)
+ggp <- ggplot(the_df, aes(x= X, y= Y,
+                                          color=as.factor(cluster),
+                                          text=wrap_title))+
+  geom_hline(yintercept=0, color="grey")+
+  geom_vline(xintercept=0, color="grey")+
+  geom_point(aes(size=Similarity), alpha=.75)+
+  geom_point(data=cluster_key, aes(x=X, y=Y), size=5, shape=2)+
+  theme_void()+
+  theme(legend.position = "none")
+
+ax <- list(
+  title = "",
+  zeroline = TRUE,
+  showline = FALSE,
+  showticklabels = FALSE,
+  showgrid = FALSE
+)
+
+p <- ggplotly(ggp, tooltip="text",
+              hoverinfo="text") %>%
+  layout(xaxis = ax, yaxis = ax,showlegend = FALSE) %>%
+  #style(hoverinfo = 'title') %>%
+  config(displayModeBar = F) %>%
+  layout(xaxis=list(fixedrange=TRUE)) %>%
+  layout(yaxis=list(fixedrange=TRUE))
+p
+
+```
 
 
 ---
