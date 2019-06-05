@@ -92,4 +92,16 @@ animate(anim, nframes = 123*4)
 save(restrict_articles, file="year_sim.RData")
 
 
+# testing
+
+restrict_article_df <- article_df %>%
+  {
+  filter(str_detect(as.character(author_list),""),
+         str_detect(as.character(journals),"Psychological Review"),
+         year >= 1990,
+         year <= 2016)}%>%
+  rename(Abstracts = formatted_column) %>%
+  slice(1:5)
+
+
 

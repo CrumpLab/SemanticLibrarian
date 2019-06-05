@@ -206,6 +206,7 @@ get_cluster_keywords <- function(a_df,
                                  a_vectors = article_vectors,
                                  w_vectors = WordVectors,
                                  word_list = dictionary_words){
+  set.seed(1)
   ids <- a_df %>%
     group_by(cluster) %>%
     summarise(ids = list(index),
@@ -213,16 +214,23 @@ get_cluster_keywords <- function(a_df,
               meanY = mean(Y))
   
   ## Compute average article vector ##
-  avg_article <- colSums(article_vectors[a_df$index,])
-  avg_sim <- cosine_x_to_m(avg_article,WordVectors)
+  avg_article <- colSums(a_vectors[a_df$index,])
+  avg_sim <- cosine_x_to_m(avg_article,w_vectors)
   
   cluster_key <- data.frame()
-  for(i in 1:dim(ids)[1] ){
+  for( i in 1:dim(ids)[1] ){
     
     a_num <- ids$ids[[i]]
     
-    cluster_sim <- cosine_x_to_m(colSums(article_vectors[a_num, ]),
-                                 WordVectors)
+    if( length(a_num) > 1 ){
+      cluster_sim <- cosine_x_to_m(colSums(a_vectors[a_num, ]),
+                                   w_vectors)
+    }
+    if( length(a_num) == 1 ){
+      cluster_sim <- cosine_x_to_m(a_vectors[a_num, ],
+                                   w_vectors)
+    }
+    
     
     ## subtract cluster similarities from average similarities
     subtraction_ids <- (cluster_sim[,1]^resonance)-(avg_sim[,1]^resonance)

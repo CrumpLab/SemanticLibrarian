@@ -23,6 +23,9 @@ library(stringr)
 ## Load Functions ####
 
 source("functions/semanticL.R")
+journals <- levels(article_df$journal)
+
+
 
 server <- function(input, output, session) {
   
@@ -346,7 +349,8 @@ server <- function(input, output, session) {
    updateSelectizeInput(session, 'server_author2', choices = sort(author_list), server = TRUE, selected='')
   
   # journal search
-   journals <- levels(article_df$journal)
+  # journals <- levels(article_df$journal)
+  # print(journals)
   
    updateSelectizeInput(session, 'journals', choices = journals, server = TRUE, selected='')
   # 
@@ -360,7 +364,7 @@ server <- function(input, output, session) {
    observeEvent(input$resetOptions, {
      
      updateSelectizeInput(session, 'server_author2', choices = sort(author_list), server = TRUE, selected='')
-     updateSelectizeInput(session, 'journals', choices = journals, server = TRUE, selected='')
+     updateSelectizeInput(session, 'journals', choices = sort(journals), server = TRUE, selected='')
      
    })
    
@@ -372,16 +376,22 @@ server <- function(input, output, session) {
    #  if(input$server_author2 != ""){
        restrict_article_df <- article_df %>%
          filter(str_detect(as.character(authorlist),input$server_author2),
-                str_detect(as.character(journals),input$journals),
+                str_detect(as.character(journal),input$journals),
                 year >= input$slider_num_year_AllS[1],
                 year <= input$slider_num_year_AllS[2]) %>%
          rename(Abstracts = formatted_column) %>%
          slice(1:input$slider_num_articles_AllS)
     
        if(is.null(restrict_article_df) == FALSE){   
-     mds_selected <- get_articles_mds_from_selection(restrict_article_df,
+          mds_selected <- get_articles_mds_from_selection(restrict_article_df,
                                                      num_clusters = input$slider_num_k_AllS,
                                                      article_vectors)
+          
+          cluster_key <- get_cluster_keywords(mds_selected, 
+                                              w_vectors = key_word_vectors,
+                                              word_list = apa_keywords,
+                                              resonance=input$slider_kw_res_AllS)
+          
        }
    #  }
      
@@ -400,6 +410,7 @@ server <- function(input, output, session) {
                                                  text=wrap_title))+
          geom_hline(yintercept=0, color="grey")+
          geom_vline(xintercept=0, color="grey")+
+         geom_point(data=cluster_key, aes(x=X, y=Y), size=5, shape=2)+
          geom_point(alpha=.75)+
          theme_void()+
          theme(legend.position = "none")

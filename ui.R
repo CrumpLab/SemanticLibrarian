@@ -187,15 +187,19 @@ ui <- tagList(tags$head(tags$style(HTML("hr {border-top: 1px solid #000000;}")),
                  h4("Abstract Space"),
                  plotlyOutput("sim_articles_plot_AllS", height='100%'),
                  fluidRow(
-                   column(4,
+                   column(3,
+                          sliderInput("slider_kw_res_AllS", label = "Keyword Depth", min = 1, 
+                                      max = 11, value = 1, step=2)
+                   ),
+                   column(3,
                           sliderInput("slider_num_articles_AllS", label = "number of articles", min = 10, 
                                       max = 384, value = 25, step=1)
                    ),
-                   column(4,
+                   column(3,
                           sliderInput("slider_num_k_AllS", label = "number of clusters", min = 1, 
                                       max = 10, value = 3, step=1)
                    ),
-                   column(4,
+                   column(3,
                           sliderInput("slider_num_year_AllS", label = "years", min = 1890, 
                                       max = 2016, value = c(1890,2016), step=1)
                    )
