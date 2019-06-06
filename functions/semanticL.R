@@ -256,6 +256,74 @@ get_cluster_keywords <- function(a_df,
   
 }
 
+
+## for use with highchart
+
+
+get_search_article_similarities_HC <- function(search_terms,
+                                            d_words = dictionary_words,
+                                            w_vectors = WordVectors,
+                                            a_vectors = article_vectors,
+                                            a_df = article_df,
+                                            query_type){
+  
+  search_index <- which(d_words %in% search_terms)
+  if(length(search_index > 0)){
+    # compound vectors
+    if (query_type == 1){
+      
+      if(length(search_index) > 1) {
+        query_vector <- colSums(w_vectors[search_index,])
+      }else{
+        query_vector <- w_vectors[search_index,]
+      }
+      
+      get_cos <-  cosine_x_to_m(query_vector,
+                                a_vectors)
+      
+      article_sims_SS <- a_df %>%
+        mutate(Similarity = as.numeric(get_cos))%>%
+        select(abstract,
+               title,
+               journal,
+               authorlist,
+               issue,
+               volume,
+               wrap_title,
+               year,
+               index,
+               Similarity) %>%
+        arrange(desc(Similarity))
+    } else {
+      if(length(search_index) > 1) {
+        query_matrix     <- w_vectors[search_index,]
+        get_cos_matrix   <- apply(query_matrix,1,
+                                  function(x) cosine_x_to_m(x,a_vectors))
+        if (query_type == 2) {
+          multiply_columns <- apply(get_cos_matrix,1,prod)
+        } else if (query_type == 3){
+          get_cos_matrix <- apply(get_cos_matrix,2,normalize_vector)
+          multiply_columns <- apply(get_cos_matrix,1,max)
+        }
+        
+        article_sims_SS <- a_df %>%
+          mutate(Similarity = round(multiply_columns,digits=4))%>%
+          select(abstract,
+                 title,
+                 journal,
+                 authorlist,
+                 issue,
+                 volume,
+                 wrap_title,
+                 year,
+                 index,
+                 Similarity) %>%
+          arrange(desc(Similarity))
+      }
+    }
+  }
+}
+
     
 #     #article_sims_SS<-article_sims_SS()
 #     article_sims_SS$Similarity <- round(get_cos,digits=4)

@@ -30,7 +30,31 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 
 ---
 
+```{r}
+library(dplyr)
+library(ggplot2)
+library(RsemanticLibrarian)
+library(lsa)
+library(ggrepel)
+library(plotly)
+library(tidyr)
+library(stringr)
+library(tm)
+library(LSAfun)
+library(gganimate)
+
+```
+
+
 The Semantic Librarian is an R Shiny App developed by [Matthew Crump](https://crumplab.github.io) (Brooklyn College of the City University of New York), [Randall Jamieson](https://umcognitivesciencelaboratory.weebly.com), Matt Cook (University of Manitoba), and [Harinder Aujla](http://ion.uwinnipeg.ca/~haujla/) (University of Winnipeg). We use a vector-space model of word-semantics to all a user to search a set of documents by their semantic similarity. A current version of the app can be found here [https://crumplab.shinyapps.io/SemanticLibrarian](https://crumplab.shinyapps.io/SemanticLibrarian). This version used select experimental journals from the APA (American Psychological Association) corpus, published between the 1890s and 2016.
+
+We have an in-press manuscript at Behavioral Research methods [@aujla2019semantic].
+
+  - Preprint on Psyarxiv.com [https://psyarxiv.com/svmtd/](https://psyarxiv.com/svmtd/)
+  - OSF project with source code: [https://osf.io/wfcmg/](https://osf.io/wfcmg/)
+  - Github Repo for Shiny app: [https://github.com/CrumpLab/SemanticLibrarian](https://github.com/CrumpLab/SemanticLibrarian)
+  - Github Repo for RsemanticLibrarian R package (in dev): [https://github.com/CrumpLab/RsemanticLibrarian](https://github.com/CrumpLab/RsemanticLibrarian)
+    - RsemanticLibrarian package website: [https://crumplab.github.io/RsemanticLibrarian/](https://crumplab.github.io/RsemanticLibrarian/)
 
 This blog will record some further examination and analyses of the APA database. 
 
@@ -59,7 +83,7 @@ How about a different question, which 10 abstracts are the most similar to all o
 
 ```{r}
 load("article_df.RData")
-library(dplyr)
+#library(dplyr)
 top_10_articles <- article_df %>%
                     arrange(desc(mean_sim)) %>%
                     slice(1:10) %>%
@@ -111,7 +135,7 @@ Ok, not really what I was looking for, but sensible. The database contains many 
 To look at the abstracts for regular articles, I suppose the database could be tagged, but there are too many entries for me to do that right now. Let's take a look at the distribution of mean similarity values first, and then perhaps decide to exclude the really rare and weird abstracts based on some exclusion criterion.
 
 ```{r}
-library(ggplot2)
+#library(ggplot2)
 ggplot(article_df, aes(x=mean_sim)) +
   geom_histogram(bins=100, size=1, color="white") +
   xlab("Mean Similarity")+
@@ -246,13 +270,13 @@ names(author_mean_sims) <- author_list
 author_mean_sims <- sort(author_mean_sims, decreasing=T)
 #author_mean_sims[1:100]
 
-library(RsemanticLibrarian)
+#library(RsemanticLibrarian)
 
 top_author_names <- names(author_mean_sims)[1:100]
 author_ids <- which(author_list %in% top_author_names == TRUE)
 restricted_author_vecs <- AuthorVectors[author_ids,]
 row.names(restricted_author_vecs)<-NULL
-library(lsa)
+#library(lsa)
 top_author_sims <- cosine(t(restricted_author_vecs))
 
 fits <- cmdscale(1-top_author_sims,eig=TRUE, k=2)
@@ -263,7 +287,7 @@ fit_df <- data.frame(fits$points,authors = names(author_mean_sims[1:100]),
 ```
 
 ```{r, fig.width=10, fig.height=5, eval=FALSE}
-library(ggrepel)
+#library(ggrepel)
 ggplot(fit_df, aes(x=X1, y=X2, color = cluster,
                                 label=authors))+
         geom_hline(yintercept=0, color="grey")+
@@ -295,13 +319,13 @@ names(author_mean_sims) <- author_list
 author_mean_sims <- sort(author_mean_sims, decreasing=T)
 #author_mean_sims[1:100]
 
-library(RsemanticLibrarian)
+#library(RsemanticLibrarian)
 
 top_author_names <- names(author_mean_sims)[101:200]
 author_ids <- which(author_list %in% top_author_names == TRUE)
 restricted_author_vecs <- AuthorVectors[author_ids,]
 row.names(restricted_author_vecs)<-NULL
-library(lsa)
+#library(lsa)
 top_author_sims <- cosine(t(restricted_author_vecs))
 
 fits <- cmdscale(1-top_author_sims,eig=TRUE, k=2)
@@ -312,7 +336,7 @@ fit_df <- data.frame(fits$points,authors = names(author_mean_sims[101:200]),
 ```
 
 ```{r, fig.width=10, fig.height=5, eval=FALSE}
-library(ggrepel)
+#library(ggrepel)
 ggplot(fit_df, aes(x=X1, y=X2, color = cluster,
                                 label=authors))+
         geom_hline(yintercept=0, color="grey")+
@@ -364,7 +388,7 @@ For now, a contained solution would be nice. The semantic librarian already repr
 Unfortunately, the clusters do not speak very well for themselves. Or, maybe it's that they speak too well, and they don't say what I want them to say. For example, before solving the problem of keywords for clusters, how about the problem of keywords for a single abstract. Let's take the vector for a single abstract and ask what are the top 20 words, most similar to that abstract.
 
 ```{r}
-library(RsemanticLibrarian)
+#library(RsemanticLibrarian)
 word_sims <- cosine_x_to_m(article_vectors[10000,],WordVectors)
 word_df <- data.frame(words = dictionary_words,
                       Similarity = word_sims) %>%
@@ -468,8 +492,8 @@ for(i in 1:n_cluster){
 }
 
 # make the plot
-library(plotly)
-library(ggrepel)
+#library(plotly)
+#library(ggrepel)
 ggp <- ggplot(the_df, aes(x= X, y= Y,
                                           color=as.factor(cluster),
                                           text=wrap_title))+
@@ -588,8 +612,8 @@ for(i in 1:n_cluster){
 }
 
 # make the plot
-library(plotly)
-library(ggrepel)
+#library(plotly)
+#library(ggrepel)
 ggp <- ggplot(the_df, aes(x= X, y= Y,
                                           color=as.factor(cluster),
                                           text=wrap_title))+
@@ -703,7 +727,7 @@ the_df$cluster <- as.factor(the_df$cluster)
 
 # get keywords using function
 cluster_key <- get_cluster_keywords(the_df)
-library(tidyr)
+#library(tidyr)
 knitr::kable(cluster_key %>%
   select(wrap_title,cluster) %>%
   spread(cluster,wrap_title))
@@ -731,10 +755,10 @@ as.character(article_df$keywords[ids])
 
 Wow, just look at the keywords for the 5th abstract writing a short novel, save it for the paper. Using these keywords will take some pre-processing...Alright, let's go find that other code and give it a spin. I'll just get the keywords from the 10,000 most recent abstracts.
 
-```{r}
-library(stringr)
-library(tm)
-library(LSAfun)
+```{r, eval=FALSE}
+#library(stringr)
+#library(tm)
+#library(LSAfun)
 apa_keywords <- unlist(strsplit(as.character(article_df$keywords[17560:27560]),split="; "))
 apa_keywords <- breakdown(apa_keywords)
 apa_keywords <- unique(apa_keywords)
@@ -754,12 +778,13 @@ apa_keywords <- unique(apa_keywords)
 Let's look at a few. I restricted them to having less than 25 characters:
 
 ```{r}
+load("../allData/keywords.RData", envir=.GlobalEnv)
 sort(apa_keywords)[1:100]
 ```
 
 There is no doubt I have a list of keywords. Great. So, the next step would be to get semantic vectors for each of the keywords in the corpus, and then pop them in.
 
-```{r}
+```{r, eval=FALSE}
 key_word_list <- apa_keywords
 key_word_vectors <- matrix(0,ncol=1024, nrow=length(key_word_list))
 for(i in 1:length(key_word_list)){
@@ -797,7 +822,7 @@ the_df$cluster <- as.factor(the_df$cluster)
 cluster_key <- get_cluster_keywords(the_df, 
                                     w_vectors = key_word_vectors,
                                     word_list = apa_keywords)
-library(tidyr)
+#library(tidyr)
 knitr::kable(cluster_key %>%
   select(wrap_title,cluster) %>%
   spread(cluster,wrap_title))
@@ -812,8 +837,8 @@ Spooky. Keywords tell me more. Have to say, maybe better than not half bad. I wo
 I'm really interested in looking at how the semantic structure of the APA database changes over time. In a previous post I made an animation of the abstract space as a function of journals over time. That was before I got the keywords working well. It would be neat to see how the semantic structure changes over time, perhaps using keywords. Puts on thinking cap.
 
 ```{r, eval = FALSE}
-library(lsa)
-library(gganimate)
+#library(lsa)
+#library(gganimate)
 load("../allData/keywords.RData")
 get_articles_mds_from_selection <- function(a_df,
                                             num_clusters,
@@ -886,7 +911,205 @@ And, the coup de grâce.
 knitr::include_graphics("imgs/APA_semantic_years.gif")
 ```
 
+## Look and feel
 
+Need to take a break from deep dives into the semantic structure of the APA database (will come back to this later). The pressing issue this morning is look and feel, specifically the pop-up information that get's displayed when you hover over an abstract in the Semantic Librarian, which currently shows the abstract title. I'm using the `plotly` package to add hover labels. I already fixed one annoying issue, which was to wrap titles that had too manwy words in them. I did that by injecting HTML into the text for the hover label. Now I am wondering how much more CSS styling I can inject, to show more useful information in a more useful way. Also, the other day I came across the `highcharter` package, which is an alternative graphing package (R wrapper for the javascript library). `highcharter` looks pretty darn cool, and appears to support more options for styling pop-up displays. However, this would take me out of the `ggplot2` universe, and into unknown territory. Not a bad thing, but probably time consuming. So, step 1 is to figure out if I can inject more stuff into the plotly hover labels. 
+
+Let's try something simple out. I'll add a new lines for a few things and see what happens:
+
+  - Attempted to add h4, and p elements, but this showed the HTML code. Hmmm, inserted `<br>` had worked, need to do some more tinkering.
+  - Aahh, a quick search tells me that plotly only supports some HTML elements [https://plot.ly/javascript/reference/#scatter-hoverinfo](https://plot.ly/javascript/reference/#scatter-hoverinfo), let's see what I can do with that...
+  - Adding new lines is easy. But, can't add `<div>`
+  - There is supposed to be support for aligning text, but it doesn't work properly.
+
+```{r}
+
+# add HTML for hover labels
+load("../allData/allData.RData", envir=.GlobalEnv)
+
+new_hover <- sapply(1:27560,function(x) paste(
+  c(as.character(article_df$wrap_title[x]),"<br>",
+    as.character(article_df[x,]$authorlist), "<br>",
+    as.character(article_df[x,]$journal)), collapse=""
+))
+
+#article_df <- cbind(article_df,new_hover)
+article_df$wrap_title <- new_hover
+
+# set clusters
+n_cluster <- 3
+
+# get articles from search terms
+a_sims <- get_search_article_similarities(c("memory",
+                                            "perception",
+                                            "attention"),
+                                            query_type = 3)
+# get mds solution
+the_df <- get_mds_article_fits(num_articles = 100 ,
+                               num_clusters = n_cluster, 
+                               c(1940,2016),
+                               a_sims)
+
+the_df$cluster <- as.factor(the_df$cluster)
+
+# get keywords using function
+cluster_key <- get_cluster_keywords(the_df, 
+                                    w_vectors = key_word_vectors,
+                                    word_list = apa_keywords)
+
+# plot
+
+ggp <- ggplot(the_df, aes(x= X, y= Y,
+                                          color=as.factor(cluster),
+                                          text=wrap_title))+
+  geom_hline(yintercept=0, color="grey")+
+  geom_vline(xintercept=0, color="grey")+
+  geom_point(aes(size=Similarity), alpha=.75)+
+  geom_point(data=cluster_key, aes(x=X, y=Y), size=5, shape=2)+
+  theme_void()+
+  theme(legend.position = "none")
+
+ax <- list(
+  title = "",
+  zeroline = TRUE,
+  showline = FALSE,
+  showticklabels = FALSE,
+  showgrid = FALSE
+)
+
+p <- ggplotly(ggp, tooltip="text",
+              hoverinfo="text",
+              hoverlabel = list(list(align = 'left'))) %>%
+  layout(xaxis = ax, yaxis = ax,showlegend = FALSE) %>%
+  #style(hoverinfo = 'title') %>%
+  config(displayModeBar = F) %>%
+  layout(xaxis=list(fixedrange=TRUE)) %>%
+  layout(yaxis=list(fixedrange=TRUE))
+p
+
+
+```
+
+### highcharter
+
+Time to try `highcharter`. Wonderful package description here [http://jkunst.com/highcharter/index.html](http://jkunst.com/highcharter/index.html). Caveat is that highchart.js is not free, but can be used for free for non-commercial (e.g., university), and personal use.
+  - ooo, starting to work. Had some issue with `sprintf`, working now
+
+```{r}
+# change function for High Chart
+get_search_article_similarities_HC <- function(search_terms,
+                                            d_words = dictionary_words,
+                                            w_vectors = WordVectors,
+                                            a_vectors = article_vectors,
+                                            a_df = article_df,
+                                            query_type){
+  
+  search_index <- which(d_words %in% search_terms)
+  if(length(search_index > 0)){
+    # compound vectors
+    if (query_type == 1){
+      
+      if(length(search_index) > 1) {
+        query_vector <- colSums(w_vectors[search_index,])
+      }else{
+        query_vector <- w_vectors[search_index,]
+      }
+      
+      get_cos <-  cosine_x_to_m(query_vector,
+                                a_vectors)
+      
+      article_sims_SS <- a_df %>%
+        mutate(Similarity = as.numeric(get_cos))%>%
+        select(abstract,
+               title,
+               journal,
+               authorlist,
+               issue,
+               volume,
+               wrap_title,
+               year,
+               index,
+               Similarity) %>%
+        arrange(desc(Similarity))
+    } else {
+      if(length(search_index) > 1) {
+        query_matrix     <- w_vectors[search_index,]
+        get_cos_matrix   <- apply(query_matrix,1,
+                                  function(x) cosine_x_to_m(x,a_vectors))
+        if (query_type == 2) {
+          multiply_columns <- apply(get_cos_matrix,1,prod)
+        } else if (query_type == 3){
+          get_cos_matrix <- apply(get_cos_matrix,2,normalize_vector)
+          multiply_columns <- apply(get_cos_matrix,1,max)
+        }
+        
+        article_sims_SS <- a_df %>%
+          mutate(Similarity = round(multiply_columns,digits=4))%>%
+          select(abstract,
+                 title,
+                 journal,
+                 authorlist,
+                 issue,
+                 volume,
+                 wrap_title,
+                 year,
+                 index,
+                 Similarity) %>%
+          arrange(desc(Similarity))
+      }
+    }
+  }
+}
+
+# set clusters
+n_cluster <- 3
+
+# get articles from search terms
+a_sims <- get_search_article_similarities_HC(c("memory",
+                                            "perception",
+                                            "attention"),
+                                            query_type = 3)
+# get mds solution
+the_df <- get_mds_article_fits(num_articles = 100 ,
+                               num_clusters = n_cluster, 
+                               c(1940,2016),
+                               a_sims)
+
+the_df$cluster <- as.factor(the_df$cluster)
+
+# get keywords using function
+cluster_key <- get_cluster_keywords(the_df, 
+                                    w_vectors = key_word_vectors,
+                                    word_list = apa_keywords)
+
+```
+
+```{r}
+
+library(highcharter)
+
+#the_df$title <- as.character(the_df$title)
+
+#x <- c("Y", "X", "Title")
+x <- c("Title", "Journal","Year","Volume","Issue","Abstract")
+#y <- sprintf(c("{point.%s:.2f}","{point.%s:.2f}","{point.%s}"), c("Y", "X", "wrap_title"))
+y <- sprintf(c("{point.%s}"), c("title","journal","year","volume","issue","abstract"))
+tltip <- tooltip_table(x, y)
+
+hchart(the_df, "scatter", hcaes(x=X, y=Y, size = Similarity, color = cluster)) %>% 
+  hc_chart(backgroundColor = "white") %>% 
+  #hc_xAxis(type = "logarithmic", reversed = TRUE) %>% 
+  #hc_yAxis(type = "logarithmic", gridLineWidth = 0) %>% 
+  hc_title(text = "Abstract Space") %>% 
+  hc_subtitle(text = "APA abstracts") %>% 
+  hc_tooltip(useHTML = TRUE, headerFormat = "", pointFormat = tltip) %>% 
+  hc_size(height = 600) %>%
+  hc_plotOptions(bubble = list(minSize=5,
+                               maxSize=20)) %>%
+  hc_add_theme(hc_theme_null())
+
+
+```
 
 
 

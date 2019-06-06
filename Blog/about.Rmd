@@ -5,6 +5,8 @@ date: "`r format(Sys.time(), '%d %B, %Y')`"
 twitter: "https://twitter.com/MattCrump_"
 github: "https://github.com/CrumpLab"
 website: "https://crumplab.gihub.io"
+bibliography: refs.bib
+csl: apa.csl
 output: 
   html_document:
     template: web/template.html
@@ -27,6 +29,16 @@ The Semantic Librarian is a search Engine built from vector-space models of sema
 
 The Semantic Librarian currently searches 27,560 APA article abstracts from Experimental Psychology journals between the years 1894 - 2016.
 
+The Semantic Librarian is an R Shiny App developed by [Matthew Crump](https://crumplab.github.io) (Brooklyn College of the City University of New York), [Randall Jamieson](https://umcognitivesciencelaboratory.weebly.com), Matt Cook (University of Manitoba), and [Harinder Aujla](http://ion.uwinnipeg.ca/~haujla/) (University of Winnipeg). We use a vector-space model of word-semantics to all a user to search a set of documents by their semantic similarity. A current version of the app can be found here [https://crumplab.shinyapps.io/SemanticLibrarian](https://crumplab.shinyapps.io/SemanticLibrarian). This version used select experimental journals from the APA (American Psychological Association) corpus, published between the 1890s and 2016.
+
+We have an in-press manuscript at Behavioral Research methods [@aujla2019semantic].
+
+  - Preprint on Psyarxiv.com [https://psyarxiv.com/svmtd/](https://psyarxiv.com/svmtd/)
+  - OSF project with source code: [https://osf.io/wfcmg/](https://osf.io/wfcmg/)
+  - Github Repo for Shiny app: [https://github.com/CrumpLab/SemanticLibrarian](https://github.com/CrumpLab/SemanticLibrarian)
+  - Github Repo for RsemanticLibrarian R package (in dev): [https://github.com/CrumpLab/RsemanticLibrarian](https://github.com/CrumpLab/RsemanticLibrarian)
+    - RsemanticLibrarian package website: [https://crumplab.github.io/RsemanticLibrarian/](https://crumplab.github.io/RsemanticLibrarian/)
+
 ## What is this search engine doing?
 
 This search engine uses vector-space models of semantics to convert words, sentences, and documents into points in a high-dimensional semantic meaning space. In this space, texts that are closer together are more similar in their semantic meaning. So, this search engine computes and returns the similarities between different kinds of text:
@@ -39,5 +51,7 @@ This search engine uses vector-space models of semantics to convert words, sente
 ## Contributors
 
 This project is a collaboration between [Randall Jamieson](https://umcognitivesciencelaboratory.weebly.com) and Matt Cook (University of Manitoba), [Harinder Aujla](http://ion.uwinnipeg.ca/~haujla/) (University of Winnipeg), and [Matthew Crump](https://crumplab.github.io) (Brooklyn College of the City University of New York). 
+
+## References
 
 
