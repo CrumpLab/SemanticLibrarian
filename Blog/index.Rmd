@@ -774,6 +774,7 @@ for(i in 1:length(key_word_list)){
 }
 ```
 
+And here are some new keywords for the memory, perception and attention clusters. 
 
 ```{r}
 # set clusters
@@ -804,7 +805,89 @@ knitr::kable(cluster_key %>%
 
 ```
 
-Spooky. Keywords tell me more. Have to say, maybe better than not half bad.
+Spooky. Keywords tell me more. Have to say, maybe better than not half bad. I won't consider this issue closed, but maybe it's time to move to greener pastures. What next?
+
+## Semantic structure over time
+
+I'm really interested in looking at how the semantic structure of the APA database changes over time. In a previous post I made an animation of the abstract space as a function of journals over time. That was before I got the keywords working well. It would be neat to see how the semantic structure changes over time, perhaps using keywords. Puts on thinking cap.
+
+```{r, eval = FALSE}
+library(lsa)
+library(gganimate)
+load("../allData/keywords.RData")
+get_articles_mds_from_selection <- function(a_df,
+                                            num_clusters,
+                                            a_vectors = article_vectors){
+  a_ids <- a_df$index
+  mdistance <- cosine(t(article_vectors[a_ids,]))
+  fit <- cmdscale(1-mdistance,eig=TRUE, k=2)
+  colnames(fit$points) <- c("X","Y")
+  cluster <- kmeans(fit$points,num_clusters)
+  a_df <- cbind(a_df, fit$points, 
+                    cluster=cluster$cluster)
+  return(a_df)
+  
+}
+
+by_year_df <- data.frame()
+for(y in 1894:2016){
+  a_ids_year <- article_df %>%
+                  filter(year == y) %>%
+                  select(index)
+  
+  avg_article <- colSums(article_vectors)
+  one_year_article <- colSums(article_vectors[a_ids_year$index,])
+  
+  avg_keywords <- cosine_x_to_m(avg_article,key_word_vectors)
+  one_year_keywords <- cosine_x_to_m(one_year_article,key_word_vectors)
+  
+  dif_sims <- one_year_keywords[,1] - avg_keywords[,1]
+  names(dif_sims) <- apa_keywords
+  year_keys <- sort(dif_sims, decreasing=T)[1:20]
+  t_df <- data.frame(year = y, keywords = as.character(names(year_keys)),
+                     Similarity = as.numeric(year_keys))
+  by_year_df <- rbind(by_year_df,t_df)
+}
+
+p <- by_year_df  %>%
+  # build rank, labels and relative values
+  group_by(year) %>%
+  mutate(Rank = rank(-Similarity),
+         Value_rel = Similarity/Similarity[Rank==1],
+         Value_lbl = paste0(" ",round(Similarity, digits=2)))  %>%
+  group_by(keywords) %>%
+  # keep top 10
+  filter(Rank <= 20) %>%
+  # plot
+  ggplot(aes(-Rank,Value_rel, fill = keywords)) +
+  geom_col(width = 0.8, position="identity", alpha = .5) +
+  coord_flip() + 
+  geom_text(aes(-Rank,y=0,label = keywords, hjust=0), size=6) +       #country label
+  geom_text(aes(-Rank,y=Value_rel,label = Value_lbl, hjust=0)) + # value label
+  theme_light() +
+  theme(
+      panel.grid.major.y = element_blank(),
+      panel.border = element_blank(),
+      axis.ticks.y = element_blank(),
+      axis.text.y = element_blank(),
+      axis.text.x = element_blank()
+    ) +
+  theme(legend.position = "none",axis.title = element_blank()) +
+  labs(title='APA Semantic Structure {closest_state}')+
+  # animate along Year
+  transition_states(year,0,1)
+
+animate(p, 123*10, fps = 10, duration = 62, width = 400, height = 500)
+```
+
+And, the coup de grâce.
+
+```{r}
+knitr::include_graphics("imgs/APA_semantic_years.gif")
+```
+
+
+
 
 
 ---
