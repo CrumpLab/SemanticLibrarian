@@ -18,7 +18,7 @@ output:
     toc_depth: 4
     theme: yeti
     highlight: kate
-    css: web/crump_basic.css
+    css: [web/crump_basic.css,web/hc.css]
     includes:
       in_header: [web/header.html,web/ga_script.js]
     md_extensions: -autolink_bare_uris
@@ -1088,6 +1088,7 @@ cluster_key <- get_cluster_keywords(the_df,
 
 library(highcharter)
 
+
 #the_df$title <- as.character(the_df$title)
 
 #x <- c("Y", "X", "Title")
@@ -1108,8 +1109,14 @@ hchart(the_df, "scatter", hcaes(x=X, y=Y, size = Similarity, color = cluster)) %
                                maxSize=20)) %>%
   hc_add_theme(hc_theme_null())
 
+# control css of tooltip in hc.css
 
 ```
+
+
+### Back to plotly
+
+Highchart is awesome. Wow, I like that. But, I would still like a plotly solution, and I just came across `hovertemplate` which is supposed to give more control over the hoverlabel. Let's try that out............. Well, nothing to see here. Many moons went by. I could change the opacity of the background, but it also changed the opacity of the text. I could not left align the text. I have failed to understand the intrinsic logic of plotly CSS.
 
 
 
