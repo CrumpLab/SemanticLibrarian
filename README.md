@@ -3,11 +3,15 @@
 R Shiny source code for the Semantic Librarian: A Search Engine  Built from Vector-Space Models of Semantics
 
 
-This repository contains the source code for the Semantic Librarian Shiny App, which should allow the app to be run locally. An online version of this app is available at [http://crumplab.shinyapps.io/SemanticLibrarian/](http://crumplab.shinyapps.io/SemanticLibrarian/)
+This repository contains the source code for the Semantic Librarian Shiny App, which should allow the app to be run locally. An online version of this app is available at [http://semanticlibrarian.shinyapps.io/SemanticLibrarian/](http://semanticlibrarian.shinyapps.io/SemanticLibrarian/)
 
 ## Blog
 
 Blogging about examining the APA database with our semantic vector approach here: [https://crumplab.github.io/SemanticLibrarian/](https://crumplab.github.io/SemanticLibrarian/)
+
+## www.semanticlibrarian.com
+
+Find more out about the growing project at <https://www.semanticlibrarian.com>
 
 ## Instructions
 
